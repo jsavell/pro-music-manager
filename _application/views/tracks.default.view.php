@@ -13,7 +13,7 @@ if (!empty($tracks)) {
 		$out .="<tr>
 					<td>{$track['name']}</td>
 					<td>{$track['date']}</td>
-					<td>{$track['genreid']}</td>
+					<td>{$genres[$track['genreid']]['name']}</td>
 					<td>{$track['description']}</td>
 					<td>
 						<a class=\"do-loadmodal\" href=\"{$app_http}?action=edit&trackid={$track['id']}\">Edit</a> | 

@@ -44,6 +44,7 @@ if (isset($data['action'])) {
 	}
 } else {
 	$tracks = $ctracks->getTracks();
+	$genres = $cgenres->getGenres();		
 	$viewfile = "tracks.default.view.php";
 }
 ?>

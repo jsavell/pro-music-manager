@@ -11,7 +11,7 @@ $out .= '<form class="do-submit" name="updatetrack" method="POST" action="'.$app
 					<option value="0">No Genre</option>';
 if (!empty($genres)) {
 	foreach ($genres as $genre) {
-		$out .= "	<option".(($track['genreid'] && $genre['id']) ? ' selected':'')." value=\"{$genre['id']}\">{$genre['name']}</option>";
+		$out .= "	<option".(($track['genreid'] == $genre['id']) ? ' selected':'')." value=\"{$genre['id']}\">{$genre['name']}</option>";
 	}
 }
 $out .= '		</select>
