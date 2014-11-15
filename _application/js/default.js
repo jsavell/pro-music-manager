@@ -5,18 +5,43 @@ function confirmAction() {
 	return false;
 }
 
+function runDatePicker() {
+	$(".date-input-db").datepicker({ dateFormat: 'yy-mm-dd' });
+}
+
 $(document).ready(function() {
+/*	runDatePicker();
+	$(document).ajaxComplete(function() {
+		runDatePicker();
+	});
+*/
+	$("#searchResults").click(function() {
+		$("#searchStatus a.hidden").fadeIn("fast");
+	});
+
+	$("#searchStatus a").click(function(e) {
+		e.preventDefault();
+		$("#searchTerm").val("");
+		$("#doSearch").submit();
+		$(this).fadeOut("fast");
+	});
+
 	$(".container").on("submit",".do-submit",function() {
-		$("#doResults").load(app_http+" #doResults",$(this).serialize());
+		$("#modalContent .do-results").load(app_http+" .do-results > *",$(this).serialize());
 		return false;
 	});
 
-	$(".container").on("click",".do-remove",function() {
+	$(".container,#theModal").on("click",".do-remove",function() {
+		isModal = ($(this).parents("#theModal").length != 0) ? true:false;
 		if (confirmAction()) {
 			$.ajax({
 				url: $(this).attr("href")
 			}).done(function() {
-				$("#doResults").load(app_http+"/ #doResults");
+				if (isModal) {
+					$("#theModal .do-close").click();
+				} else {
+					$("#modalContent .do-results").load(app_http+"/ #modalContent .do-results > *");
+				}
 			});
 		}
 		return false;
@@ -27,21 +52,21 @@ $(document).ready(function() {
 			url: app_http,
 			data: $(this).serialize(),
 		}).done(function() {
-			$("#doResults").load(app_http+" #doResults",$(this).serialize(),function() {
+			$(".do-results").load(app_http+" #modalContent .do-results > *",$(this).serialize(),function() {
 				$("#theModal .do-close").click();
 			});
 		});
 		return false;
 	});
 
-	$(".container").on("click",".do-confirm",function() {
+	$(".container,#theModal").on("click",".do-confirm",function() {
 		return confirmAction();
 	});
 
-	$(".container").on("click",".do-loadmodal",function(e) {
+	$(".container,#theModal").on("click",".do-loadmodal",function(e) {
 		e.preventDefault();
 		$(".container").addClass("blur");
-		$("#theModal .content").load($(this).attr("href")+" #modalContent",function() {
+		$("#theModal .content").load($(this).attr("href")+" #modalContent > *",function() {
 			$("#theOverlay").fadeIn("fast",function() {
 				$("#theModal").fadeIn("fast");
 			});

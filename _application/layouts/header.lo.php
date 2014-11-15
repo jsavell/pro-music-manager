@@ -70,15 +70,19 @@ if (isset($page['navigation'])) {
 }
 echo '          </div>';
 if (isset($page['search'])) {
-    echo '  <form class="do-submit inline" name="search" method="POST" action="'.$app_http.'">
+    echo '  <form id="doSearch" class="do-submit inline" name="search" method="POST" action="'.$app_http.'">
                 <input type="hidden" name="action" value="search" />
-                <input class="inline" type="text" name="term" />';
-     echo '     <input class="inline" type="submit" name="submit" value="Search" />
+                <input id="searchTerm" class="date-input-db inline" type="text" name="term" />';
+    echo '     <input id="searchResults" class="inline" type="submit" name="submit" value="Search" />
+                <div class="inline" id="searchStatus">
+                    <a class="hidden" href="#clearSearch">clear search</a>
+                </div>
             </form>';
-}
-echo '    </div>';
+}echo '    </div>
+          <div id="modalContent">';
 if (isset($page['subtitle'])) {
 	echo " <h4 class=\"capitalize\">{$page['subtitle']}</h4>";
 }
 
 ?>
+
