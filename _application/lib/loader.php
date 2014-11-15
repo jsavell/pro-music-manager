@@ -3,7 +3,9 @@ require_once "{$config['path_lib']}functions.php";
 
 $globaluser = new user();
 
-$data = $_REQUEST;
+if (!isset($data)) {
+	$data = $_REQUEST;
+}
 
 //initialize output var
 $out = '';

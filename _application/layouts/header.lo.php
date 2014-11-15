@@ -40,6 +40,9 @@ if ($globaluser->isLoggedIn()) {
 ?>
         </div>
 <?php
+if ($globaluser->isLoggedIn()) {
+    echo '<div id="userStatus">Hi '.$globaluser->getProfileValue('username').'! (<a href="'.$config['path_http'].'logout.php">logout</a>)</div>';
+}
 //present any system messages
 if (isset($system)) {
 	echo '<div class="sysMsg">';
@@ -70,13 +73,6 @@ if (isset($page['search'])) {
     echo '  <form class="do-submit inline" name="search" method="POST" action="'.$app_http.'">
                 <input type="hidden" name="action" value="search" />
                 <input class="inline" type="text" name="term" />';
-/*
-    foreach ($page['search'] as $field) {
-        if ($field['type'] == 'text') {
-            echo '  <input class="inline" type="text" name="search['.$field['name'].']" />';
-        }
-    }
-*/
      echo '     <input class="inline" type="submit" name="submit" value="Search" />
             </form>';
 }

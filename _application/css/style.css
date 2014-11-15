@@ -118,6 +118,12 @@ header h1 {
 	color: #555;
 }
 
+#userStatus {
+	float:right;
+	min-width: 5%;
+	padding:12px 20px;
+}
+
 .subNav {
 	background-color: transparent;
 	font-size: 1.1em;
