@@ -28,11 +28,13 @@
         </header>
         <div class="navigation">
 <?php
-foreach ($pages as $nav) {
-    if ($controller == $nav['path']) {
-       echo "<a class=\"capitalize current\" href=\"{$config['path_http']}{$nav['path']}/\">{$nav['name']}</a>";
-    } else {
-        echo "<a class=\"capitalize\" href=\"{$config['path_http']}{$nav['path']}/\">{$nav['name']}</a>";
+if ($globaluser->isLoggedIn()) {
+    foreach ($pages as $nav) {
+        if ($controller == $nav['path']) {
+           echo "<a class=\"capitalize current\" href=\"{$config['path_http']}{$nav['path']}/\">{$nav['name']}</a>";
+        } else {
+            echo "<a class=\"capitalize\" href=\"{$config['path_http']}{$nav['path']}/\">{$nav['name']}</a>";
+        }
     }
 }
 ?>

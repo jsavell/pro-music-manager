@@ -1,4 +1,5 @@
 <?php
+$accesslevel = -1;
 include "./_application/config/config.php";
 
 $controller = 'user';

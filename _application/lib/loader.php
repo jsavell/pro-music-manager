@@ -21,13 +21,13 @@ if (isset($accesslevel) && ($accesslevel == 1)) {
 	} else {
 		header("Location:{$config['path_http']}");
 	}
-} else {
+} elseif ($globaluser->isLoggedIn() || (isset($accesslevel) && $accesslevel == -1)) {
 //load standard controller
 	$app_http = "{$config['path_http']}{$controller}/";
 	$filename = "{$config['path_controllers']}{$controller}.control.php";
 }
 //try to load the controller
-if (is_file($filename)) {
+if (!empty($filename) && is_file($filename)) {
 	include $filename;
 	//if the controller defined a $viewfile, try to load it
 	if (isset($viewfile)) {
@@ -42,8 +42,10 @@ if (is_file($filename)) {
 			$system[] = 'Error loading view';
 		}
 	}
-} else {
+} elseif ($globaluser->isLoggedIn()) {
 	$system[] = 'Error loading content';
+} else {
+	header("Location: {$config['path_http']}login.php");
 }
 //display the content
 $pages = array(
