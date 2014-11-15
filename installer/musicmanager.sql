@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 15, 2014 at 09:24 PM
+-- Generation Time: Nov 15, 2014 at 11:32 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.9
 
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `collections` (
   `description` text NOT NULL,
   `link` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `emotions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -67,10 +67,10 @@ CREATE TABLE IF NOT EXISTS `emotions` (
 
 CREATE TABLE IF NOT EXISTS `genres` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `genre` varchar(30) NOT NULL,
+  `name` varchar(30) NOT NULL,
   `color` varchar(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `keywords` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(40) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `libraries` (
   `url` varchar(60) NOT NULL,
   `color` varchar(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `libraries_tracks` (
   KEY `trackid` (`trackid`,`libraryid`),
   KEY `statusid` (`statusid`),
   KEY `libraryid` (`libraryid`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -127,7 +127,7 @@ CREATE TABLE IF NOT EXISTS `libraries_tracks_statuses` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `tracks` (
   `date` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `genreid` (`genreid`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -158,7 +158,7 @@ CREATE TABLE IF NOT EXISTS `tracks_emotions` (
   `emotionid` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `trackid` (`trackid`,`emotionid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -172,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `tracks_keywords` (
   `keywordid` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `trackid` (`trackid`,`keywordid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -190,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `tracks_links` (
   KEY `typeid` (`typeid`),
   KEY `siteid` (`siteid`),
   KEY `musicid` (`musicid`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -204,7 +204,7 @@ CREATE TABLE IF NOT EXISTS `tracks_linktypes` (
   `url` varchar(80) NOT NULL,
   `embed` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -219,7 +219,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `firstname` varchar(40) NOT NULL,
   `lastname` varchar(40) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

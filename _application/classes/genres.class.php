@@ -7,7 +7,7 @@ class genres extends dbobject {
 
 	public function getGenreById($id) {
 		$sql = "SELECT * FROM `genres` WHERE id=:id";
-		$this->executeQuery($sql,array(":id"=>$id))[0];
+		return $this->executeQuery($sql,array(":id"=>$id))[0];
 	}
 
 	public function removeGenre($id) {
@@ -17,7 +17,7 @@ class genres extends dbobject {
 	}
 
 	public function insertGenre($genre) {
-		return $this->buildInsertStatement("genres",$key);
+		return $this->buildInsertStatement("genres",$genre);
 	}
 
 	public function updateGenre($id,$genre) {
