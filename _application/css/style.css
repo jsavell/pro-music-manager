@@ -154,7 +154,7 @@ table.list {
 }
 
 table.list th {
-	background-color: #9A0325;
+	background-color: #1AA1E1;
 	color: #efefef;
 }
 
@@ -175,7 +175,7 @@ table.list tr:nth-child(odd) {
 
 #theModal {
 	display: none;
-	border: 1px solid #000;
+	border: 1px solid #555;
 	background-color: #fff;
 	position: absolute;
 	top: 200px;
@@ -187,8 +187,8 @@ table.list tr:nth-child(odd) {
 }
 
 #theModal .header {
-	border-bottom: 1px solid #000;
-	background-color: #9A0325;
+	border-bottom: 1px solid #555;
+	background-color: #1AA1E1;
 	text-align: right;
 	padding: 4px;
 }

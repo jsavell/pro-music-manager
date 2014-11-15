@@ -1,5 +1,9 @@
 <?php
-$app['path_http'] = "{$config['path_http']}login.php";
+$page['title'] = 'Manage Tracks';
+$page['navigation'] = array(
+						array("name"=>"list"),
+						array("name"=>"add","action"=>"add","modal"=>true));
+$page['search'] = true;
 
 if (isset($data['action'])) {
 	switch ($data['action']) {
