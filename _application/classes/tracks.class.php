@@ -7,7 +7,7 @@ class tracks extends dbobject {
 
 	public function getTrackById($id) {
 		$sql = "SELECT * FROM `tracks` WHERE id=:id";
-		$this->executeQuery($sql,array(":id"=>$id))[0];
+		return $this->executeQuery($sql,array(":id"=>$id))[0];
 	}
 
 	public function removeTrack($id) {

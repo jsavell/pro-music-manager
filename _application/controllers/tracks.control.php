@@ -10,6 +10,26 @@ $cgenres = new genres();
 
 if (isset($data['action'])) {
 	switch ($data['action']) {
+		case 'remove':
+			if (!empty($data['trackid']) && $ctracks->removeTrack($data['trackid'])) {
+				$system[] = 'Track removed';
+			} else {
+				$system[] = 'Error removing track';
+			}
+		break;
+		case 'update':
+			if ((!empty($data['trackid']) && !empty($data['track'])) && $ctracks->updateTrack($data['trackid'],$data['track'])) {
+				$system[] = 'Track updated';
+			} else {
+				$system[] = 'Error updating track';
+			}
+		break;
+		case 'edit':
+			if (!empty($data['trackid']) && ($track = $ctracks->getTrackById($data['trackid']))) {
+				$genres = $cgenres->getGenres();		
+				$viewfile = "tracks.edit.view.php";
+			}
+		break;
 		case 'insert':
 			if (!empty($data['track']) && $ctracks->insertTrack($data['track'])) {
 				$system[] = 'Track added';
