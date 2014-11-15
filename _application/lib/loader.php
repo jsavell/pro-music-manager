@@ -48,6 +48,8 @@ if (is_file($filename)) {
 //display the content
 $pages = array(
 			array("name"=>"tracks","path"=>"tracks"),
+			array("name"=>"libraries","path"=>"libraries"),
+			array("name"=>"genres","path"=>"genres"),
 			array("name"=>"users","path"=>"users"));
 include "{$config['path_app']}layouts/header.lo.php";
 echo $out;
