@@ -53,8 +53,7 @@ if (!empty($filename) && is_file($filename)) {
 $pages = array(
 			array("name"=>"tracks","path"=>"tracks"),
 			array("name"=>"libraries","path"=>"libraries"),
-			array("name"=>"genres","path"=>"genres"),
-			array("name"=>"users","path"=>"users"));
+			array("name"=>"genres","path"=>"genres"));
 include "{$config['path_app']}layouts/header.lo.php";
 echo $out;
 include "{$config['path_app']}layouts/footer.lo.php";

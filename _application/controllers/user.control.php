@@ -22,7 +22,7 @@ if (isset($data['action'])) {
 					if ($globaluser->isAdmin()) {
 						$redirectURL = "{$config['path_http']}admin/";
 					} else {
-						$redirectURL = "{$config['path_http']}";
+						$redirectURL = "{$config['path_http']}tracks/";
 					}
 					header("Location:{$redirectURL}");
 				} else {
