@@ -1,5 +1,15 @@
 <?php
 class libraries extends dbobject {
+	public function searchLibrariesBasic($term) {
+		$sql = "SELECT * FROM `libraries` WHERE
+		`name` LIKE ?";
+		$bindparams = array("%".$term."%");
+		if ($result = $this->executeQuery($sql,$bindparams)) {
+			return $result;
+		}
+		return false;
+	}
+
 	public function getLibraries() {
 		$sql = "SELECT * FROM `libraries` ORDER BY `name`";
 		return $this->queryWithIndex($sql,"id");

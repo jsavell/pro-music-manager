@@ -15,8 +15,10 @@ if (!empty($libraries)) {
 				</tr>";
 	}
 	$out .= '</table>';
+} elseif ($data['term']) {
+	$out .= '<div>No results for that search!</div>';
 } else {
-	$out .= 'No libraries, yet!';
+	$out .= '<div>No libraries, yet!</div>';
 }
 $out .= '</div>';
 ?>

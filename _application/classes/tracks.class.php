@@ -6,7 +6,7 @@ class tracks extends dbobject {
 		`description` LIKE ?";
 		$bindparams = array("%".$term."%","%".$term."%");
 		if ($result = $this->executeQuery($sql,$bindparams)) {
-		return $result;
+			return $result;
 		}
 		return false;
 	}

@@ -9,6 +9,14 @@ $clibraries = new libraries();
 
 if (isset($data['action'])) {
 	switch ($data['action']) {
+		case 'search':
+			if (isset($data['term'])) {
+				$libraries = $clibraries->searchLibrariesBasic($data['term']);
+				$viewfile = "libraries.default.view.php";
+			} else {
+				$system[] = 'There was an error with the search';
+			}
+		break;
 		case 'remove':
 			if (!empty($data['libraryid']) && $clibraries->removeLibrary($data['libraryid'])) {
 				$system[] = 'Library removed';
