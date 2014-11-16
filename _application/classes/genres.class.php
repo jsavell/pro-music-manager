@@ -1,5 +1,15 @@
 <?php
 class genres extends dbobject {
+	public function searchGenresBasic($term) {
+		$sql = "SELECT * FROM `genres` WHERE
+		`name` LIKE ?";
+		$bindparams = array("%".$term."%");
+		if ($result = $this->executeQuery($sql,$bindparams)) {
+			return $result;
+		}
+		return false;
+	}
+
 	public function getGenres() {
 		$sql = "SELECT * FROM `genres` ORDER BY `name`";
 		return $this->queryWithIndex($sql,"id");

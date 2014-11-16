@@ -9,6 +9,14 @@ $cgenres = new genres();
 
 if (isset($data['action'])) {
 	switch ($data['action']) {
+		case 'search':
+			if (isset($data['term'])) {
+				$genres = $cgenres->searchGenresBasic($data['term']);
+				$viewfile = "genres.default.view.php";
+			} else {
+				$system[] = 'There was an error with the search';
+			}
+		break;
 		case 'remove':
 			if (!empty($data['genreid']) && $cgenres->removeGenre($data['genreid'])) {
 				$system[] = 'Genre removed';
