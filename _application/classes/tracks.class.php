@@ -12,7 +12,7 @@ class tracks extends dbobject {
 	}
 
 	public function getTracks() {
-		$sql = "SELECT * FROM `tracks` ORDER BY `name`";
+		$sql = "SELECT * FROM `tracks` ORDER BY `date` DESC,`name`";
 		return $this->queryWithIndex($sql,"id");
 	}
 
