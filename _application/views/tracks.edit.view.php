@@ -8,7 +8,7 @@ $out .= '<form class="do-submit" name="updatetrack" method="POST" action="'.$app
 				<label for="track[description]">Description</label>
 				<textarea name="track[description]">'.$track['description'].'</textarea>
 				<select name="track[genreid]">
-					<option value="0">No Genre</option>';
+					<option value="">Select a Genre</option>';
 if (!empty($genres)) {
 	foreach ($genres as $genre) {
 		$out .= "	<option".(($track['genreid'] == $genre['id']) ? ' selected':'')." value=\"{$genre['id']}\">{$genre['name']}</option>";
