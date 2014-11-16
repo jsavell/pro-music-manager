@@ -13,6 +13,7 @@ if (isset($data['action'])) {
 		case 'search':
 			if (isset($data['term'])) {
 				$tracks = $ctracks->searchTracksBasic($data['term']);
+				$genres = $cgenres->getGenres();		
 				$viewfile = "tracks.default.view.php";
 			} else {
 				$system[] = 'There was an error with the search';
