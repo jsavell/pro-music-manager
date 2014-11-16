@@ -52,6 +52,12 @@ if (isset($data['action'])) {
 			$genres = $cgenres->getGenres();		
 			$viewfile = "tracks.add.view.php";
 		break;
+		case 'view':
+			$page['subtitle'] = 'View Track';
+			if (!empty($data['trackid']) && ($track = $ctracks->getDetailedTrackById($data['trackid']))) {
+				$viewfile = "tracks.view.view.php";
+			}
+		break;
 	}
 } else {
 	$tracks = $ctracks->getTracks();

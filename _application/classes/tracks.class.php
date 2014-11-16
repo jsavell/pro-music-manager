@@ -21,6 +21,18 @@ class tracks extends dbobject {
 		return $this->executeQuery($sql,array(":id"=>$id))[0];
 	}
 
+	public function getDetailedTrackById($id) {
+		$sql = "SELECT t.*,g.`name` AS `genre` FROM `tracks` t
+				LEFT JOIN `genres` g ON g.`id`=t.`genreid`
+				 WHERE t.`id`=:id";
+		if ($track = $this->executeQuery($sql,array(":id"=>$id))) {
+			$clibraries = new libraries();
+			$track[0]['libraries'] = $clibraries->getLibrariesByTrack($id);
+			return $track[0];
+		}
+		return false;
+	}
+
 	public function getTracksByGenre($genreid) {
 		$sql = "SELECT * FROM `genres` WHERE id=:id";
 		return $this->executeQuery($sql,array(":id"=>$genreid));

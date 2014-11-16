@@ -16,6 +16,7 @@ if (!empty($tracks)) {
 					<td>{$genres[$track['genreid']]['name']}</td>
 					<td>{$track['description']}</td>
 					<td>
+						<a class=\"do-loadmodal\" href=\"{$app_http}?action=view&trackid={$track['id']}\">View</a> | 
 						<a class=\"do-loadmodal\" href=\"{$app_http}?action=edit&trackid={$track['id']}\">Edit</a> | 
 						<a class=\"do-remove\" href=\"{$app_http}?action=remove&trackid={$track['id']}\">Remove</a>
 				</tr>";
