@@ -43,6 +43,10 @@ class libraries extends dbobject {
 		return $this->buildInsertStatement("libraries_tracks",array("trackid"=>$trackid,"libraryid"=>$libraryid));
 	}
 
+	public function updateLibraryTrack($libraryid,$trackid,$data) {
+		return $this->buildKeyedUpdateStatement("libraries_tracks",array("trackid"=>$trackid,"libraryid"=>$libraryid),$data);
+	}
+
 	public function getLibraryTracks($libraryid) {
 		$sql = "SELECT t.*,lt.`statusid`,lt.`date_added`
 				FROM `tracks` t

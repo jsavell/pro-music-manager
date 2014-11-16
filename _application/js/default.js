@@ -115,4 +115,44 @@ $(document).ready(function() {
 			$("#theOverlay").fadeOut("fast");
 		});
 	});
+
+	$(".container,#theModal").on("click",".do-inline-edit",function(e) {
+		e.preventDefault();
+		$(this).fadeOut("fast",function() {
+			$(this).siblings(".do-inline-cancel,.do-inline-save").fadeIn("fast");
+		});
+		selector = "."+$(this).attr("href");
+		$(selector).children(".default-view").fadeOut("fast",function() {
+			$(this).siblings(".edit-view").fadeIn("fast");
+		});
+	});
+
+	$(".container,#theModal").on("click",".do-inline-cancel",function(e) {
+		e.preventDefault();
+		$(this).fadeOut("fast",function() {
+			$(this).siblings(".do-inline-save").fadeOut("fast");
+			$(this).siblings(".do-inline-edit").fadeIn("fast");
+		});
+		selector = "."+$(this).attr("href");
+		$(selector).children(".edit-view").fadeOut("fast",function() {
+			$(this).siblings(".default-view").fadeIn("fast");
+		});
+	});
+
+	$("#theModal").on("click",".do-inline-save",function(e) {
+		e.preventDefault();
+		selector = "."+$(this).attr("href");
+		data = {};
+		$(selector).find("input,select").each(function() {
+			data[$(this).attr("name")] = $(this).val();
+		});
+
+		$.ajax({
+			type: "POST",
+			url: app_http,
+			data: data,
+		}).done(function() {
+			$("#theModal .do-results").load($("#refreshUrl").val()+" #modalContent .do-results > *");
+		});
+	});
 });

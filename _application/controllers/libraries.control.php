@@ -14,6 +14,13 @@ if (isset($data['action'])) {
 				$library = $clibraries->getDetailedLibraryById($data['libraryid']);
 				if (!empty($data['subaction'])) {
 					switch ($data['subaction']) {
+						case 'update':
+							if (!empty($data['trackid']) && !empty($data['librarytrack']) && $clibraries->updateLibraryTrack($library['id'],$data['trackid'],$data['librarytrack'])) {
+								$system[] = "Track updated in {$library['name']}";
+							} else {
+								$system[] = "Error updating track in {$library['name']}";
+							}
+						break;
 						case 'insert':
 							if (!empty($data['trackid']) && $clibraries->addTrackToLibrary($library['id'],$data['trackid'])) {
 								$system[] = "Track added to {$library['name']}";

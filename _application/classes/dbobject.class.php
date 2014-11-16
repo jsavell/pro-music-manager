@@ -179,6 +179,30 @@ class dbobject {
 		return false;
 	}
 
+	protected function buildKeyedUpdateStatement($table,$keys,$data) {
+		$sql = "UPDATE `{$table}` SET ";
+		foreach ($data as $field=>$value) {
+			$sql .= "{$field}=:{$field},";
+			$bindparams[":{$field}"] = $value;
+		}
+		
+		$sql = rtrim($sql,',')." WHERE ";
+		$size = count($keys);
+		$x = 1;
+		foreach ($keys as $key=>$value) {
+			$sql .= "`{$key}`=:{$key}";
+			if ($x < $size) {
+				$sql .= " AND ";
+			}
+			$bindparams[":{$key}"] = $value;
+			$x++;
+		}
+		if ($this->executeUpdate($sql,$bindparams)) {
+			return true;
+		}
+		return false;
+	}
+
 	protected function delete($table,$data) {
 		$sql = "DELETE FROM `{$table}` WHERE ";
 		$size = count($data);
