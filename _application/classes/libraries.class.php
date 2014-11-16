@@ -61,7 +61,7 @@ class libraries extends dbobject {
 	}
 
 	public function getAvailableTracks($libraryid) {
-		$sql = "SELECT t.* FROM `tracks` t
+		$sql = "SELECT DISTINCT t.* FROM `tracks` t
 				LEFT JOIN `libraries_tracks` lt ON t.`id`=lt.`trackid`
 				WHERE lt.`libraryid`!=:libraryid";
 		return $this->executeQuery($sql,array(":libraryid"=>$libraryid));
