@@ -28,6 +28,7 @@ class tracks extends dbobject {
 		if ($track = $this->executeQuery($sql,array(":id"=>$id))) {
 			$clibraries = new libraries();
 			$track[0]['libraries'] = $clibraries->getLibrariesByTrack($id);
+			$track[0]['keywords'] = $this->getKeyWordsByTrack($id);
 			return $track[0];
 		}
 		return false;
@@ -61,5 +62,12 @@ class tracks extends dbobject {
 
 	public function addKeyWordToTrack($trackid,$keywordid) {
 		return $this->buildInsertStatement("tracks_keywords",array('trackid'=>$trackid,'keywordid'=>$keywordid));
+	}
+
+	public function getKeyWordsByTrack($trackid) {
+		$sql = "SELECT k.name FROM `tracks_keywords` tk
+				LEFT JOIN `keywords` k ON k.id=tk.keywordid
+				WHERE `trackid`=:trackid ORDER BY `name`";
+		return $this->executeQuery($sql,array(":trackid"=>$trackid));
 	}
 }

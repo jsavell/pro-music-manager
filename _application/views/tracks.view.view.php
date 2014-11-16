@@ -31,7 +31,14 @@ if (!empty($track['libraries'])) {
 	}
 }
 $out .= "			</td>
-					<td colspan=\"2\">keywords</td>
+					<td colspan=\"2\">";
+if (!empty($track['keywords'])) {
+	foreach ($track['keywords'] as $keyword) {
+		$out .= "{$keyword['name']},";
+	}
+	$out = rtrim($out,',');
+}
+$out .= "</td>
 				</tr>
 				<tr>
 					<th colspan=\"2\">Emotions</th>
