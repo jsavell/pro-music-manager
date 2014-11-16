@@ -12,7 +12,7 @@ $out .= '<div>
 				<div>';
 if (!empty($trackKeywords)) {
 	foreach ($trackKeywords as $keyword) {
-		$out .=	"{$keyword['name']},";
+		$out .=	"<a class=\"do-remove-inline bubble bubble-keyword\" href=\"{$app_http}?action=keywords&subaction=remove&trackid={$track['id']}&keywordid={$keyword['id']}\">{$keyword['name']}</a>";
 	}
 }
 $out .= '		</div>

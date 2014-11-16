@@ -14,6 +14,11 @@ if (isset($data['action'])) {
 			$page['subtitle'] = 'Track Keywords';
 			if (!empty($data['subaction'])) {
 				switch ($data['subaction']) {
+					case 'remove':
+						if (!empty($data['trackid']) && !empty($data['keywordid']) && ($ctracks->removeTrackKeyWord($data['trackid'],$data['keywordid']))) {
+							$system[] = 'Keyword removed';
+						}
+					break;
 					case 'insert':
 						if (!empty($data['trackid']) && !empty($data['keyword']) && ($ctracks->addKeyWord($data['trackid'],$data['keyword']))) {
 							$system[] = 'Keyword added';

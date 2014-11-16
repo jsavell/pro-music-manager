@@ -15,6 +15,16 @@ $(document).ready(function() {
 		runDatePicker();
 	});
 */
+	$(".container,#theModal").on({
+	    mouseenter: function () {
+			$(this).data('oldhtml',$(this).html()); 
+			$(this).css("min-width",$(this).css("width"));
+			$(this).html("x");
+	    },
+	    mouseleave: function () {
+			$(this).html($(this).data('oldhtml'));
+	    }},".bubble");
+
 	$("#searchResults").click(function() {
 		$("#searchStatus a.hidden").fadeIn("fast");
 	});
@@ -59,6 +69,16 @@ $(document).ready(function() {
 			});
 		}
 		return false;
+	});
+
+	$("#theModal").on("click",".do-remove-inline",function(e) {
+		e.preventDefault();
+		$.ajax({
+			type: "GET",
+			url: $(this).attr("href")
+		}).done(function() {
+			$("#theModal .do-results").load($("#refreshUrl").val()+" #modalContent .do-results > *");
+		});
 	});
 
 	$("#theModal").on("submit",".do-submit",function() {

@@ -178,5 +178,23 @@ class dbobject {
 		}
 		return false;
 	}
+
+	protected function delete($table,$data) {
+		$sql = "DELETE FROM `{$table}` WHERE ";
+		$size = count($data);
+		$x = 1;
+		foreach ($data as $field=>$value) {
+			$sql .= "{$field}=:{$field}";
+			if ($x < $size) {
+				$sql.= " AND ";
+			}
+			$bindparams[":{$field}"] = $value;
+			$x++;
+		}
+		if ($this->executeUpdate($sql,$bindparams)) {
+			return true;
+		}
+		return false;
+	}
 }
 ?>

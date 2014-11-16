@@ -75,8 +75,12 @@ class tracks extends dbobject {
 		return $this->buildInsertStatement("tracks_keywords",array('trackid'=>$trackid,'keywordid'=>$keywordid));
 	}
 
+	public function removeTrackKeyWord($trackid,$keywordid) {
+		return $this->delete("tracks_keywords",array('trackid'=>$trackid,'keywordid'=>$keywordid));
+	}
+
 	public function getKeyWordsByTrack($trackid) {
-		$sql = "SELECT k.name FROM `tracks_keywords` tk
+		$sql = "SELECT k.id,k.name FROM `tracks_keywords` tk
 				LEFT JOIN `keywords` k ON k.id=tk.keywordid
 				WHERE `trackid`=:trackid ORDER BY `name`";
 		return $this->executeQuery($sql,array(":trackid"=>$trackid));
