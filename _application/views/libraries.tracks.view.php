@@ -7,11 +7,15 @@ if (!empty($tracks)) {
 	$out .= '<table class="list">
 				<tr>
 					<th>Track</th>
+					<th>Date Added</th>
+					<th>Status</th>
 					<th>Actions</th>
 				</tr>';
 	foreach ($tracks as $track) {
 		$out .="<tr>
 					<td>{$track['name']}</td>
+					<td>{$track['date_added']}</td>
+					<td>{$statuses[$track['statusid']]['name']}</td>
 					<td>
 						<a class=\"do-loadmodal\" href=\"{$app_http}?action=removetrack&libraryid={$library['id']}&trackid={$track['id']}\">Remove</a>
 					</td>

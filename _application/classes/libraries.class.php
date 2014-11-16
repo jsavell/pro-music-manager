@@ -44,7 +44,7 @@ class libraries extends dbobject {
 	}
 
 	public function getLibraryTracks($libraryid) {
-		$sql = "SELECT t.* FROM `tracks` t
+		$sql = "SELECT t.*,lt.`statusid`,lt.`date_added` FROM `tracks` t
 				LEFT JOIN `libraries_tracks` lt ON t.`id`=lt.`trackid`
 				WHERE lt.`libraryid`=:libraryid";
 		return $this->executeQuery($sql,array(":libraryid"=>$libraryid));
@@ -55,5 +55,10 @@ class libraries extends dbobject {
 				LEFT JOIN `libraries_tracks` lt ON t.`id`=lt.`trackid`
 				WHERE lt.`libraryid`!=:libraryid";
 		return $this->executeQuery($sql,array(":libraryid"=>$libraryid));
+	}
+
+	public function getLibraryTrackStatuses() {
+		$sql = "SELECT * FROM `libraries_tracks_statuses`";
+		return $this->queryWithIndex($sql,'id');
 	}
 }

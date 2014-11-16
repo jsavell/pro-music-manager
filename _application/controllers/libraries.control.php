@@ -30,6 +30,7 @@ if (isset($data['action'])) {
 				} else {
 					$page['subtitle'] = "Tracks in {$library['name']}";
 					$tracks = $clibraries->getLibraryTracks($library['id']);
+					$statuses = $clibraries->getLibraryTrackStatuses();
 					$viewfile = "libraries.tracks.view.php";
 				}
 			}

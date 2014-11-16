@@ -76,7 +76,7 @@ class dbobject {
 		$result = $this->db->handle->prepare($sql);
 		if ($result->execute($bindparams)) {
 			return $result->fetchAll(PDO::FETCH_ASSOC);
-		} elseif (isset($GLOBALS['dbconfig']['debug']) && $GLOBALS['config']['debug']) {
+		} elseif (isset($GLOBALS['dbconfig']['debug']) && $GLOBALS['dbconfig']['debug']) {
 			print_r($result->errorInfo());
 		}
 		return false;
@@ -86,7 +86,7 @@ class dbobject {
 		$result = $this->db->handle->prepare($sql);
 		if ($result->execute($bindparams)) {
 			return true;
-		} elseif (isset($GLOBALS['dbconfig']['debug']) && $GLOBALS['config']['debug']) {
+		} elseif (isset($GLOBALS['dbconfig']['debug']) && $GLOBALS['dbconfig']['debug']) {
 			print_r($result->errorInfo());
 		}
 		return false;
