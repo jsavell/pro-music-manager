@@ -67,21 +67,22 @@ if (isset($page['navigation'])) {
         $isCurrent = (isset($data['action']) && isset($subnav['action']) && $subnav['action'] == $data['action']) || (!isset($data['action']) && !isset($subnav['action']));
 		echo "    <a style=\"width:{$btnWidth}%\" class=\"capitalize".($isCurrent ? ' current':'').(isset($subnav['modal']) ? ' do-loadmodal':'')."\" href=\"{$app_http}".((isset($subnav['action'])) ? "?action={$subnav['action']}":'')."\">{$subnav['name']}</a>";
 	}
+    echo '      </div>';
 }
-echo '          </div>';
 if (isset($page['search'])) {
-    echo '  <form id="doSearch" class="do-submit inline" name="search" method="POST" action="'.$app_http.'">
-                <input type="hidden" name="action" value="search" />
-                <input id="searchTerm" class="date-input-db inline" type="text" name="term" />';
-    echo '     <input id="searchResults" class="inline" type="submit" name="submit" value="Search" />
-                <div class="inline" id="searchStatus">
-                    <a class="hidden" href="#clearSearch">clear search</a>
-                </div>
-            </form>';
-}echo '    </div>
+    echo '      <form id="doSearch" class="do-submit inline" name="search" method="POST" action="'.$app_http.'">
+                    <input type="hidden" name="action" value="search" />
+                    <input id="searchTerm" class="date-input-db inline" type="text" name="term" />';
+    echo '          <input id="searchResults" class="inline" type="submit" name="submit" value="Search" />
+                    <div class="inline" id="searchStatus">
+                        <a class="hidden" href="#clearSearch">clear search</a>
+                    </div>
+                </form>';
+}
+echo '    </div>
           <div id="modalContent">';
 if (isset($page['subtitle'])) {
-	echo " <h4 class=\"capitalize\">{$page['subtitle']}</h4>";
+	echo "     <h4 class=\"capitalize\">{$page['subtitle']}</h4>";
 }
 
 ?>
