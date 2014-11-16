@@ -9,6 +9,15 @@ $cgenres = new genres();
 
 if (isset($data['action'])) {
 	switch ($data['action']) {
+		case 'tracks':
+			if (!empty($data['genreid'])) {
+				$ctracks = new tracks();
+				$genre = $cgenres->getGenreById($data['genreid']);
+				$page['subtitle'] = "Tracks in {$genre['name']}";
+				$tracks = $ctracks->getTracksByGenre($genre['id']);
+				$viewfile = "genres.tracks.view.php";
+			}
+		break;
 		case 'search':
 			if (isset($data['term'])) {
 				$genres = $cgenres->searchGenresBasic($data['term']);

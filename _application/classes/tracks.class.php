@@ -21,6 +21,11 @@ class tracks extends dbobject {
 		return $this->executeQuery($sql,array(":id"=>$id))[0];
 	}
 
+	public function getTracksByGenre($genreid) {
+		$sql = "SELECT * FROM `genres` WHERE id=:id";
+		return $this->executeQuery($sql,array(":id"=>$genreid));
+	}
+
 	public function removeTrack($id) {
 //TODO: delete ancillary track records
 		$sql = "DELETE FROM `tracks` WHERE id=:id";
