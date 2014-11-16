@@ -87,8 +87,6 @@ class tracks extends dbobject {
 		return $this->executeQuery($sql,array(":trackid"=>$trackid));
 	}
 
-
-
 	public function findEmotion($emotion) {
 		$sql = "SELECT * FROM `emotions` WHERE `name` = :emotion";
 		if ($temp = $this->executeQuery($sql,array(":emotion"=>$emotion))) {
