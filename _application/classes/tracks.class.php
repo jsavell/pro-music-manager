@@ -1,5 +1,16 @@
 <?php
 class tracks extends dbobject {
+	public function searchTracksBasic($term) {
+		$sql = "SELECT * FROM `tracks` WHERE
+		`name` LIKE ? OR
+		`description` LIKE ?";
+		$bindparams = array("%".$term."%","%".$term."%");
+		if ($result = $this->executeQuery($sql,$bindparams)) {
+		return $result;
+		}
+		return false;
+	}
+
 	public function getTracks() {
 		$sql = "SELECT * FROM `tracks` ORDER BY `name`";
 		return $this->queryWithIndex($sql,"id");

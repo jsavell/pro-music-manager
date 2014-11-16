@@ -10,6 +10,14 @@ $cgenres = new genres();
 
 if (isset($data['action'])) {
 	switch ($data['action']) {
+		case 'search':
+			if (isset($data['term'])) {
+				$tracks = $ctracks->searchTracksBasic($data['term']);
+				$viewfile = "tracks.default.view.php";
+			} else {
+				$system[] = 'There was an error with the search';
+			}
+		break;
 		case 'remove':
 			if (!empty($data['trackid']) && $ctracks->removeTrack($data['trackid'])) {
 				$system[] = 'Track removed';
