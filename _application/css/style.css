@@ -182,7 +182,7 @@ table.list tr:nth-child(odd) {
 	border: 1px solid #555;
 	background-color: #fff;
 	position: absolute;
-	top: 200px;
+	top: 22%;
 	left: 50%;
 	width: 40%;
 	min-height: 300px;
