@@ -4,8 +4,7 @@ $out .= '<form class="do-submit" name="addtrack" method="POST" action="'.$app_ht
 			<div class="column column-half">
 				<label for="track[name]">Title</label>
 				<input type="text" name="track[name]" />
-				<label for="track[description]">Description</label>
-				<textarea name="track[description]"></textarea>
+				<label for="track[genreid]">Genre</label>
 				<select name="track[genreid]">
 					<option value="0">No Genre</option>';
 if (!empty($genres)) {
@@ -14,10 +13,16 @@ if (!empty($genres)) {
 	}
 }
 $out .= '		</select>
+			</div>
+			<div class="column column-half">
 				<label for="track[length]">Length</label>
 				<input type="text" name="track[length]" />
 				<label for="track[date]">Date</label>
 				<input type="text" name="track[date]" />
+			</div>
+			<div class="column">
+				<label for="track[description]">Description</label>
+				<textarea name="track[description]"></textarea>
 			</div>
 			<input type="submit" name="submittrack" value="Add Track" />
 		</form>';
