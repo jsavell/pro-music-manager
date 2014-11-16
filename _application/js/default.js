@@ -35,6 +35,7 @@ $(document).ready(function() {
 		isModal = ($(this).parents("#theModal").length != 0) ? true:false;
 		if (confirmAction()) {
 			$.ajax({
+				type: "POST",
 				url: $(this).attr("href")
 			}).done(function() {
 				if (isModal) {
@@ -49,6 +50,7 @@ $(document).ready(function() {
 
 	$("#theModal").on("submit",".do-submit",function() {
 		$.ajax({
+			type: "POST",
 			url: app_http,
 			data: $(this).serialize(),
 		}).done(function() {
