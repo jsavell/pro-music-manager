@@ -21,8 +21,10 @@ if (!empty($tracks)) {
 				</tr>";
 	}
 	$out .= '</table>';
+} elseif ($data['term']) {
+	$out .= '<div>No results for that search!</div>';
 } else {
-	$out .= 'No tracks, yet!';
+	$out .= '<div>No tracks, yet!</div>';
 }
 $out .= '</div>';
 ?>
