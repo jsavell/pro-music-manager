@@ -10,6 +10,27 @@ $cgenres = new genres();
 
 if (isset($data['action'])) {
 	switch ($data['action']) {
+		case 'emotions':
+			$page['subtitle'] = 'Track Emotions';
+			if (!empty($data['subaction'])) {
+				switch ($data['subaction']) {
+					case 'remove':
+						if (!empty($data['trackid']) && !empty($data['emotionid']) && ($ctracks->removeTrackEmotion($data['trackid'],$data['emotionid']))) {
+							$system[] = 'Emotion removed';
+						}
+					break;
+					case 'insert':
+						if (!empty($data['trackid']) && !empty($data['emotion']) && ($ctracks->addEmotion($data['trackid'],$data['emotion']))) {
+							$system[] = 'Emotion added';
+						}
+					break;
+				}
+			} else {
+				$track['id'] = $data['trackid'];
+				$trackEmotions = $ctracks->getEmotionsByTrack($track['id']);
+				$viewfile = "tracks.emotions.view.php";
+			}
+		break;
 		case 'keywords':
 			$page['subtitle'] = 'Track Keywords';
 			if (!empty($data['subaction'])) {

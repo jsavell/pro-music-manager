@@ -44,7 +44,14 @@ $out .= "</td>
 					<th colspan=\"2\">Emotions</th>
 				</tr>
 				<tr>
-					<td colspan=\"2\">emotionals</td>
+					<td colspan=\"2\">";
+if (!empty($track['emotions'])) {
+	foreach ($track['emotions'] as $emotion) {
+		$out .= "{$emotion['name']},";
+	}
+	$out = rtrim($out,',');
+}
+$out .= "			</td>
 				</tr>
 			</table>
 		</div>";
