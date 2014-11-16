@@ -20,6 +20,11 @@ class libraries extends dbobject {
 		return $this->executeQuery($sql,array(":id"=>$id))[0];
 	}
 
+	public function getDetailedLibraryById($id) {
+		$sql = "SELECT * FROM `libraries` WHERE id=:id";
+		return $this->executeQuery($sql,array(":id"=>$id))[0];
+	}
+
 	public function removeLibrary($id) {
 //TODO: handle tracks tied to the library being removed
 		$sql = "DELETE FROM `libraries` WHERE id=:id";
@@ -34,4 +39,14 @@ class libraries extends dbobject {
 		return $this->buildUpdateStatement("libraries",$id,$library);
 	}
 
+	public function addTrackToLibrary($libraryid,$trackid) {
+		return $this->buildInsertStatement("libraries_tracks",array("trackid"=>$trackid,"libraryid"=>$libraryid));
+	}
+
+	public function getLibraryTracks($libraryid) {
+		$sql = "SELECT t.* FROM `tracks` t
+				LEFT JOIN `libraries_tracks` lt ON t.`id`=lt.`trackid`
+				WHERE lt.`libraryid`=:libraryid";
+		return $this->executeQuery($sql,array(":libraryid"=>$libraryid));
+	}
 }

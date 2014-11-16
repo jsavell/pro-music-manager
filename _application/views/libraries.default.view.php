@@ -10,6 +10,8 @@ if (!empty($libraries)) {
 		$out .="<tr>
 					<td>{$library['name']}</td>
 					<td>
+						<a class=\"do-loadmodal\" href=\"{$app_http}?action=view&libraryid={$library['id']}\">View</a> | 
+						<a class=\"do-loadmodal\" href=\"{$app_http}?action=tracks&libraryid={$library['id']}\">Tracks</a> | 
 						<a class=\"do-loadmodal\" href=\"{$app_http}?action=edit&libraryid={$library['id']}\">Edit</a> | 
 						<a class=\"do-remove\" href=\"{$app_http}?action=remove&libraryid={$library['id']}\">Remove</a>
 				</tr>";

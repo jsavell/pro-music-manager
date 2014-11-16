@@ -9,6 +9,32 @@ $clibraries = new libraries();
 
 if (isset($data['action'])) {
 	switch ($data['action']) {
+		case 'tracks':
+			if (!empty($data['libraryid'])) {
+				$library = $clibraries->getDetailedLibraryById($data['libraryid']);
+				if (!empty($data['subaction'])) {
+					switch ($data['subaction']) {
+						case 'insert':
+							if (!empty($data['trackid']) && $clibraries->addTrackToLibrary($library['id'],$data['trackid'])) {
+								$system[] = "Track added to {$library['name']}";
+							} else {
+								$system[] = "Error adding track to {$library['name']}";
+							}
+						break;
+						case 'add':
+							$page['subtitle'] = "Add Tracks to {$library['name']}";
+							$ctracks = new tracks();
+							$tracks = $ctracks->getTracks();
+							$viewfile = "libraries.tracks.add.view.php";
+						break;
+					}
+				} else {
+					$page['subtitle'] = "Tracks in {$library['name']}";
+					$tracks = $clibraries->getLibraryTracks($library['id']);
+					$viewfile = "libraries.tracks.view.php";
+				}
+			}
+		break;
 		case 'search':
 			if (isset($data['term'])) {
 				$libraries = $clibraries->searchLibrariesBasic($data['term']);
@@ -45,7 +71,15 @@ if (isset($data['action'])) {
 		break;
 		case 'add':
 			$viewfile = "libraries.add.view.php";
-		break;	}
+		break;
+		case 'view':
+			$page['subtitle'] = 'View Library';
+			if (!empty($data['libraryid'])) {
+				$library = $clibraries->getDetailedLibraryById($data['libraryid']);
+				$viewfile = "libraries.view.view.php";
+			}
+		break;
+	}
 } else {
 	$libraries = $clibraries->getLibraries();
 	$viewfile = "libraries.default.view.php";

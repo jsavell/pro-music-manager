@@ -34,5 +34,4 @@ class tracks extends dbobject {
 	public function updateTrack($id,$track) {
 		return $this->buildUpdateStatement("tracks",$id,$track);
 	}
-
 }
