@@ -23,8 +23,7 @@ if (isset($data['action'])) {
 						break;
 						case 'add':
 							$page['subtitle'] = "Add Tracks to {$library['name']}";
-							$ctracks = new tracks();
-							$tracks = $ctracks->getTracks();
+							$tracks = $clibraries->getAvailableTracks($library['id']);
 							$viewfile = "libraries.tracks.add.view.php";
 						break;
 					}

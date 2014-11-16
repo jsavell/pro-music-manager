@@ -49,4 +49,11 @@ class libraries extends dbobject {
 				WHERE lt.`libraryid`=:libraryid";
 		return $this->executeQuery($sql,array(":libraryid"=>$libraryid));
 	}
+
+	public function getAvailableTracks($libraryid) {
+		$sql = "SELECT t.* FROM `tracks` t
+				LEFT JOIN `libraries_tracks` lt ON t.`id`=lt.`trackid`
+				WHERE lt.`libraryid`!=:libraryid";
+		return $this->executeQuery($sql,array(":libraryid"=>$libraryid));
+	}
 }
