@@ -14,14 +14,17 @@ if (!empty($genres)) {
 	}
 }
 $out .= '		</select>
-				<label for="track[description]">Description</label>
-				<textarea name="track[description]">'.$track['description'].'</textarea>
 			</div>
 			<div class="column column-half">
 				<label for="track[length]">Length</label>
 				<input type="text" name="track[length]" value="'.$track['length'].'" />
 				<label for="track[date]">Date</label>
 				<input type="text" name="track[date]" value="'.$track['date'].'" />
+				
+			</div>
+			<div class="column">
+				<label for="track[description]">Description</label>
+				<textarea name="track[description]">'.$track['description'].'</textarea>
 			</div>
 			<input type="submit" name="submittrack" value="Update Track" />
 		</form>';

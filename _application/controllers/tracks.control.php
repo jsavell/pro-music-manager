@@ -10,6 +10,21 @@ $cgenres = new genres();
 
 if (isset($data['action'])) {
 	switch ($data['action']) {
+		case 'keywords':
+			$page['subtitle'] = 'Track Keywords';
+			if (!empty($data['subaction'])) {
+				switch ($data['subaction']) {
+					case 'insert':
+						if (!empty($data['trackid']) && !empty($data['keyword']) && ($ctracks->addKeyWord($data['trackid'],$data['keyword']))) {
+							$system[] = 'Keyword added';
+						}
+					break;
+				}
+			} else {
+				$track['id'] = $data['trackid'];
+				$viewfile = "tracks.keywords.view.php";
+			}
+		break;
 		case 'search':
 			if (isset($data['term'])) {
 				$tracks = $ctracks->searchTracksBasic($data['term']);

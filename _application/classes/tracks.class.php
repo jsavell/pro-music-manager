@@ -51,4 +51,15 @@ class tracks extends dbobject {
 	public function updateTrack($id,$track) {
 		return $this->buildUpdateStatement("tracks",$id,$track);
 	}
+
+	public function addKeyWord($trackid,$keyword) {
+		if ($keywordid = $this->buildInsertStatement("keywords",array('name'=>$keyword))) {
+			return $this->addKeyWordToTrack($trackid,$keywordid);
+		}
+		return false;
+	}
+
+	public function addKeyWordToTrack($trackid,$keywordid) {
+		return $this->buildInsertStatement("tracks_keywords",array('trackid'=>$trackid,'keywordid'=>$keywordid));
+	}
 }
