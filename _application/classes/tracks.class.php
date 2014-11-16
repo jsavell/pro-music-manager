@@ -53,8 +53,19 @@ class tracks extends dbobject {
 		return $this->buildUpdateStatement("tracks",$id,$track);
 	}
 
+	public function findKeyWord($keyword) {
+		$sql = "SELECT * FROM `keywords` WHERE `name` = :keyword";
+		if ($temp = $this->executeQuery($sql,array(":keyword"=>$keyword))) {
+			return $temp[0]['id'];
+		}
+		return false;
+	}
+
 	public function addKeyWord($trackid,$keyword) {
-		if ($keywordid = $this->buildInsertStatement("keywords",array('name'=>$keyword))) {
+		if (!($keywordid = $this->findKeyWord($keyword))) {
+			$keywordid = $this->buildInsertStatement("keywords",array('name'=>$keyword));
+		}
+		if ($keywordid) {
 			return $this->addKeyWordToTrack($trackid,$keywordid);
 		}
 		return false;

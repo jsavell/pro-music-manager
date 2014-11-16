@@ -26,6 +26,19 @@ $(document).ready(function() {
 		$(this).fadeOut("fast");
 	});
 
+	$("#theModal").on("submit",".do-submit-inline",function() {
+		$form = $(this);
+		$.ajax({
+			type: "POST",
+			url: app_http,
+			data: $(this).serialize(),
+		}).done(function() {
+			$("#theModal .do-results").load($form.children("#refreshUrl").val()+" #modalContent .do-results > *",$(this).serialize(),function() {
+			});
+		});
+		return false;
+	});
+
 	$(".container").on("submit",".do-submit",function() {
 		$("#modalContent .do-results").load(app_http+" .do-results > *",$(this).serialize());
 		return false;

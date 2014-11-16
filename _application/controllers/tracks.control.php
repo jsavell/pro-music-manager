@@ -22,6 +22,7 @@ if (isset($data['action'])) {
 				}
 			} else {
 				$track['id'] = $data['trackid'];
+				$trackKeywords = $ctracks->getKeyWordsByTrack($track['id']);
 				$viewfile = "tracks.keywords.view.php";
 			}
 		break;
