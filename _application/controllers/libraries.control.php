@@ -58,6 +58,7 @@ if (isset($data['action'])) {
 			}
 		break;
 		case 'edit':
+			$page['subtitle'] = 'Edit Track';
 			if (!empty($data['libraryid']) && ($library = $clibraries->getLibraryById($data['libraryid']))) {
 				$viewfile = "libraries.edit.view.php";
 			}
@@ -70,6 +71,7 @@ if (isset($data['action'])) {
 			}
 		break;
 		case 'add':
+			$page['subtitle'] = 'Add Library';
 			$viewfile = "libraries.add.view.php";
 		break;
 		case 'view':

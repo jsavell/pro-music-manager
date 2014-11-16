@@ -34,6 +34,7 @@ if (isset($data['action'])) {
 			}
 		break;
 		case 'edit':
+			$page['subtitle'] = 'Edit Track';
 			if (!empty($data['trackid']) && ($track = $ctracks->getTrackById($data['trackid']))) {
 				$genres = $cgenres->getGenres();		
 				$viewfile = "tracks.edit.view.php";
@@ -47,6 +48,7 @@ if (isset($data['action'])) {
 			}
 		break;
 		case 'add':
+			$page['subtitle'] = 'Add Track';
 			$genres = $cgenres->getGenres();		
 			$viewfile = "tracks.add.view.php";
 		break;

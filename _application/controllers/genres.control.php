@@ -41,6 +41,7 @@ if (isset($data['action'])) {
 			}
 		break;
 		case 'edit':
+			$page['subtitle'] = 'Edit Genre';
 			if (!empty($data['genreid']) && ($genre = $cgenres->getGenreById($data['genreid']))) {
 				$viewfile = "genres.edit.view.php";
 			}
@@ -53,6 +54,7 @@ if (isset($data['action'])) {
 			}
 		break;
 		case 'add':
+			$page['subtitle'] = 'Add Genre';
 			$viewfile = "genres.add.view.php";
 		break;
 	}
