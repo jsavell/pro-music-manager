@@ -244,6 +244,11 @@ table.list td.actions {
 	padding: 18px;
 }
 
+#theModal .do-results {
+	max-height: 300px;
+	overflow-y: auto;
+}
+
 #theOverlay{
 	display: none;
   	position: fixed;
