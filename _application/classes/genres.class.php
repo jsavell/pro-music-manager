@@ -15,6 +15,11 @@ class genres extends dbobject {
 		return $this->queryWithIndex($sql,"id");
 	}
 
+	public function getGenresDetailed() {
+		$sql = "SELECT g.*, (SELECT COUNT(id) FROM tracks WHERE genreid=g.id) AS trackcount FROM `genres` g ORDER BY `name`";
+		return $this->queryWithIndex($sql,"id");
+	}
+
 	public function getGenreById($id) {
 		$sql = "SELECT * FROM `genres` WHERE id=:id";
 		return $this->executeQuery($sql,array(":id"=>$id))[0];

@@ -59,7 +59,7 @@ if (isset($data['action'])) {
 		break;
 	}
 } else {
-	$genres = $cgenres->getGenres();
+	$genres = $cgenres->getGenresDetailed();
 	$viewfile = "genres.default.view.php";
 }
 ?>

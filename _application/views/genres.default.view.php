@@ -4,11 +4,13 @@ if (!empty($genres)) {
 	$out .= '<table class="list">
 				<tr>
 					<th>Name</th>
+					<th>Track Count</th>
 					<th>Actions</th>
 				</tr>';
 	foreach ($genres as $genre) {
 		$out .="<tr>
 					<td>{$genre['name']}</td>
+					<td class=\"center\">{$genre['trackcount']}</td>
 					<td>
 						<a class=\"do-loadmodal\" href=\"{$app_http}?action=view&genreid={$genre['id']}\">View</a> | 
 						<a class=\"do-loadmodal\" href=\"{$app_http}?action=tracks&genreid={$genre['id']}\">Tracks</a> | 

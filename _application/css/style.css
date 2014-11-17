@@ -10,6 +10,10 @@ body {
 	text-transform: capitalize;
 }
 
+.center {
+	text-align: center;
+}
+
 .hidden {
 	display: none;
 }
@@ -212,6 +216,13 @@ table.list td.actions {
 	min-height: 300px;
 	margin-left: -22%;
 	z-index: 10;	
+}
+
+@media (max-width: 1044px) {
+	#theModal {
+		width: 60%;
+		margin-left: -30%;
+	}
 }
 
 #theModal .header {
