@@ -13,8 +13,8 @@ if (isset($data['action'])) {
 			if (!empty($data['genreid'])) {
 				$ctracks = new tracks();
 				$genre = $cgenres->getGenreById($data['genreid']);
-				$page['subtitle'] = "Tracks in {$genre['name']}";
 				$tracks = $ctracks->getTracksByGenre($genre['id']);
+				$page['subtitle'] = count($tracks)." Tracks in {$genre['name']}";
 				$viewfile = "genres.tracks.view.php";
 			}
 		break;

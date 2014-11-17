@@ -36,8 +36,8 @@ class tracks extends dbobject {
 	}
 
 	public function getTracksByGenre($genreid) {
-		$sql = "SELECT * FROM `genres` WHERE id=:id";
-		return $this->executeQuery($sql,array(":id"=>$genreid));
+		$sql = "SELECT t.* FROM `tracks` t WHERE t.`genreid`=:genreid";
+		return $this->executeQuery($sql,array(":genreid"=>$genreid));
 	}
 
 	public function removeTrack($id) {
