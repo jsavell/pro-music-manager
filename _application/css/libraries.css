@@ -4,5 +4,5 @@
 	margin: 2%;
 	padding: 3%;
 	height: 200px;
-	overflow-y: hidden;
+	overflow-y: auto;
 }
