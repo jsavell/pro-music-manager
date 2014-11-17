@@ -184,6 +184,10 @@ table.list tr:nth-child(odd) {
 	background-color: #efefef;
 }
 
+table.list td.actions {
+	width: 30%;
+}
+
 /* javascript manipulations */
 
 .blur {

@@ -15,7 +15,7 @@ if (!empty($tracks)) {
 					<td>{$track['date']}</td>
 					<td>{$genres[$track['genreid']]['name']}</td>
 					<td>{$track['description']}</td>
-					<td>
+					<td class=\"actions\">
 						<a class=\"do-loadmodal\" href=\"{$app_http}?action=view&trackid={$track['id']}\">View</a> | 
 						<a class=\"do-loadmodal\" href=\"{$app_http}?action=edit&trackid={$track['id']}\">Edit</a> | 
 						<a class=\"do-loadmodal\" href=\"{$app_http}?action=keywords&trackid={$track['id']}\">Keywords</a> | 
