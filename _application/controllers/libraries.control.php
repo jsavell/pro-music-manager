@@ -7,6 +7,9 @@ $page['search'] = true;
 
 $clibraries = new libraries();
 
+$out .= '<link href="'.$config['path_css'].'libraries.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="'.$config['path_js'].'libraries.js"></script>';
+
 if (isset($data['action'])) {
 	switch ($data['action']) {
 		case 'tracks':
@@ -22,7 +25,7 @@ if (isset($data['action'])) {
 							}
 						break;
 						case 'insert':
-							if (!empty($data['trackid']) && $clibraries->addTrackToLibrary($library['id'],$data['trackid'])) {
+							if (!empty($data['trackids']) && $clibraries->addTracksToLibrary($library['id'],$data['trackids'])) {
 								$system[] = "Track added to {$library['name']}";
 							} else {
 								$system[] = "Error adding track to {$library['name']}";

@@ -43,6 +43,25 @@ class libraries extends dbobject {
 		return $this->buildInsertStatement("libraries_tracks",array("trackid"=>$trackid,"libraryid"=>$libraryid));
 	}
 
+	public function addTracksToLibrary($libraryid,$trackids) {
+		$bindparams = array();
+		$sql_fields = NULL;
+		$sql_values = NULL;
+		$x = 1;
+		foreach ($trackids as $trackid) {
+			$sql_values .= "(:libraryid{$x},:trackid{$x}),";
+			$bindparams[":libraryid{$x}"] = $libraryid;
+			$bindparams[":trackid{$x}"] = $trackid;
+			$x++;
+		}
+		$sql_values = rtrim($sql_values,',');
+		$sql = "INSERT INTO `libraries_tracks` (`libraryid`,`trackid`) VALUES {$sql_values}";
+		if ($this->executeUpdate($sql,$bindparams)) {
+			return $this->getLastInsertId();
+		}
+		return false;
+	}
+
 	public function updateLibraryTrack($libraryid,$trackid,$data) {
 		return $this->buildKeyedUpdateStatement("libraries_tracks",array("trackid"=>$trackid,"libraryid"=>$libraryid),$data);
 	}

@@ -1,0 +1,8 @@
+#doAddable,#doAddPending {
+	box-sizing: border-box;
+	border: 1px solid #555;
+	margin: 2%;
+	padding: 3%;
+	height: 200px;
+	overflow-y: hidden;
+}

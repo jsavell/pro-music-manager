@@ -1,9 +1,25 @@
 <?php
-$out .= '<div>';
+$out .= '<div class="column column-third">
+			<h4>Available Tracks</h4>
+ 			<div id="doAddable">';
 if (!empty($tracks)) {
 	foreach ($tracks as $track) {
-		$out .= "<a href=\"{$app_http}?action=tracks&subaction=insert&libraryid={$library['id']}&trackid={$track['id']}\">{$track['name']}</a><br />";
+		$out .= "<a class=\"do-add-track\" href=\"#\" data-trackid=\"{$track['id']}\" data-name=\"{$track['name']}\">{$track['name']}</a><br />";
 	}
 }
-$out .= '</div>';
+$out .= '	</div>
+		</div>
+		<div class="column column-third">
+			<h4>Pending Tracks</h4>
+			<div id="doAddPending">
+			</div>
+		</div>
+		 <div class="column column-third">
+			<form id="doAddForm" class="do-submit" name="addtracks" method="POST" action="'.$app_http.'">
+				<input type="hidden" name="action" value="tracks" />
+				<input type="hidden" name="subaction" value="insert" />
+				<input type="hidden" name="libraryid" value="'.$library['id'].'" />
+				<input type="submit" name="submittracks" value="Add" />
+			</form>
+		</div>';
 ?>

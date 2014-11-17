@@ -89,6 +89,11 @@ textarea {
 	width: 24%;
 }
 
+.column-third {
+	width: 32%;
+}
+
+
 /* Theming */
 
 header {
@@ -193,9 +198,9 @@ table.list tr:nth-child(odd) {
 	position: absolute;
 	top: 22%;
 	left: 50%;
-	width: 40%;
+	width: 44%;
 	min-height: 300px;
-	margin-left: -20%;
+	margin-left: -22%;
 	z-index: 10;	
 }
 
