@@ -183,12 +183,12 @@ header h1 {
 
 body > .container {
 	max-width: 1024px;
-	margin: 60px auto 0 auto;
+	margin: 40px auto 0 auto;
 }
 
 @media (max-width: 1044px) {
 	body > .container {
-		margin: 60px 20px 0 20px;
+		margin: 40px 20px 0 20px;
 	}
 }
 
