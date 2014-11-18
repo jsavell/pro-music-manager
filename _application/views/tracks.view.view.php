@@ -26,9 +26,18 @@ $out .= "<div class=\"column\">
 				<tr>
 					<td rowspan=\"3\" colspan=\"2\">";
 if (!empty($track['libraries'])) {
+	$out .= '			<table>
+							<tr>
+								<th>Library</th>
+								<th>Date Added</th>
+							</tr>';
 	foreach ($track['libraries'] as $library) {
-		$out .= "		<div>{$library['name']}</div>";
+		$out .= "			<tr>
+								<td>{$library['name']}</td>
+								<td>{$library['date_added']}</td>
+							</tr>";
 	}
+	$out .= '			</table>';
 }
 $out .= "			</td>
 					<td colspan=\"2\">";

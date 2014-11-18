@@ -203,6 +203,15 @@ table.list th {
 	color: #efefef;
 }
 
+table.list table {
+	width: 100%;
+}
+
+table.list table th {
+	background-color: #efefef;
+	color: #000;
+}
+
 table.list td {
 	padding: 4px;
 }
