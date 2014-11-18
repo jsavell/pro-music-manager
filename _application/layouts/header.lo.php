@@ -54,10 +54,10 @@ if (isset($system)) {
 ?>
         <div class="container">
 <?php
-if (isset($page['title'])) {
-	echo " <h1>{$page['title']}</h1>";
-}
 echo '     <div>';
+if (isset($page['title'])) {
+    echo " <h1 style=\"display:inline-block;margin-right: 80px\">{$page['title']}</h1>";
+}
 if (isset($page['navigation'])) {
     $size = sizeof($page['navigation']);
     $navWidth = 15*$size;
