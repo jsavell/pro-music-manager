@@ -53,13 +53,13 @@ if (isset($data['action'])) {
 			}
 		break;
 		case 'search':
-			if (isset($data['term'])) {
+			if (!empty($data['term'])) {
 				$tracks = $ctracks->searchTracksBasic($data['term']);
-				$genres = $cgenres->getGenres();		
-				$viewfile = "tracks.default.view.php";
 			} else {
-				$system[] = 'There was an error with the search';
+				$tracks = $ctracks->getTracks();
 			}
+			$genres = $cgenres->getGenres();		
+			$viewfile = "tracks.default.view.php";
 		break;
 		case 'remove':
 			if (!empty($data['trackid']) && $ctracks->removeTrack($data['trackid'])) {
