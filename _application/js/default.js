@@ -49,7 +49,7 @@ $(document).ready(function() {
 		return false;
 	});
 
-	$(".container").on("submit",".do-submit",function() {
+	$(".page-header").on("submit",".do-submit",function() {
 		$("#modalContent .do-results").load(app_http+" .do-results > *",$(this).serialize());
 		return false;
 	});

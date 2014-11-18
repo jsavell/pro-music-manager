@@ -51,22 +51,19 @@ if (isset($system)) {
 	}
 	echo '</div>';
 }
-?>
-        <div class="container">
-<?php
-echo '     <div>';
+echo '     <div class="page-header">';
 if (isset($page['title'])) {
-    echo " <h1 style=\"display:inline-block;margin-right: 80px\">{$page['title']}</h1>";
+    echo " <h1>{$page['title']}</h1>";
 }
 if (isset($page['navigation'])) {
     $size = sizeof($page['navigation']);
     $navWidth = 15*$size;
     $btnWidth = $navWidth;
     echo "      <div style=\"width:{$navWidth}%\" class=\"inline-block navigation subNav\">";
-	foreach ($page['navigation'] as $subnav) {
+    foreach ($page['navigation'] as $subnav) {
         $isCurrent = (isset($data['action']) && isset($subnav['action']) && $subnav['action'] == $data['action']) || (!isset($data['action']) && !isset($subnav['action']));
-		echo "    <a style=\"width:{$btnWidth}%\" class=\"capitalize".($isCurrent ? ' current':'').(isset($subnav['modal']) ? ' do-loadmodal':'')."\" href=\"{$app_http}".((isset($subnav['action'])) ? "?action={$subnav['action']}":'')."\">{$subnav['name']}</a>";
-	}
+        echo "    <a style=\"width:{$btnWidth}%\" class=\"capitalize".($isCurrent ? ' current':'').(isset($subnav['modal']) ? ' do-loadmodal':'')."\" href=\"{$app_http}".((isset($subnav['action'])) ? "?action={$subnav['action']}":'')."\">{$subnav['name']}</a>";
+    }
     echo '      </div>';
 }
 if (isset($page['search'])) {
@@ -79,8 +76,12 @@ if (isset($page['search'])) {
                     </div>
                 </form>';
 }
-echo '    </div>
-          <div id="modalContent">';
+echo '    </div>';
+
+?>
+        <div class="container">
+          <div id="modalContent">
+<?php
 if (isset($page['subtitle'])) {
 	echo "     <h4 class=\"capitalize\">{$page['subtitle']}</h4>";
 }

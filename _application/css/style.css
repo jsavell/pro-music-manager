@@ -115,8 +115,11 @@ textarea {
 header {
 	background-color: #1AA1E1;
 	height: 80px;
-	position: relative;
+	position: fixed;
 	font-size: 1.6em;
+	top: 0px;
+	left: 0px;
+	width: 100%;
 }
 
 header h1 {
@@ -133,6 +136,13 @@ header h1 {
 	font-size: 1.2em;
 	background-color: #efefef;
 	min-height: 42px;
+}
+
+body > .navigation {
+	position: fixed;
+	top: 80px;
+	left: 0px;
+	width: 100%;
 }
 
 .navigation a {
@@ -158,9 +168,25 @@ header h1 {
 }
 
 #userStatus {
-	float:right;
+	position: fixed;
+	right: 2%;
+	top: 120px;
 	min-width: 5%;
 	padding:12px 20px;
+	z-index: 10;
+}
+
+.page-header {
+	background-color: #fff;
+	position: fixed;
+	width: 100%;
+	margin-left: 10%;
+	top: 122px;
+}
+
+.page-header h1 {
+	display:inline-block;
+	margin-right: 80px;
 }
 
 .subNav {
@@ -190,6 +216,10 @@ body > .container {
 	body > .container {
 		margin: 40px 20px 0 20px;
 	}
+}
+
+#modalContent > .do-results {
+	margin-top: 220px;
 }
 
 /* Data presentation */
