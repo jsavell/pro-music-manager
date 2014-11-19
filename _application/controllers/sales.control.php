@@ -9,8 +9,19 @@ $csales = new sales();
 
 if (isset($data['action'])) {
 	switch ($data['action']) {
+		case 'insert':
+			if (!empty($data['sale']) && ($csales->insertSale($data['sale']))) {
+				$system[] = 'Sale added';
+			} else {
+				$system[] = 'Error adding sale';
+			}
+		break;
 		case 'add':
 			$page['subtitle'] = 'Add Sale';
+			$ctracks = new tracks();
+			$clibraries = new libraries();
+			$tracks = $ctracks->getTracks();
+			$libraries = $clibraries->getLibraries();
 			$viewfile = "sales.add.view.php";
 		break;
 	}

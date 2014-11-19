@@ -32,7 +32,7 @@ class sales extends dbobject {
 	}
 
 	public function insertSale($sale) {
-		return $this->buildInsertStatement("sales",$genre);
+		return $this->buildInsertStatement("sales",$sale);
 	}
 
 	public function updateSale($id,$sale) {
