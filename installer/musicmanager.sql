@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 16, 2014 at 07:05 PM
+-- Generation Time: Nov 19, 2014 at 02:34 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.9
 
@@ -132,6 +132,23 @@ CREATE TABLE IF NOT EXISTS `libraries_tracks_statuses` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `sales`
+--
+
+CREATE TABLE IF NOT EXISTS `sales` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` date NOT NULL,
+  `trackid` int(11) NOT NULL,
+  `versionid` int(11) NOT NULL,
+  `total` decimal(10,2) NOT NULL,
+  `payout` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `trackid` (`trackid`,`versionid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tracks`
 --
 
@@ -142,8 +159,10 @@ CREATE TABLE IF NOT EXISTS `tracks` (
   `genreid` int(11) NOT NULL DEFAULT '1',
   `length` time NOT NULL,
   `date` date NOT NULL,
+  `statusid` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `genreid` (`genreid`)
+  KEY `genreid` (`genreid`),
+  KEY `statusid` (`statusid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
