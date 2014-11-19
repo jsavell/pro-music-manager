@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 19, 2014 at 02:34 AM
+-- Generation Time: Nov 19, 2014 at 02:59 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.9
 
@@ -140,11 +140,13 @@ CREATE TABLE IF NOT EXISTS `sales` (
   `date` date NOT NULL,
   `trackid` int(11) NOT NULL,
   `versionid` int(11) NOT NULL,
+  `libraryid` int(11) NOT NULL,
   `total` decimal(10,2) NOT NULL,
   `payout` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `trackid` (`trackid`,`versionid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `trackid` (`trackid`,`versionid`),
+  KEY `libraryid` (`libraryid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
