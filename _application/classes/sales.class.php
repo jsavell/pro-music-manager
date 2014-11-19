@@ -21,6 +21,16 @@ class sales extends dbobject {
 		return $this->queryWithIndex($sql,"id");
 	}
 
+	public function getSalesByLibraries() {
+		$sql = "SELECT l.`id`,l.`name` as `library`, SUM(s.`total`) AS `grandtotal`,SUM(s.`payout`) AS `grandpayout`
+			FROM `libraries` l 
+			LEFT JOIN `sales` s on s.`libraryid`=l.`id`
+			GROUP BY l.`id`
+			HAVING `grandpayout` > 0
+			ORDER BY `grandpayout` DESC";
+		return $this->executeQuery($sql);
+	}
+
 	public function getSalesByTracks() {
 		$sql = "SELECT t.`id`,t.`name` as `track`, SUM(s.`total`) AS `grandtotal`,SUM(s.`payout`) AS `grandpayout`
 			FROM `tracks` t 

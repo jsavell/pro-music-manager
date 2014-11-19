@@ -36,6 +36,25 @@ if (!empty($sales)) {
 }
 $out .= '</div>
 		<div class="column column-third">
+			<h3>Sales By Library</h3>
+			<div>';
+if (!empty($salesByLibraries)) {
+	$out .= '<table class="list">
+				<tr>
+					<th>Library</th>
+					<th>Total</th>
+					<th>Payout</th>
+				</tr>';
+	foreach ($salesByLibraries as $sale) {
+		$out .= "<tr>
+					<td>{$sale['library']}</td>
+					<td class=\"right\">{$sale['grandtotal']}</td>
+					<td class=\"right\">{$sale['grandpayout']}</td>
+				</tr>";
+	}
+	$out .= '</table>';
+}
+$out .= '	</div>
 			<h3>Sales By Track</h3>
 			<div>';
 if (!empty($salesByTracks)) {

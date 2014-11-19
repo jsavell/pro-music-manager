@@ -28,6 +28,7 @@ if (isset($data['action'])) {
 	}
 } else {
 	$sales = $csales->getSales();
+	$salesByLibraries = $csales->getSalesByLibraries();
 	$salesByTracks = $csales->getSalesByTracks();
 	$salesByGenres = $csales->getSalesByGenres();
 	//sales by genre
