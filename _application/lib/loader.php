@@ -52,6 +52,7 @@ if (!empty($filename) && is_file($filename)) {
 //display the content
 $pages = array(
 			array("name"=>"tracks","path"=>"tracks"),
+			array("name"=>"sales","path"=>"sales"),
 			array("name"=>"libraries","path"=>"libraries"),
 			array("name"=>"genres","path"=>"genres"));
 include "{$config['path_app']}layouts/header.lo.php";
