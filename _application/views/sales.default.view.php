@@ -1,5 +1,7 @@
 <?php
-$out .= '<div class="do-results">';
+$out .= '<div class="do-results">
+			<div class="column column-two-thirds">
+				<h3>Sales</h3>';
 if (!empty($sales)) {
 	$out .= '<table class="list">
 				<tr>
@@ -17,12 +19,13 @@ if (!empty($sales)) {
 					<td>{$sale['track']}</td>
 					<td>{$sale['version']}</td>
 					<td>{$sale['library']}</td>
-					<td>{$sale['total']}</td>
-					<td>{$sale['payout']}</td>
+					<td class=\"right\">{$sale['total']}</td>
+					<td class=\"right\">{$sale['payout']}</td>
 					<td class=\"actions\">
 						<a class=\"do-loadmodal\" href=\"{$app_http}?action=view&trackid={$sale['id']}\">View</a> | 
 						<a class=\"do-loadmodal\" href=\"{$app_http}?action=edit&trackid={$sale['id']}\">Edit</a> | 
 						<a class=\"do-remove\" href=\"{$app_http}?action=remove&trackid={$sale['id']}\">Remove</a>
+					</td>
 				</tr>";
 	}
 	$out .= '</table>';
@@ -31,5 +34,46 @@ if (!empty($sales)) {
 } else {
 	$out .= '<div>No sales, yet!</div>';
 }
-$out .= '</div>';
+$out .= '</div>
+		<div class="column column-third">
+			<h3>Sales By Track</h3>
+			<div>';
+if (!empty($salesByTracks)) {
+	$out .= '<table class="list">
+				<tr>
+					<th>Track</th>
+					<th>Total</th>
+					<th>Payout</th>
+				</tr>';
+	foreach ($salesByTracks as $sale) {
+		$out .= "<tr>
+					<td>{$sale['track']}</td>
+					<td class=\"right\">{$sale['grandtotal']}</td>
+					<td class=\"right\">{$sale['grandpayout']}</td>
+				</tr>";
+	}
+	$out .= '</table>';
+}
+$out .= '	</div>
+			<h3>Sales By Genre</h3>
+			<div>';
+if (!empty($salesByGenres)) {
+	$out .= '<table class="list">
+				<tr>
+					<th>Genre</th>
+					<th>Total</th>
+					<th>Payout</th>
+				</tr>';
+	foreach ($salesByGenres as $sale) {
+		$out .= "<tr>
+					<td>{$sale['genre']}</td>
+					<td class=\"right\">{$sale['grandtotal']}</td>
+					<td class=\"right\">{$sale['grandpayout']}</td>
+				</tr>";
+	}
+	$out .= '</table>';
+}
+$out .= '	</div>
+		</div>
+	</div>';
 ?>

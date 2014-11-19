@@ -2,7 +2,8 @@
 $page['title'] = 'Manage Sales';
 $page['navigation'] = array(
 						array("name"=>"list"),
-						array("name"=>"add","action"=>"add","modal"=>true));
+						array("name"=>"add","action"=>"add","modal"=>true),
+						array("name"=>"by track","action"=>"track"));
 $page['search'] = true;
 
 $csales = new sales();
@@ -27,6 +28,8 @@ if (isset($data['action'])) {
 	}
 } else {
 	$sales = $csales->getSales();
+	$salesByTracks = $csales->getSalesByTracks();
+	$salesByGenres = $csales->getSalesByGenres();
 	//sales by genre
 	//by library
 	//by license
