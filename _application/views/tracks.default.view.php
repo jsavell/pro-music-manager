@@ -21,6 +21,7 @@ if (!empty($tracks)) {
 						<a class=\"do-loadmodal\" href=\"{$app_http}?action=keywords&trackid={$track['id']}\">Keywords</a> | 
 						<a class=\"do-loadmodal\" href=\"{$app_http}?action=emotions&trackid={$track['id']}\">Emotions</a> | 
 						<a class=\"do-remove\" href=\"{$app_http}?action=remove&trackid={$track['id']}\">Remove</a>
+					</td>
 				</tr>";
 	}
 	$out .= '</table>';

@@ -14,6 +14,10 @@ body {
 	text-align: center;
 }
 
+.right {
+	text-align: right;
+}
+
 .top {
 	vertical-align: top;
 }
@@ -107,6 +111,10 @@ textarea {
 
 .column-third {
 	width: 32%;
+}
+
+.column-two-thirds {
+	width: 65%;
 }
 
 
