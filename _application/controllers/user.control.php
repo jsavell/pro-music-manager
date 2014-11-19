@@ -1,6 +1,6 @@
 <?php
 $app['path_http'] = "{$config['path_http']}login.php";
-
+$page['title'] = 'Login';
 if (isset($data['action'])) {
 	switch ($data['action']) {
 		case 'logout':
