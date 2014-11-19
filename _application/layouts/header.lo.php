@@ -61,14 +61,15 @@ echo '     <div>';
 if (isset($page['navigation'])) {
     $size = sizeof($page['navigation']);
     $navWidth = 15*$size;
-    $btnWidth = $navWidth;
-    echo "      <div style=\"width:{$navWidth}%\" class=\"inline-block navigation subNav\">";
-	foreach ($page['navigation'] as $subnav) {
+    $btnWidth = $navWidth/($size*.8);
+    echo " <div style=\"width:{$navWidth}%\" class=\"inline-block navigation subNav\">";
+    foreach ($page['navigation'] as $subnav) {
         $isCurrent = (isset($data['action']) && isset($subnav['action']) && $subnav['action'] == $data['action']) || (!isset($data['action']) && !isset($subnav['action']));
-		echo "    <a style=\"width:{$btnWidth}%\" class=\"capitalize".($isCurrent ? ' current':'').(isset($subnav['modal']) ? ' do-loadmodal':'')."\" href=\"{$app_http}".((isset($subnav['action'])) ? "?action={$subnav['action']}":'')."\">{$subnav['name']}</a>";
-	}
-    echo '      </div>';
+        echo " <a style=\"width:{$btnWidth}%\" class=\"capitalize".($isCurrent ? ' current':'').(isset($subnav['modal']) ? ' do-loadmodal':'')."\" href=\"{$app_http}".((isset($subnav['action'])) ? "?action={$subnav['action']}":'')."\">{$subnav['name']}</a>";
+    }
+    echo ' </div>';
 }
+
 if (isset($page['search'])) {
     echo '      <form id="doSearch" class="do-submit inline" name="search" method="POST" action="'.$app_http.'">
                     <input type="hidden" name="action" value="search" />
