@@ -11,8 +11,9 @@ class tracks extends dbobject {
 		return false;
 	}
 
-	public function getTracks() {
-		$sql = "SELECT * FROM `tracks` ORDER BY `date` DESC,`name`";
+	public function getTracks($sort=NULL) {
+ 		$sort = ($sort) ? $sort:"`date` DESC,`name`";
+		$sql = "SELECT * FROM `tracks` ORDER BY {$sort}";
 		return $this->queryWithIndex($sql,"id");
 	}
 

@@ -55,7 +55,11 @@ $pages = array(
 			array("name"=>"sales","path"=>"sales"),
 			array("name"=>"libraries","path"=>"libraries"),
 			array("name"=>"genres","path"=>"genres"));
-include "{$config['path_app']}layouts/header.lo.php";
-echo $out;
-include "{$config['path_app']}layouts/footer.lo.php";
+if (!empty($data['json']) == 1) {
+	echo $out;
+} else {
+	include "{$config['path_app']}layouts/header.lo.php";
+	echo $out;
+	include "{$config['path_app']}layouts/footer.lo.php";
+}
 ?>

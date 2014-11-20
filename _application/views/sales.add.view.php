@@ -5,7 +5,8 @@ $out .= '<form class="do-submit" name="addsale" method="POST" action="'.$app_htt
 				<label for="sale[date]">Date</label>
 				<input type="text" name="sale[date]" />
 				<label for="sale[trackid]">Track</label>
-				<select name="sale[trackid]">';
+				<select id="doTrackId" name="sale[trackid]">
+					<option value="">Select a track</option>';
 if (!empty($tracks)) {
 	foreach ($tracks as $track) {
 		$out .= "	<option value=\"{$track['id']}\">{$track['name']}</option>";
@@ -24,11 +25,11 @@ if (!empty($versions)) {
 }
 $out .= '		</select>
 				<label for="sale[libraryid]">Library</label>
-				<select name="sale[libraryid]">';
+				<select id="doLibraryId" name="sale[libraryid]">';
 //todo: filter by tracks library is in
 if (!empty($libraries)) {
 	foreach ($libraries as $library) {
-		$out .= "	<option value=\"{$library['id']}\">{$library['name']}</option>";
+		$out .= "	<option disabled value=\"{$library['id']}\">{$library['name']}</option>";
 	}
 }
 $out .= '		</select>
