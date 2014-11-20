@@ -54,8 +54,7 @@ if (isset($data['action'])) {
 	$salesByLibraries = $csales->getSalesByLibraries();
 	$salesByTracks = $csales->getSalesByTracks();
 	$salesByGenres = $csales->getSalesByGenres();
-	//sales by genre
-	//by library
+	$salesByYears = $csales->getSalesByYears();
 	//by license
 	//by royalty
 	//by stream
