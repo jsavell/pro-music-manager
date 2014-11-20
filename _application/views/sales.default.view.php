@@ -22,9 +22,9 @@ if (!empty($sales)) {
 					<td class=\"right\">{$sale['total']}</td>
 					<td class=\"right\">{$sale['payout']}</td>
 					<td class=\"actions\">
-						<a class=\"do-loadmodal\" href=\"{$app_http}?action=view&trackid={$sale['id']}\">View</a> | 
-						<a class=\"do-loadmodal\" href=\"{$app_http}?action=edit&trackid={$sale['id']}\">Edit</a> | 
-						<a class=\"do-remove\" href=\"{$app_http}?action=remove&trackid={$sale['id']}\">Remove</a>
+						<a class=\"do-loadmodal\" href=\"{$app_http}?action=view&id={$sale['id']}\">View</a> | 
+						<a class=\"do-loadmodal\" href=\"{$app_http}?action=edit&id={$sale['id']}\">Edit</a> | 
+						<a class=\"do-remove\" href=\"{$app_http}?action=remove&id={$sale['id']}\">Remove</a>
 					</td>
 				</tr>";
 	}

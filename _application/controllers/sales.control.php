@@ -9,6 +9,13 @@ $csales = new sales();
 
 if (isset($data['action'])) {
 	switch ($data['action']) {
+		case 'update':
+			if ((!empty($data['id']) && !empty($data['sale']) && ($csales->updateSale($data['id'],$data['sale'])))) {
+				$system[] = 'Sale added';
+			} else {
+				$system[] = 'Error adding sale';
+			}
+		break;
 		case 'insert':
 			if (!empty($data['sale']) && ($csales->insertSale($data['sale']))) {
 				$system[] = 'Sale added';
@@ -23,6 +30,16 @@ if (isset($data['action'])) {
 			$tracks = $ctracks->getTracks();
 			$libraries = $clibraries->getLibraries();
 			$viewfile = "sales.add.view.php";
+		break;
+		case 'edit':
+			$page['subtitle'] = 'Edit Sale';
+			if (!empty($data['id']) && ($sale = $csales->getSaleById($data['id']))) {
+				$ctracks = new tracks();
+				$clibraries = new libraries();
+				$tracks = $ctracks->getTracks();
+				$libraries = $clibraries->getLibraries();
+				$viewfile = "sales.edit.view.php";
+			}
 		break;
 	}
 } else {
