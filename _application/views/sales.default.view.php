@@ -26,8 +26,8 @@ if (!empty($sales)) {
 						<td>{$sale['track']}</td>
 						<td>{$sale['version']}</td>
 						<td>{$sale['library']}</td>
-						<td class=\"right\">{$sale['total']}</td>
-						<td class=\"right\">{$sale['payout']}</td>
+						<td class=\"right\">\${$sale['total']}</td>
+						<td class=\"right\">\${$sale['payout']}</td>
 						<td class=\"actions\">
 							<a class=\"do-loadmodal\" href=\"{$app_http}?action=view&id={$sale['id']}\">View</a> | 
 							<a class=\"do-loadmodal\" href=\"{$app_http}?action=edit&id={$sale['id']}\">Edit</a> | 
