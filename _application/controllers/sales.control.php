@@ -23,6 +23,13 @@ if (isset($data['action'])) {
 				$system[] = 'Error adding sale';
 			}
 		break;
+		case 'remove':
+			if (!empty($data['id']) && ($csales->removeSale($data['id']))) {
+				$system[] = 'Sale removed';
+			} else {
+				$system[] = 'Error removing sale';
+			}
+		break;
 		case 'add':
 			$page['subtitle'] = 'Add Sale';
 			$ctracks = new tracks();
