@@ -52,7 +52,7 @@ class sales extends dbobject {
 		return $this->executeQuery($sql);
 	}
 
-	public function getSaleId($id) {
+	public function getSaleById($id) {
 		$sql = "SELECT * FROM `sales` WHERE id=:id";
 		return $this->executeQuery($sql,array(":id"=>$id))[0];
 	}
