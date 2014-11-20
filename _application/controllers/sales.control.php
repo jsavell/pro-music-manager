@@ -2,8 +2,7 @@
 $page['title'] = 'Manage Sales';
 $page['navigation'] = array(
 						array("name"=>"list"),
-						array("name"=>"add","action"=>"add","modal"=>true),
-						array("name"=>"by track","action"=>"track"));
+						array("name"=>"add","action"=>"add","modal"=>true));
 $page['search'] = true;
 
 $csales = new sales();
