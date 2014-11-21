@@ -1,20 +1,12 @@
 <?php
 error_reporting (0);
-
 if (!empty($_POST['dbimport'])) {
 	$dbConfig = $_POST['dbimport'];
 	$filename = "musicmanager.sql";
 	if (is_file($filename)) {
 		$command='mysql --protocol=TCP -h ' .$dbConfig['host'].' -u '.$dbConfig['user'].' '.$dbConfig['password'].' '.$dbConfig['database'].' < '.$filename;
-		exec($command,$output=array(),$worked);
-		switch($worked){
-		    case 0:
-		        echo 'Database successfully built!';
-		        break;
-		    case 1:
-		        echo 'There was an error building the database...';
-		        break;
-		}
+		exec($command,$output=array(),$result);
+		echo json_encode(array("result"=>$result));
 	} else {
 		echo "Couldn't find the import SQL file";
 	}
@@ -78,6 +70,25 @@ if (!empty($_POST['dbimport'])) {
 		</div>
 		<script type="text/javascript">
 			$(document).ready(function() {
+
+				$("#dbImport").submit(function() {
+					$.ajax({type:"POST",url:"<?php echo $_SERVER['PHP_SELF'];?>",data:$(this).serialize()}).done(function(data) {
+						if (data) {
+							var imported = JSON.parse(data);
+							if (parseInt(imported.result) == 0) {
+								message = "Database successfully built!";
+								$("#dbImport").fadeOut("fast");
+							} else {
+								message = "There was an error building the database...";
+							}
+							$("#dbResults").html(message);
+						} else {
+							$("#dbResults").html("HTTP Error. Try again?");
+						}
+					});
+					return false;
+				});
+
 				$("#doInstaller").submit(function() {
 					flag = false;
 					$(this).children("input").each(function() {
