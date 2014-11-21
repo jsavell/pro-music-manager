@@ -1,6 +1,8 @@
 <?php
+session_start();
 require_once "{$config['path_lib']}functions.php";
-
+//don't recommend using, sanitizing in case someone does
+$_SERVER['PHP_SELF'] = htmlentities($_SERVER['PHP_SELF']);
 $globaluser = new user();
 
 if (!isset($data)) {
