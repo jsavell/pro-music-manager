@@ -1,9 +1,23 @@
 <?php
 error_reporting (0);
+
 if (!empty($_POST['dbimport'])) {
-	echo '<pre>';
-	print_r($_POST);
-	echo '</pre>';
+	$dbConfig = $_POST['dbimport'];
+	$filename = "musicmanager.sql";
+	if (is_file($filename)) {
+		$command='mysql --protocol=TCP -h ' .$dbConfig['host'].' -u '.$dbConfig['user'].' '.$dbConfig['password'].' '.$dbConfig['database'].' < '.$filename;
+		exec($command,$output=array(),$worked);
+		switch($worked){
+		    case 0:
+		        echo 'Database successfully built!';
+		        break;
+		    case 1:
+		        echo 'There was an error building the database...';
+		        break;
+		}
+	} else {
+		echo "Couldn't find the import SQL file";
+	}
 } elseif (!empty($_POST['dbconfig'])) {
 	$dsn = 'mysql:host='.$_POST['dbconfig']['host'].';dbname='.$_POST['dbconfig']['database'];
 	$opt = array(
