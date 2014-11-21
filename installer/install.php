@@ -1,4 +1,10 @@
 <?php
+/*todo: 
+ create db after testing connection
+ create db user after building tables
+ make it easy to get to login screen after app is configured
+make it pretty
+*/
 error_reporting (0);
 if (!empty($_POST['config'])) {
 	$config = $_POST['config'];
