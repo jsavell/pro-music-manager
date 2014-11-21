@@ -46,17 +46,19 @@ if (!empty($_POST['dbimport'])) {
 		<script type="text/javascript" src="../_application/js/jquery.min.js"></script>
 	<head>
 	<body>
-		<form class="column" id="doInstaller" name="installer" method="POST">
-			<label for="dbconfig[host]">Host</label>
-			<input id="dbConfigHost" type="text" name="dbconfig[host]" />
-			<label for="dbconfig[host]">Database Name</label>
-			<input id="dbConfigDataBase" type="text" name="dbconfig[database]" />
-			<label for="dbconfig[host]">User</label>
-			<input id="dbConfigUser" type="text" name="dbconfig[user]" />
-			<label for="dbconfig[host]">Password</label>
-			<input id="dbConfigPassword" type="password" name="dbconfig[password]" />
-			<input type="submit" name="submitconfig" value="Test Connection" />
-		</form>
+		<div class="column">
+			<form id="dbInstaller" name="installer" method="POST">
+				<label for="dbconfig[host]">Host</label>
+				<input id="dbConfigHost" type="text" name="dbconfig[host]" />
+				<label for="dbconfig[host]">Database Name</label>
+				<input id="dbConfigDataBase" type="text" name="dbconfig[database]" />
+				<label for="dbconfig[host]">User</label>
+				<input id="dbConfigUser" type="text" name="dbconfig[user]" />
+				<label for="dbconfig[host]">Password</label>
+				<input id="dbConfigPassword" type="password" name="dbconfig[password]" />
+				<input type="submit" name="submitconfig" value="Test Connection" />
+			</form>
+		</div>
 		<div class="column">
 			<h4>DB Test Results:</h4>
 			<div id="dbResults"></div>
@@ -89,7 +91,7 @@ if (!empty($_POST['dbimport'])) {
 					return false;
 				});
 
-				$("#doInstaller").submit(function() {
+				$("#dbInstaller").submit(function() {
 					flag = false;
 					$(this).children("input").each(function() {
 						if (!$(this).val() && $(this).attr("type") != 'password') {
@@ -108,6 +110,7 @@ if (!empty($_POST['dbimport'])) {
 									$("#dbImportUser").val($("#dbConfigUser").val());
 									$("#dbImportPassword").val($("#dbConfigPassword").val());
 									message = "DB connection successful!";
+									$("#dbInstaller").fadeOut("fast");
 									$("#dbImport").fadeIn("fast");
 								} else {
 									message = "Error connecting to the DB: "+test.result;
