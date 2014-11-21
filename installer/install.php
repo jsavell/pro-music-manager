@@ -1,6 +1,25 @@
 <?php
 error_reporting (0);
-if (!empty($_POST['dbimport'])) {
+if (!empty($_POST['config'])) {
+	$config = $_POST['config'];
+	$config['path_http'] = $config['path_http'].$config['app_dir'].'/';
+	$config['path_file'] = $config['path_root'].$config['app_dir'].'/';
+	$config['path_app'] = "{$config['path_file']}_application/";
+	$config['path_lib'] = "{$config['path_app']}lib/";
+	$config['path_classes'] = "{$config['path_app']}classes/";
+	$config['path_controllers'] = "{$config['path_app']}controllers/";
+	$config['path_views'] = "{$config['path_app']}views/";
+	$config['path_css'] = "{$config['path_http']}_application/css/";
+	$config['path_js'] = "{$config['path_http']}_application/js/";
+	$config['path_images'] = "{$config['path_http']}_application/images/";
+	$filename = $config['path_app']."/config/config.json";
+	if (file_put_contents($filename, json_encode($config))) {
+		$result = 1;
+	} else {
+		$result = 0;
+	}
+	echo json_encode(array("result"=>$result));
+} elseif (!empty($_POST['dbimport'])) {
 	$dbConfig = $_POST['dbimport'];
 	$filename = "musicmanager.sql";
 	if (is_file($filename)) {
@@ -70,8 +89,42 @@ if (!empty($_POST['dbimport'])) {
 				<input type="submit" name="submitconfig" value="Build Database Tables" />
 			</form>
 		</div>
+		<div class="column">
+			<h4>Configure App</h4>
+			<form class="hidden" id="configApp" name="configapp" method="POST">
+				<label for="config[path_root]">Document Root</label>
+				<input type="text" name="config[path_root]" />
+				<label for="config[path_http]">Base Domain</label>
+				<input type="text" name="config[path_http]" />
+				<label for="config[app_dir]">App Directory</label>
+				<input type="text" name="config[app_dir]" />
+				<input type="hidden" name="config[title]" value="Pro Music Manager" />
+				<input id="configHost" type="hidden" name="config[db][host]" />
+				<input id="configDataBase" type="hidden" name="config[db][database]" />
+				<input id="configUser" type="hidden" name="config[db][user]" />
+				<input id="configPassword" type="hidden" name="config[db][password]" />
+				<input type="submit" name="submitconfig" value="Generate Config File" />
+			</form>
+		</div>
 		<script type="text/javascript">
 			$(document).ready(function() {
+				$("#configApp").submit(function() {
+					$.ajax({type:"POST",url:"<?php echo $_SERVER['PHP_SELF'];?>",data:$(this).serialize()}).done(function(data) {
+						if (data) {
+							var imported = JSON.parse(data);
+							if (parseInt(imported.result) == 1) {
+								message = "Configuration file generated!";
+								$("#configApp").fadeOut("fast");
+							} else {
+								message = "There was an error building the configuration file...";
+							}
+							$("#dbResults").html(message);
+						} else {
+							$("#dbResults").html("HTTP Error. Try again?");
+						}
+					});
+					return false;
+				});
 
 				$("#dbImport").submit(function() {
 					$.ajax({type:"POST",url:"<?php echo $_SERVER['PHP_SELF'];?>",data:$(this).serialize()}).done(function(data) {
@@ -80,6 +133,7 @@ if (!empty($_POST['dbimport'])) {
 							if (parseInt(imported.result) == 0) {
 								message = "Database successfully built!";
 								$("#dbImport").fadeOut("fast");
+								$("#configApp").fadeIn("fast");
 							} else {
 								message = "There was an error building the database...";
 							}
@@ -109,6 +163,11 @@ if (!empty($_POST['dbimport'])) {
 									$("#dbImportDataBase").val($("#dbConfigDataBase").val());
 									$("#dbImportUser").val($("#dbConfigUser").val());
 									$("#dbImportPassword").val($("#dbConfigPassword").val());
+
+									$("#configHost").val($("#dbConfigHost").val());
+									$("#configDataBase").val($("#dbConfigDataBase").val());
+									$("#configUser").val($("#dbConfigUser").val());
+									$("#configPassword").val($("#dbConfigPassword").val());
 									message = "DB connection successful!";
 									$("#dbInstaller").fadeOut("fast");
 									$("#dbImport").fadeIn("fast");

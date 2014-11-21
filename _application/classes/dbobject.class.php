@@ -7,16 +7,10 @@ class db {
 	private static $instance;
 
     private function __construct() {
-	
-		if (strtolower($GLOBALS['config']['db']['dbtype']) == 'mssql') {
-        	$dsn = 'sqlsrv:Server='.$GLOBALS['config']['db']['host'].
-               ';Database='    .$GLOBALS['config']['db']['database'];        
-		} else {
-			$dsn = 'mysql:host='.$GLOBALS['config']['db']['host'].
-               ';dbname='    .$GLOBALS['config']['db']['database'];		
-		}			
-
-        $this->handle = new PDO($dsn, $GLOBALS['config']['db']['user'], $GLOBALS['config']['db']['password']);
+		$config = $GLOBALS['config']['db'];
+		$dsn = 'mysql:host='.$config['host'].
+               ';dbname='    .$config['database'];		
+        $this->handle = new PDO($dsn, $config['user'], $config['password']);
     }
 
     public static function getInstance() {
