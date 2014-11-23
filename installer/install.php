@@ -109,13 +109,13 @@ if (!empty($_POST['config'])) {
 			<div id="dbResults"></div>
 		</div>
 		<div class="column">
-			<form id="dbInstaller" name="installer" method="POST">
-				<h4>Configure DB:</h4>
+			<h4>Test MySQL Connection:</h4>
+			<form id="testConnection" name="testconnection" method="POST">
 				<label for="dbconfig[host]">Host</label>
 				<input id="dbConfigHost" type="text" name="dbconfig[host]" />
-				<label for="dbconfig[host]">User</label>
+				<label for="dbconfig[user]">User</label>
 				<input id="dbConfigUser" type="text" name="dbconfig[user]" />
-				<label for="dbconfig[host]">Password</label>
+				<label for="dbconfig[password]">Password</label>
 				<input id="dbConfigPassword" type="password" name="dbconfig[password]" />
 				<input type="submit" name="submitconfig" value="Test Connection" />
 			</form>
@@ -123,9 +123,9 @@ if (!empty($_POST['config'])) {
 		<div class="column">
 			<h4>Build DB:</h4>
 			<form class="hidden" id="dbImport" name="importer" method="POST">
-				<input id="dbImportHost" type="hidden" name="dbimport[host]" />
-				<input id="dbImportUser" type="hidden" name="dbimport[user]" />
-				<input id="dbImportPassword" type="hidden" name="dbimport[password]" />
+				<input class="db-host" id="dbImportHost" type="hidden" name="dbimport[host]" />
+				<input class="db-user" id="dbImportUser" type="hidden" name="dbimport[user]" />
+				<input class="db-password" id="dbImportPassword" type="hidden" name="dbimport[password]" />
 				<input type="submit" name="submitconfig" value="Build Database Tables" />
 			</form>
 		</div>
@@ -139,9 +139,9 @@ if (!empty($_POST['config'])) {
 				<label for="config[app_dir]">App Directory</label>
 				<input type="text" name="config[app_dir]" />
 				<input type="hidden" name="config[title]" value="Pro Music Manager" />
-				<input id="configHost" type="hidden" name="config[db][host]" />
-				<input id="configUser" type="hidden" name="config[db][user]" />
-				<input id="configPassword" type="hidden" name="config[db][password]" />
+				<input class="db-host" id="configHost" type="hidden" name="config[db][host]" />
+				<input class="db-user" id="configUser" type="hidden" name="config[db][user]" />
+				<input class="db-password" id="configPassword" type="hidden" name="config[db][password]" />
 				<input type="submit" name="submitconfig" value="Generate Config File" />
 			</form>
 		</div>
@@ -184,7 +184,7 @@ if (!empty($_POST['config'])) {
 					return false;
 				});
 
-				$("#dbInstaller").submit(function() {
+				$("#testConnection").submit(function() {
 					flag = false;
 					$(this).children("input").each(function() {
 						if (!$(this).val() && $(this).attr("type") != 'password') {
@@ -198,15 +198,11 @@ if (!empty($_POST['config'])) {
 							if (data) {
 								test = JSON.parse(data);
 								if (test.result == 1) {
-									$("#dbImportHost").val($("#dbConfigHost").val());
-									$("#dbImportUser").val($("#dbConfigUser").val());
-									$("#dbImportPassword").val($("#dbConfigPassword").val());
-
-									$("#configHost").val($("#dbConfigHost").val());
-									$("#configUser").val($("#dbConfigUser").val());
-									$("#configPassword").val($("#dbConfigPassword").val());
+									$(".db-host").val($("#dbConfigHost").val());
+									$(".db-user").val($("#dbConfigUser").val());
+									$(".db-password").val($("#dbConfigPassword").val());
 									message = "DB connection successful!";
-									$("#dbInstaller").fadeOut("fast");
+									$("#testConnection").fadeOut("fast");
 									$("#dbImport").fadeIn("fast");
 								} else {
 									message = "Error connecting to the DB: "+test.result;
