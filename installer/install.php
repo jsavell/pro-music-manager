@@ -72,6 +72,10 @@ if (!empty($_POST['config'])) {
 	<head>
 	<body>
 		<div class="column">
+			<h4>Install Operation Results:</h4>
+			<div id="dbResults"></div>
+		</div>
+		<div class="column">
 			<form id="dbInstaller" name="installer" method="POST">
 				<label for="dbconfig[host]">Host</label>
 				<input id="dbConfigHost" type="text" name="dbconfig[host]" />
@@ -85,7 +89,7 @@ if (!empty($_POST['config'])) {
 			</form>
 		</div>
 		<div class="column">
-			<h4>DB Test Results:</h4>
+			<h4>Build DB:</h4>
 			<div id="dbResults"></div>
 			<form class="hidden" id="dbImport" name="importer" method="POST">
 				<input id="dbImportHost" type="hidden" name="dbimport[host]" />
@@ -96,7 +100,7 @@ if (!empty($_POST['config'])) {
 			</form>
 		</div>
 		<div class="column">
-			<h4>Configure App</h4>
+			<h4>Configure App:</h4>
 			<form class="hidden" id="configApp" name="configapp" method="POST">
 				<label for="config[path_root]">Document Root</label>
 				<input type="text" name="config[path_root]" />
