@@ -1,11 +1,20 @@
 <?php
 /*todo: 
- create db after testing connection
- create db user after building tables
  make it easy to get to login screen after app is configured
 make it pretty
 */
 error_reporting (0);
+
+function executeQuery($handle,$sql,$bindparams=NULL) {
+	$result = $handle->prepare($sql);
+	if ($result->execute($bindparams)) {
+		return true;
+	} else {
+		return $result->errorInfo();
+	}
+	return false;
+}
+
 if (!empty($_POST['config'])) {
 	$config = $_POST['config'];
 	$config['path_http'] = $config['path_http'].$config['app_dir'].'/';
@@ -25,13 +34,39 @@ if (!empty($_POST['config'])) {
 		$result = 0;
 	}
 	echo json_encode(array("result"=>$result));
-} elseif (!empty($_POST['dbimport'])) {
-	$dbConfig = $_POST['dbimport'];
+} elseif (!empty($_POST['dbmaster']) && !empty($_POST['dbcreate'])) {
+	$dbConfig = $_POST['dbmaster'];
+	$dbCreate = $_POST['dbcreate'];
 	$filename = "musicmanager.sql";
-	if (is_file($filename)) {
-		$command='mysql --protocol=TCP -h ' .$dbConfig['host'].' -u '.$dbConfig['user'].' -p'.$dbConfig['password'].' < '.$filename;
-		exec($command,$output=array(),$result);
-		echo json_encode(array("result"=>$result));
+		if (is_file($filename)) {
+		$dsn = 'mysql:host='.$dbConfig['host'].';';
+		$opt = array(
+		    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+		    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+		);
+	    try {
+			$handle = new PDO($dsn, $dbConfig['user'], $dbConfig['password'],$opt);
+			$sql = "CREATE USER :newuser@:host IDENTIFIED BY :password";
+			$bindparams = array(":newuser"=>$dbCreate['newuser'],":host"=>$dbConfig['host'],":password"=>$dbCreate['password']);
+			if (executeQuery($handle,$sql,$bindparams)) {
+				$sql = "FLUSH PRIVILEGES;";
+				if (executeQuery($handle,$sql)) {
+					$command='mysql --protocol=TCP -h ' .$dbConfig['host'].' -u '.$dbConfig['user'].' -p'.$dbConfig['password'].' < '.$filename;
+					exec($command,$output=array(),$result);
+					if ($result == 0) {
+						$sql = "GRANT ALL PRIVILEGES ON musicmanager.* TO  :newuser@:host IDENTIFIED BY :password 
+								WITH GRANT OPTION MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0";
+						if (executeQuery($handle,$sql,$bindparams)) {
+							echo json_encode(array("result"=>$result));
+						} else {
+							echo json_encode(array("result"=>1));
+						}
+					}
+				}
+			}
+		} catch (PDOException $e) {
+			echo json_encode(array("result"=>$e->getMessage()));
+		}
 	} else {
 		echo "Couldn't find the import SQL file";
 	}
@@ -100,6 +135,10 @@ if (!empty($_POST['config'])) {
 				overflow-y: auto;
 				font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, monospace, serif;
 			}
+
+			.help {
+				font-size: .7em;
+			}
 		</style>
 		<script type="text/javascript" src="../_application/js/jquery.min.js"></script>
 	<head>
@@ -110,6 +149,11 @@ if (!empty($_POST['config'])) {
 		</div>
 		<div class="column">
 			<h4>Test MySQL Connection:</h4>
+			<div class="help">
+				<ul>
+					<li>Enter an existing MySQL user that can create databases and users.</li>
+				</ul>
+			</div>
 			<form id="testConnection" name="testconnection" method="POST">
 				<label for="dbconfig[host]">Host</label>
 				<input id="dbConfigHost" type="text" name="dbconfig[host]" />
@@ -121,16 +165,39 @@ if (!empty($_POST['config'])) {
 			</form>
 		</div>
 		<div class="column">
-			<h4>Build DB:</h4>
-			<form class="hidden" id="dbImport" name="importer" method="POST">
-				<input class="db-host" id="dbImportHost" type="hidden" name="dbimport[host]" />
-				<input class="db-user" id="dbImportUser" type="hidden" name="dbimport[user]" />
-				<input class="db-password" id="dbImportPassword" type="hidden" name="dbimport[password]" />
-				<input type="submit" name="submitconfig" value="Build Database Tables" />
+			<h4>Configure DB and User:</h4>
+			<div class="help">
+				<ul>
+					<li>This will create a new database called 'musicmanager'</li>
+					<li>As well as a new database user with the name you enter</li>
+					<li>It will also grant them privileges on the 'musicmanager' database.</li>
+				</ul>
+			</div>
+			<form class="hidden" id="dbInstaller" name="installer" method="POST">
+				<label for="dbcreate[newuser]">New User</label>
+				<input type="text" name="dbcreate[newuser]" />
+				<label for="dbcreate[password]">New User Password</label>
+				<input type="password" name="dbcreate[password]" />
+				<input class="db-host" type="hidden" name="dbmaster[host]" />
+				<input class="db-user" type="hidden" name="dbmaster[user]" />
+				<input class="db-password" type="hidden" name="dbmaster[password]" />
+				<input type="submit" name="submitInstall" value="Build Database" />
 			</form>
 		</div>
 		<div class="column">
 			<h4>Configure App:</h4>
+			<div class="help">
+				<ul>
+					<li>The last step is generating the JSON config file for the app.</li>
+					<li>You'll need to provide the full filesystem path to your web server's document root, the http path to the document root, as well as the
+				subdirectory you installed the web app to.
+					</li>
+					<li>Also, the PHP user will need permissions to create a file under {app directory}/_application/config/</li>
+					<li>If you're using a server that doesn't support Apache's .htaccess (like nginx), you'll probably want to take steps to make sure
+						the generated JSON config file is not accessible via the web. This is already taken care of for servers that honor .htaccess.
+					</li>
+				</ul>
+			</div>
 			<form class="hidden" id="configApp" name="configapp" method="POST">
 				<label for="config[path_root]">Document Root</label>
 				<input type="text" name="config[path_root]" />
@@ -165,16 +232,16 @@ if (!empty($_POST['config'])) {
 					return false;
 				});
 
-				$("#dbImport").submit(function() {
+				$("#dbInstaller").submit(function() {
 					$.ajax({type:"POST",url:"<?php echo $_SERVER['PHP_SELF'];?>",data:$(this).serialize()}).done(function(data) {
 						if (data) {
 							var imported = JSON.parse(data);
 							if (parseInt(imported.result) == 0) {
 								message = "Database successfully built!";
-								$("#dbImport").fadeOut("fast");
+								$("#dbInstaller").fadeOut("fast");
 								$("#configApp").fadeIn("fast");
 							} else {
-								message = "There was an error building the database...";
+								message = "There was an error building the database: "+imported.result;
 							}
 							$("#dbResults").html(message);
 						} else {
@@ -203,7 +270,7 @@ if (!empty($_POST['config'])) {
 									$(".db-password").val($("#dbConfigPassword").val());
 									message = "DB connection successful!";
 									$("#testConnection").fadeOut("fast");
-									$("#dbImport").fadeIn("fast");
+									$("#dbInstaller").fadeIn("fast");
 								} else {
 									message = "Error connecting to the DB: "+test.result;
 									$("#dbImport").fadeOut("fast");
