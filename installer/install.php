@@ -16,8 +16,30 @@ function executeQuery($handle,$sql,$bindparams=NULL) {
 	return false;
 }
 
-if (!empty($_POST['config'])) {
+if (!empty($_POST['user'])) {
+	$dbConfig = $_POST['config']['db'];
+	$user = $_POST['user'];
+	$dsn = 'mysql:host='.$dbConfig['host'].';dbname=musicmanager';
+	$opt = array(
+		    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+		    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+	);
+    try {
+		$handle = new PDO($dsn, $dbConfig['user'], $dbConfig['password'],$opt);
+ 		$user['password'] = password_hash($user['password'], PASSWORD_DEFAULT);
+		$sql = "INSERT INTO `users` (`username`,`password`) VALUES (:username,:password)";
+		$bindparams = array(":username"=>$user['username'],":password"=>$user['password']);
+		if (executeQuery($handle,$sql,$bindparams)) {
+			echo json_encode(array("result"=>1));
+		} else {
+			echo json_encode(array("result"=>0));
+		}
+	} catch (PDOException $e) {
+		echo json_encode(array("result"=>$e->getMessage()));
+	}
+} elseif (!empty($_POST['config'])) {
 	$config = $_POST['config'];
+	$config['db']['database'] = 'musicmanager';
 	$config['path_http'] = $config['path_http'].$config['app_dir'].'/';
 	$config['path_file'] = $config['path_root'].$config['app_dir'].'/';
 	$config['path_app'] = "{$config['path_file']}_application/";
@@ -39,7 +61,7 @@ if (!empty($_POST['config'])) {
 	$dbConfig = $_POST['dbmaster'];
 	$dbCreate = $_POST['dbcreate'];
 	$filename = "musicmanager.sql";
-		if (is_file($filename)) {
+	if (is_file($filename)) {
 		$dsn = 'mysql:host='.$dbConfig['host'].';';
 		$opt = array(
 		    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
@@ -149,7 +171,7 @@ if (!empty($_POST['config'])) {
 			<div id="dbResults"></div>
 		</div>
 		<div class="column">
-			<h4>Test MySQL Connection:</h4>
+			<h4>1) Test MySQL Connection:</h4>
 			<div class="help">
 				<ul>
 					<li>Enter an existing MySQL user that can create databases and users.</li>
@@ -166,7 +188,7 @@ if (!empty($_POST['config'])) {
 			</form>
 		</div>
 		<div class="column">
-			<h4>Configure DB and User:</h4>
+			<h4>2) Configure DB and User:</h4>
 			<div class="help">
 				<ul>
 					<li>This will create a new database called 'musicmanager'</li>
@@ -186,12 +208,11 @@ if (!empty($_POST['config'])) {
 			</form>
 		</div>
 		<div class="column">
-			<h4>Configure App:</h4>
+			<h4>3) Configure App:</h4>
 			<div class="help">
 				<ul>
-					<li>The last step is generating the JSON config file for the app.</li>
-					<li>You'll need to provide the full filesystem path to your web server's document root, the http path to the document root, as well as the
-				subdirectory you installed the web app to.
+					<li>You'll need to provide the full file path and http path to your web server's document root, as well as the
+				subdirectory you installed the web app to. Best guesses are pre-filled for the file and http paths.
 					</li>
 					<li>Also, the PHP user will need permissions to create a file under {app directory}/_application/config/</li>
 					<li>If you're using a server that doesn't support Apache's .htaccess (like nginx), you'll probably want to take steps to make sure
@@ -199,13 +220,22 @@ if (!empty($_POST['config'])) {
 					</li>
 				</ul>
 			</div>
+<?php
+$filepath = split('/',dirname(__FILE__));
+$index = count($filepath)-1;
+$paths['web'] = $filepath[$index-1];
+$paths['docroot'] = '/';
+for($x=($index-2);$x>0;$x--) {
+	$paths['docroot'] .= $filepath[$x].'/';
+}
+?>
 			<form class="hidden" id="configApp" name="configapp" method="POST">
 				<label for="config[path_root]">Document Root</label>
-				<input type="text" name="config[path_root]" />
+				<input type="text" name="config[path_root]" value="<?php echo $paths['docroot'];?>" />
 				<label for="config[path_http]">Base Domain</label>
-				<input type="text" name="config[path_http]" />
+				<input type="text" name="config[path_http]" value="http://" />
 				<label for="config[app_dir]">App Directory</label>
-				<input type="text" name="config[app_dir]" />
+				<input type="text" name="config[app_dir]" value="<?php echo $paths['web'];?>"/>
 				<input type="hidden" name="config[title]" value="Pro Music Manager" />
 				<input class="db-host" id="configHost" type="hidden" name="config[db][host]" />
 				<input class="db-new-user" id="configUser" type="hidden" name="config[db][user]" />
@@ -213,8 +243,48 @@ if (!empty($_POST['config'])) {
 				<input type="submit" name="submitconfig" value="Generate Config File" />
 			</form>
 		</div>
+		<div class="column">
+			<h4>4) Create App User:</h4>
+			<div class="help">
+				<ul>
+					<li>This is the username and password you'll log into the app with.</li>
+				</ul>
+			<form class="hidden" id="createUser" name="createuser" method="POST">
+				<label for="user[username]">User Name</label>
+				<input type="text" name="user[username]" />
+				<label for="user[password]">Password</label>
+				<input id="password" type="text" name="user[password]" />
+				<label for="password_confirm">Confirm Password</label>
+				<input id="#confirmPassword" type="text" name="confirm_password" />
+				<input class="db-host" id="configHost" type="hidden" name="config[db][host]" />
+				<input class="db-new-user" id="configUser" type="hidden" name="config[db][user]" />
+				<input class="db-new-password" id="configPassword" type="hidden" name="config[db][password]" />
+				<input type="submit" name="submituser" value="Create User" />
+			</form>
+		</div>
 		<script type="text/javascript">
 			$(document).ready(function() {
+				$("#createUser").submit(function() {
+					if ($("#password").val() == $("#confirmPassword").val()) {
+						$.ajax({type:"POST",url:"<?php echo $_SERVER['PHP_SELF'];?>",data:$(this).serialize()}).done(function(data) {
+							if (data) {
+								var user = JSON.parse(data);
+								if (parseInt(user.result) == 1) {
+									message = "User added!";
+									$("#createUser").fadeOut("fast");
+								} else {
+									message = "There was an error adding the user: "+user.result;
+								}
+								$("#dbResults").html(message);
+							} else {
+								$("#dbResults").html("HTTP Error. Try again?");
+							}
+						});
+					}
+					alert("Password confirmation doesn't match. You won't be able to log into the app if you don't remember the password you're entering");
+					return false;
+				});
+
 				$("#configApp").submit(function() {
 					$.ajax({type:"POST",url:"<?php echo $_SERVER['PHP_SELF'];?>",data:$(this).serialize()}).done(function(data) {
 						if (data) {
@@ -222,6 +292,7 @@ if (!empty($_POST['config'])) {
 							if (parseInt(imported.result) == 1) {
 								message = "Configuration file generated!";
 								$("#configApp").fadeOut("fast");
+								$("#createUser").fadeIn("fast");
 							} else {
 								message = "There was an error building the configuration file...";
 							}
