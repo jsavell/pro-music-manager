@@ -29,14 +29,14 @@ if (!empty($_POST['config'])) {
 	$dbConfig = $_POST['dbimport'];
 	$filename = "musicmanager.sql";
 	if (is_file($filename)) {
-		$command='mysql --protocol=TCP -h ' .$dbConfig['host'].' -u '.$dbConfig['user'].' '.$dbConfig['password'].' '.$dbConfig['database'].' < '.$filename;
+		$command='mysql --protocol=TCP -h ' .$dbConfig['host'].' -u '.$dbConfig['user'].' -p'.$dbConfig['password'].' < '.$filename;
 		exec($command,$output=array(),$result);
 		echo json_encode(array("result"=>$result));
 	} else {
 		echo "Couldn't find the import SQL file";
 	}
 } elseif (!empty($_POST['dbconfig'])) {
-	$dsn = 'mysql:host='.$_POST['dbconfig']['host'].';dbname='.$_POST['dbconfig']['database'];
+	$dsn = 'mysql:host='.$_POST['dbconfig']['host'].';';
 	$opt = array(
 	    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
 	    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
@@ -113,8 +113,6 @@ if (!empty($_POST['config'])) {
 				<h4>Configure DB:</h4>
 				<label for="dbconfig[host]">Host</label>
 				<input id="dbConfigHost" type="text" name="dbconfig[host]" />
-				<label for="dbconfig[host]">Database Name</label>
-				<input id="dbConfigDataBase" type="text" name="dbconfig[database]" />
 				<label for="dbconfig[host]">User</label>
 				<input id="dbConfigUser" type="text" name="dbconfig[user]" />
 				<label for="dbconfig[host]">Password</label>
@@ -126,7 +124,6 @@ if (!empty($_POST['config'])) {
 			<h4>Build DB:</h4>
 			<form class="hidden" id="dbImport" name="importer" method="POST">
 				<input id="dbImportHost" type="hidden" name="dbimport[host]" />
-				<input id="dbImportDataBase" type="hidden" name="dbimport[database]" />
 				<input id="dbImportUser" type="hidden" name="dbimport[user]" />
 				<input id="dbImportPassword" type="hidden" name="dbimport[password]" />
 				<input type="submit" name="submitconfig" value="Build Database Tables" />
@@ -143,7 +140,6 @@ if (!empty($_POST['config'])) {
 				<input type="text" name="config[app_dir]" />
 				<input type="hidden" name="config[title]" value="Pro Music Manager" />
 				<input id="configHost" type="hidden" name="config[db][host]" />
-				<input id="configDataBase" type="hidden" name="config[db][database]" />
 				<input id="configUser" type="hidden" name="config[db][user]" />
 				<input id="configPassword" type="hidden" name="config[db][password]" />
 				<input type="submit" name="submitconfig" value="Generate Config File" />
@@ -203,12 +199,10 @@ if (!empty($_POST['config'])) {
 								test = JSON.parse(data);
 								if (test.result == 1) {
 									$("#dbImportHost").val($("#dbConfigHost").val());
-									$("#dbImportDataBase").val($("#dbConfigDataBase").val());
 									$("#dbImportUser").val($("#dbConfigUser").val());
 									$("#dbImportPassword").val($("#dbConfigPassword").val());
 
 									$("#configHost").val($("#dbConfigHost").val());
-									$("#configDataBase").val($("#dbConfigDataBase").val());
 									$("#configUser").val($("#dbConfigUser").val());
 									$("#configPassword").val($("#dbConfigPassword").val());
 									message = "DB connection successful!";
