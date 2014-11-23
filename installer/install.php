@@ -1,6 +1,7 @@
 <?php
 /*todo: 
  make it easy to get to login screen after app is configured
+create application user
 make it pretty
 */
 error_reporting (0);
@@ -175,9 +176,9 @@ if (!empty($_POST['config'])) {
 			</div>
 			<form class="hidden" id="dbInstaller" name="installer" method="POST">
 				<label for="dbcreate[newuser]">New User</label>
-				<input type="text" name="dbcreate[newuser]" />
+				<input id="dbCreateUser" type="text" name="dbcreate[newuser]" />
 				<label for="dbcreate[password]">New User Password</label>
-				<input type="password" name="dbcreate[password]" />
+				<input id="dbCreatePassword" type="password" name="dbcreate[password]" />
 				<input class="db-host" type="hidden" name="dbmaster[host]" />
 				<input class="db-user" type="hidden" name="dbmaster[user]" />
 				<input class="db-password" type="hidden" name="dbmaster[password]" />
@@ -207,8 +208,8 @@ if (!empty($_POST['config'])) {
 				<input type="text" name="config[app_dir]" />
 				<input type="hidden" name="config[title]" value="Pro Music Manager" />
 				<input class="db-host" id="configHost" type="hidden" name="config[db][host]" />
-				<input class="db-user" id="configUser" type="hidden" name="config[db][user]" />
-				<input class="db-password" id="configPassword" type="hidden" name="config[db][password]" />
+				<input class="db-new-user" id="configUser" type="hidden" name="config[db][user]" />
+				<input class="db-new-password" id="configPassword" type="hidden" name="config[db][password]" />
 				<input type="submit" name="submitconfig" value="Generate Config File" />
 			</form>
 		</div>
@@ -239,6 +240,8 @@ if (!empty($_POST['config'])) {
 							if (parseInt(imported.result) == 0) {
 								message = "Database successfully built!";
 								$("#dbInstaller").fadeOut("fast");
+								$(".db-new-user").val($("#dbCreateUser").val());
+								$(".db-new-password").val($("#dbCreatePassword").val());
 								$("#configApp").fadeIn("fast");
 							} else {
 								message = "There was an error building the database: "+imported.result;
