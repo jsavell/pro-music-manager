@@ -52,11 +52,34 @@ if (!empty($_POST['config'])) {
 <html>
 	<head>
 		<style type="text/css">
+			html, body {
+				margin: 0px;
+				padding: 0px;
+				font-family: Arial;
+			}
+
+			body {
+				background-color: #efefef;
+			}
+
+			h4 {
+				margin-bottom: 8px;
+			}
+
 			input,label {
 				display: block;
-				margin: 8px;
+				margin: 8px 8px 0px 8px;
 				padding: 12px;
 			}
+
+			label {
+				padding-bottom: 4px;
+			}
+
+			input {
+				margin-top: 4px;
+			}
+
 			.column {
 				display: inline-block;
 				vertical-align: top;
@@ -66,6 +89,16 @@ if (!empty($_POST['config'])) {
 
 			.hidden {
 				display: none;
+			}
+
+			#dbResults {
+				border: 1px solid #000;
+				background-color: #fff;
+				margin-top: 24px;
+				padding: 10px;
+				height: 300px;
+				overflow-y: auto;
+				font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, monospace, serif;
 			}
 		</style>
 		<script type="text/javascript" src="../_application/js/jquery.min.js"></script>
@@ -77,6 +110,7 @@ if (!empty($_POST['config'])) {
 		</div>
 		<div class="column">
 			<form id="dbInstaller" name="installer" method="POST">
+				<h4>Configure DB:</h4>
 				<label for="dbconfig[host]">Host</label>
 				<input id="dbConfigHost" type="text" name="dbconfig[host]" />
 				<label for="dbconfig[host]">Database Name</label>
@@ -90,7 +124,6 @@ if (!empty($_POST['config'])) {
 		</div>
 		<div class="column">
 			<h4>Build DB:</h4>
-			<div id="dbResults"></div>
 			<form class="hidden" id="dbImport" name="importer" method="POST">
 				<input id="dbImportHost" type="hidden" name="dbimport[host]" />
 				<input id="dbImportDataBase" type="hidden" name="dbimport[database]" />
