@@ -212,7 +212,7 @@ if (!empty($_POST['user'])) {
 			<div class="help">
 				<ul>
 					<li>You'll need to provide the full file path and http path to your web server's document root, as well as the
-				subdirectory you installed the web app to. Best guesses are pre-filled for the file and http paths.
+				subdirectory you installed the web app to. Best guesses are pre-filled for the file path and app subdirectory.
 					</li>
 					<li>Also, the PHP user will need permissions to create a file under {app directory}/_application/config/</li>
 					<li>If you're using a server that doesn't support Apache's .htaccess (like nginx), you'll probably want to take steps to make sure
