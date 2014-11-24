@@ -255,7 +255,7 @@ for($x=($index-2);$x>0;$x--) {
 				<label for="user[password]">Password</label>
 				<input id="password" type="text" name="user[password]" />
 				<label for="password_confirm">Confirm Password</label>
-				<input id="#confirmPassword" type="text" name="confirm_password" />
+				<input id="confirmPassword" type="text" name="confirm_password" />
 				<input class="db-host" id="configHost" type="hidden" name="config[db][host]" />
 				<input class="db-new-user" id="configUser" type="hidden" name="config[db][user]" />
 				<input class="db-new-password" id="configPassword" type="hidden" name="config[db][password]" />
@@ -280,8 +280,9 @@ for($x=($index-2);$x>0;$x--) {
 								$("#dbResults").html("HTTP Error. Try again?");
 							}
 						});
+					} else {
+						alert("Password confirmation doesn't match. You won't be able to log into the app if you don't remember the password you're entering");
 					}
-					alert("Password confirmation doesn't match. You won't be able to log into the app if you don't remember the password you're entering");
 					return false;
 				});
 
