@@ -162,6 +162,21 @@ if (!empty($_POST['user'])) {
 			.help {
 				font-size: .7em;
 			}
+			
+			#goLogin {
+				font-size: 1.8em;
+				text-align: center;
+			}
+
+			a {
+				text-decoration: none;
+				color: #555;
+			}
+
+			a:hover {
+				text-decoration: underline;
+			}
+
 		</style>
 		<script type="text/javascript" src="../_application/js/jquery.min.js"></script>
 	<head>
@@ -179,7 +194,7 @@ if (!empty($_POST['user'])) {
 			</div>
 			<form id="testConnection" name="testconnection" method="POST">
 				<label for="dbconfig[host]">Host</label>
-				<input id="dbConfigHost" type="text" name="dbconfig[host]" />
+				<input id="dbConfigHost" type="text" name="dbconfig[host]" value="localhost" />
 				<label for="dbconfig[user]">User</label>
 				<input id="dbConfigUser" type="text" name="dbconfig[user]" />
 				<label for="dbconfig[password]">Password</label>
@@ -233,9 +248,9 @@ for($x=($index-2);$x>0;$x--) {
 				<label for="config[path_root]">Document Root</label>
 				<input type="text" name="config[path_root]" value="<?php echo $paths['docroot'];?>" />
 				<label for="config[path_http]">Base Domain</label>
-				<input type="text" name="config[path_http]" value="http://" />
+				<input id="pathHttp" type="text" name="config[path_http]" value="http://" />
 				<label for="config[app_dir]">App Directory</label>
-				<input type="text" name="config[app_dir]" value="<?php echo $paths['web'];?>"/>
+				<input id="pathAppDir" type="text" name="config[app_dir]" value="<?php echo $paths['web'];?>"/>
 				<input type="hidden" name="config[title]" value="Pro Music Manager" />
 				<input class="db-host" id="configHost" type="hidden" name="config[db][host]" />
 				<input class="db-new-user" id="configUser" type="hidden" name="config[db][user]" />
@@ -249,6 +264,7 @@ for($x=($index-2);$x>0;$x--) {
 				<ul>
 					<li>This is the username and password you'll log into the app with.</li>
 				</ul>
+			</div>
 			<form class="hidden" id="createUser" name="createuser" method="POST">
 				<label for="user[username]">User Name</label>
 				<input type="text" name="user[username]" />
@@ -261,6 +277,9 @@ for($x=($index-2);$x>0;$x--) {
 				<input class="db-new-password" id="configPassword" type="hidden" name="config[db][password]" />
 				<input type="submit" name="submituser" value="Create User" />
 			</form>
+			<div class="hidden" id="goLogin">
+				<a href="">Login</a>
+			</div>
 		</div>
 		<script type="text/javascript">
 			$(document).ready(function() {
@@ -271,7 +290,10 @@ for($x=($index-2);$x>0;$x--) {
 								var user = JSON.parse(data);
 								if (parseInt(user.result) == 1) {
 									message = "User added!";
-									$("#createUser").fadeOut("fast");
+									$("#createUser").fadeOut("fast",function() {
+										$("#goLogin a").attr("href",$("#pathHttp").val()+$("#pathAppDir").val()+"/login.php");
+										$("#goLogin").fadeIn("fast");
+									});
 								} else {
 									message = "There was an error adding the user: "+user.result;
 								}
