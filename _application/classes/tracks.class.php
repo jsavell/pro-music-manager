@@ -143,28 +143,48 @@ class tracks extends dbobject {
 	}
 
 	public function getTrackVersionsById($trackid) {
-		$sql = "SELECT `versionid` FROM `tracks_versions` WHERE `trackid`=:trackid";
+		$sql = "SELECT `id`,`versionid` FROM `tracks_versions` WHERE `trackid`=:trackid";
 		$temp = $this->executeQuery($sql,array(":trackid"=>$trackid));
 		$versionids = array();
-		foreach ($temp as $versionid) {
-			$versionids[] = $versionid;
+		foreach ($temp as $version) {
+			$versionids[$version['id']] = $version['versionid'];
 		}
 		return $versionids;
 	}
 
+	public function deleteAllTrackVersions($trackid) {
+		return $this->delete("tracks_versions",array("trackid"=>$trackid));
+	}
+
+	public function deleteTrackVersions($ids) {
+		$bindparams = array();
+		$sql = "DELETE FROM `tracks_versions` WHERE `id` ".$this->buildIn($ids,$bindparams);
+		return $this->executeUpdate($sql,$bindparams);
+	}
+
 	public function updateTrackVersions($id,$versions) {
 		$existingVersions = $this->getTrackVersionsById($id);
+		$newVersions = array();
 		if ($existingVersions) {
-//			foreach ($existingVersions as $evId) {
-//				if (in_array($existingVersions
-//				$sql = "SELECT 
-//			}
-		} else {
-			$temp = array();
-			foreach ($versions as $versionid) {
-				$temp[] = array("trackid"=>$id,"versionid"=>$versionid);
+			$removVersions = array();
+			foreach ($existingVersions as $evid=>$evs) {
+				if (!in_array($evs['versionid'],$versions)) {
+					$removeVersions[] = $evid;
+				}
 			}
-			return $this->buildMultiRowInsertStatement("tracks_versions",$temp);
+			$this->deleteTrackVersions($removeVersions);
+			foreach ($versions as $versionId) {
+				if (!in_array($versionId,$existingVersions)) {
+					$newVersions[] = array("trackid"=>$id,"versionid"=>$versionId);
+				}
+			}
+		} else {
+			foreach ($versions as $versionId) {
+				$newVersions[] = array("trackid"=>$id,"versionid"=>$versionId);
+			}
+		}
+		if ($newVersions) {
+			return $this->buildMultiRowInsertStatement("tracks_versions",$newVersions);
 		}
 		return false;
 	}

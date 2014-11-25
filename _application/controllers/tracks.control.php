@@ -108,6 +108,8 @@ if (isset($data['action'])) {
 			if ((!empty($data['trackid']) && !empty($data['track'])) && $ctracks->updateTrack($data['trackid'],$data['track'])) {
 				if (is_array($data['versionids'])) {
 					$ctracks->updateTrackVersions($data['trackid'],$data['versionids']);
+				} else {
+					$ctracks->deleteAllTrackVersions($data['trackid']);
 				}
 				$system[] = 'Track updated';
 			} else {
@@ -119,6 +121,7 @@ if (isset($data['action'])) {
 			if (!empty($data['trackid']) && ($track = $ctracks->getTrackById($data['trackid']))) {
 				$genres = $cgenres->getGenres();		
 				$versions = $ctracks->getVersions();
+				$track['versions'] = $ctracks->getTrackVersionsById($data['trackid']);
 				$viewfile = "tracks.edit.view.php";
 			}
 		break;
