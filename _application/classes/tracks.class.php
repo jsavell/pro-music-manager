@@ -120,4 +120,25 @@ class tracks extends dbobject {
 				WHERE `trackid`=:trackid ORDER BY `name`";
 		return $this->executeQuery($sql,array(":trackid"=>$trackid));
 	}
+
+	public function insertVersion($version) {
+		return $this->buildInsertStatement('versions',$version);
+	}
+
+	public function updateVersion($id,$version) {
+		return $this->buildUpdateStatement('versions',$id,$version);
+	}
+
+	public function getVersions() {
+		$sql = "SELECT v.*,(SELECT COUNT(id) FROM tracks_versions WHERE versionid=v.id) AS trackcount 
+				FROM `versions` v 
+				ORDER BY v.`name`";
+		return $this->executeQuery($sql);
+	}
+
+	public function getVersionById($id) {
+		$sql = "SELECT v.* FROM `versions` v 
+				WHERE v.`id`=:id";
+		return $this->executeQuery($sql,array(':id'=>$id))[0];
+	}
 }

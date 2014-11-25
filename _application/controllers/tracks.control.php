@@ -2,7 +2,8 @@
 $page['title'] = 'Manage Tracks';
 $page['navigation'] = array(
 						array("name"=>"list"),
-						array("name"=>"add","action"=>"add","modal"=>true));
+						array("name"=>"add","action"=>"add","modal"=>true),
+						array("name"=>"versions","action"=>"versions","modal"=>true));
 $page['search'] = true;
 
 $ctracks = new tracks();
@@ -10,6 +11,41 @@ $cgenres = new genres();
 
 if (isset($data['action'])) {
 	switch ($data['action']) {
+		case 'versions':
+			if (!empty($data['subaction'])) {
+				switch ($data['subaction']) {
+					case 'update':
+						if ($ctracks->updateVersion($data['id'],$data['version'])) {
+							$system[] = 'Version updated';
+						} else {
+							$system[] = 'Error updating version';
+						}
+					break;
+					case 'insert':
+						if ($ctracks->insertVersion($data['version'])) {
+							$system[] = 'Version added';
+						} else {
+							$system[] = 'Error adding version';
+						}
+					break;
+					case 'edit':
+						if (!empty($data['id'])) {
+							$page['subtitle'] = 'Edit Version';
+							$version = $ctracks->getVersionById($data['id']);
+							$viewfile = 'versions.edit.view.php';
+						}
+					break;
+					case 'add':
+						$page['subtitle'] = 'Add Version';
+						$viewfile = 'versions.add.view.php';
+					break;
+				}
+			} else {
+				$page['subtitle'] = 'Track Versions';
+				$versions = $ctracks->getVersions();
+				$viewfile = 'versions.default.view.php';
+			}
+		break;
 		case 'emotions':
 			$page['subtitle'] = 'Track Emotions';
 			if (!empty($data['subaction'])) {
