@@ -31,6 +31,7 @@ class tracks extends dbobject {
 			$track[0]['libraries'] = $clibraries->getLibrariesByTrack($id);
 			$track[0]['keywords'] = $this->getKeyWordsByTrack($id);
 			$track[0]['emotions'] = $this->getEmotionsByTrack($id);
+			$track[0]['versions'] = $this->getTrackVersionsById($id);
 			return $track[0];
 		}
 		return false;
@@ -133,7 +134,7 @@ class tracks extends dbobject {
 		$sql = "SELECT v.*,(SELECT COUNT(id) FROM tracks_versions WHERE versionid=v.id) AS trackcount 
 				FROM `versions` v 
 				ORDER BY v.`name`";
-		return $this->executeQuery($sql);
+		return $this->queryWithIndex($sql,'id');
 	}
 
 	public function getVersionById($id) {

@@ -140,6 +140,7 @@ if (isset($data['action'])) {
 		case 'view':
 			$page['subtitle'] = 'View Track';
 			if (!empty($data['trackid']) && ($track = $ctracks->getDetailedTrackById($data['trackid']))) {
+				$versions = $ctracks->getVersions();
 				$viewfile = "tracks.view.view.php";
 			}
 		break;
