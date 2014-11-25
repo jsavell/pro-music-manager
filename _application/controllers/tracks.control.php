@@ -106,6 +106,9 @@ if (isset($data['action'])) {
 		break;
 		case 'update':
 			if ((!empty($data['trackid']) && !empty($data['track'])) && $ctracks->updateTrack($data['trackid'],$data['track'])) {
+				if (is_array($data['versionids'])) {
+					$ctracks->updateTrackVersions($data['trackid'],$data['versionids']);
+				}
 				$system[] = 'Track updated';
 			} else {
 				$system[] = 'Error updating track';
@@ -115,6 +118,7 @@ if (isset($data['action'])) {
 			$page['subtitle'] = 'Edit Track';
 			if (!empty($data['trackid']) && ($track = $ctracks->getTrackById($data['trackid']))) {
 				$genres = $cgenres->getGenres();		
+				$versions = $ctracks->getVersions();
 				$viewfile = "tracks.edit.view.php";
 			}
 		break;

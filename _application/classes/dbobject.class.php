@@ -158,6 +158,25 @@ class dbobject {
 		return false;
 	}
 
+	protected function buildMultiRowInsertStatement($table,$rows) {
+		$bindparams = array();
+		$sqlRows = NULL;
+		$sqlFields = implode(',',array_keys($rows[0]));
+		$x = 1;
+		foreach ($rows as $data) {
+			$sqlValues = NULL;
+			foreach ($data as $field=>$value) {
+				$sqlValues .= ":{$field}{$x},";
+				$bindparams[":{$field}{$x}"] = $value;
+			}
+			$sqlValues = rtrim($sqlValues,',');
+			$sqlRows .= "({$sqlValues}),";
+			$x++;
+		}
+		$sql = "INSERT INTO `{$table}` ({$sqlFields}) VALUES ".rtrim($sqlRows,',');
+		return $this->executeUpdate($sql,$bindparams);
+	}
+
 	protected function buildUpdateStatement($table,$id,$data) {
 		$sql = "UPDATE `{$table}` SET ";
 		foreach ($data as $field=>$value) {

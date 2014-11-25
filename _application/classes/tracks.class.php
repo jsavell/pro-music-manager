@@ -141,4 +141,31 @@ class tracks extends dbobject {
 				WHERE v.`id`=:id";
 		return $this->executeQuery($sql,array(':id'=>$id))[0];
 	}
+
+	public function getTrackVersionsById($trackid) {
+		$sql = "SELECT `versionid` FROM `tracks_versions` WHERE `trackid`=:trackid";
+		$temp = $this->executeQuery($sql,array(":trackid"=>$trackid));
+		$versionids = array();
+		foreach ($temp as $versionid) {
+			$versionids[] = $versionid;
+		}
+		return $versionids;
+	}
+
+	public function updateTrackVersions($id,$versions) {
+		$existingVersions = $this->getTrackVersionsById($id);
+		if ($existingVersions) {
+//			foreach ($existingVersions as $evId) {
+//				if (in_array($existingVersions
+//				$sql = "SELECT 
+//			}
+		} else {
+			$temp = array();
+			foreach ($versions as $versionid) {
+				$temp[] = array("trackid"=>$id,"versionid"=>$versionid);
+			}
+			return $this->buildMultiRowInsertStatement("tracks_versions",$temp);
+		}
+		return false;
+	}
 }
