@@ -7,6 +7,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
         <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" type="text/css" href="<?php echo $config['path_css'];?>style.css" media="screen"/>
+        <link rel="stylesheet" media="(min-width:921px) and (max-width: 1024px)" href="<?php echo $config['path_css'];?>style.large.css" type="text/css" />
+        <link rel="stylesheet" media="(min-width:601px) and (max-width: 920px)" href="<?php echo $config['path_css'];?>style.med.css" type="text/css" />
+        <link rel="stylesheet" media="(max-width: 600px)" href="<?php echo $config['path_css'];?>style.small.css" type="text/css" />
         <script type="text/javascript" src="<?php echo $config['path_js'];?>jquery.min.js"></script>
         <script type="text/javascript">
             var app_http = '<?php echo $app_http;?>';
@@ -25,8 +28,7 @@
         </div>
         <header>
             <h1>The Production Music Manager</h1>
-        </header>
-        <div class="navigation">
+            <div class="navigation">
 <?php
 if ($globaluser->isLoggedIn()) {
     foreach ($pages as $nav) {
@@ -38,33 +40,33 @@ if ($globaluser->isLoggedIn()) {
     }
 }
 ?>
-        </div>
 <?php
 if ($globaluser->isLoggedIn()) {
-    echo '<div id="userStatus">Hi '.$globaluser->getProfileValue('username').'! (<a href="'.$config['path_http'].'logout.php">logout</a>)</div>';
+    echo '      <div id="userStatus">Hi '.$globaluser->getProfileValue('username').'! (<a href="'.$config['path_http'].'logout.php">logout</a>)</div>';
 }
+echo '       </div>';
 //present any system messages
 if (isset($system)) {
-	echo '<div class="sysMsg">';
+	echo ' <div class="sysMsg">';
 	foreach ($system as $msg) {
 		echo "<h4>{$msg}</h4>";
 	}
-	echo '</div>';
+	echo ' </div>';
 }
 echo '     <div class="page-header">';
 if (isset($page['title'])) {
-    echo " <h1>{$page['title']}</h1>";
+    echo "      <h1>{$page['title']}</h1>";
 }
 if (isset($page['navigation'])) {
     $size = sizeof($page['navigation']);
-    $navWidth = 15*$size;
-    $btnWidth = $navWidth/($size*.8);
-    echo " <div style=\"width:{$navWidth}%\" class=\"inline-block navigation subNav\">";
+    $navWidth = 15*.6*$size;
+    $btnWidth = $navWidth/($size*.4);
+    echo "      <div style=\"width:{$navWidth}%\" class=\"inline-block navigation subNav\">";
     foreach ($page['navigation'] as $subnav) {
         $isCurrent = (isset($data['action']) && isset($subnav['action']) && $subnav['action'] == $data['action']) || (!isset($data['action']) && !isset($subnav['action']));
-        echo " <a style=\"width:{$btnWidth}%\" class=\"capitalize".($isCurrent ? ' current':'').(isset($subnav['modal']) ? ' do-loadmodal':'')."\" href=\"{$app_http}".((isset($subnav['action'])) ? "?action={$subnav['action']}":'')."\">{$subnav['name']}</a>";
+        echo "      <a style=\"width:{$btnWidth}%\" class=\"capitalize".($isCurrent ? ' current':'').(isset($subnav['modal']) ? ' do-loadmodal':'')."\" href=\"{$app_http}".((isset($subnav['action'])) ? "?action={$subnav['action']}":'')."\">{$subnav['name']}</a>";
     }
-    echo ' </div>';
+    echo '      </div>';
 }
 
 if (isset($page['search'])) {
@@ -80,6 +82,7 @@ if (isset($page['search'])) {
 echo '    </div>';
 
 ?>
+        </header>
         <div class="container">
           <div id="modalContent">
 <?php

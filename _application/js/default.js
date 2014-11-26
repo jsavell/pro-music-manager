@@ -14,17 +14,8 @@ $(document).ready(function() {
 	$(document).ajaxComplete(function() {
 		runDatePicker();
 	});
-*/
-	$(".container,#theModal").on({
-	    mouseenter: function () {
-			$(this).data('oldhtml',$(this).html()); 
-			$(this).css("min-width",$(this).css("width"));
-			$(this).html("x");
-	    },
-	    mouseleave: function () {
-			$(this).html($(this).data('oldhtml'));
-	    }},".bubble");
 
+*/
 	$("#searchResults").click(function() {
 		$("#searchStatus a.hidden").fadeIn("fast");
 	});
@@ -98,7 +89,7 @@ $(document).ready(function() {
 		return confirmAction();
 	});
 
-	$(".container,#theModal").on("click",".do-loadmodal",function(e) {
+	$(".page-header,.container,#theModal").on("click",".do-loadmodal",function(e) {
 		e.preventDefault();
 		$(".container").addClass("blur");
 		$("#theModal .content").load($(this).attr("href")+" #modalContent > *",function() {
