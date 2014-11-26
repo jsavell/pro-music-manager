@@ -2,7 +2,8 @@
 $page['title'] = 'Manage Tracks';
 $page['navigation'] = array(
 						array("name"=>"list"),
-						array("name"=>"add","action"=>"add","modal"=>true));
+						array("name"=>"add","action"=>"add","modal"=>true),
+						array("name"=>"versions","action"=>"versions","modal"=>true));
 $page['search'] = true;
 
 $ctracks = new tracks();
@@ -10,6 +11,41 @@ $cgenres = new genres();
 
 if (isset($data['action'])) {
 	switch ($data['action']) {
+		case 'versions':
+			if (!empty($data['subaction'])) {
+				switch ($data['subaction']) {
+					case 'update':
+						if ($ctracks->updateVersion($data['id'],$data['version'])) {
+							$system[] = 'Version updated';
+						} else {
+							$system[] = 'Error updating version';
+						}
+					break;
+					case 'insert':
+						if ($ctracks->insertVersion($data['version'])) {
+							$system[] = 'Version added';
+						} else {
+							$system[] = 'Error adding version';
+						}
+					break;
+					case 'edit':
+						if (!empty($data['id'])) {
+							$page['subtitle'] = 'Edit Version';
+							$version = $ctracks->getVersionById($data['id']);
+							$viewfile = 'versions.edit.view.php';
+						}
+					break;
+					case 'add':
+						$page['subtitle'] = 'Add Version';
+						$viewfile = 'versions.add.view.php';
+					break;
+				}
+			} else {
+				$page['subtitle'] = 'Track Versions';
+				$versions = $ctracks->getVersions();
+				$viewfile = 'versions.default.view.php';
+			}
+		break;
 		case 'emotions':
 			$page['subtitle'] = 'Track Emotions';
 			if (!empty($data['subaction'])) {
@@ -70,6 +106,11 @@ if (isset($data['action'])) {
 		break;
 		case 'update':
 			if ((!empty($data['trackid']) && !empty($data['track'])) && $ctracks->updateTrack($data['trackid'],$data['track'])) {
+				if (is_array($data['versionids'])) {
+					$ctracks->updateTrackVersions($data['trackid'],$data['versionids']);
+				} else {
+					$ctracks->deleteAllTrackVersions($data['trackid']);
+				}
 				$system[] = 'Track updated';
 			} else {
 				$system[] = 'Error updating track';
@@ -79,6 +120,8 @@ if (isset($data['action'])) {
 			$page['subtitle'] = 'Edit Track';
 			if (!empty($data['trackid']) && ($track = $ctracks->getTrackById($data['trackid']))) {
 				$genres = $cgenres->getGenres();		
+				$versions = $ctracks->getVersions();
+				$track['versions'] = $ctracks->getTrackVersionsById($data['trackid']);
 				$viewfile = "tracks.edit.view.php";
 			}
 		break;
@@ -97,6 +140,7 @@ if (isset($data['action'])) {
 		case 'view':
 			$page['subtitle'] = 'View Track';
 			if (!empty($data['trackid']) && ($track = $ctracks->getDetailedTrackById($data['trackid']))) {
+				$versions = $ctracks->getVersions();
 				$viewfile = "tracks.view.view.php";
 			}
 		break;

@@ -7,16 +7,10 @@ class db {
 	private static $instance;
 
     private function __construct() {
-	
-		if (strtolower($GLOBALS['dbconfig']['dbtype']) == 'mssql') {
-        	$dsn = 'sqlsrv:Server='.$GLOBALS['dbconfig']['host'].
-               ';Database='    .$GLOBALS['dbconfig']['database'];        
-		} else {
-			$dsn = 'mysql:host='.$GLOBALS['dbconfig']['host'].
-               ';dbname='    .$GLOBALS['dbconfig']['database'];		
-		}			
-
-        $this->handle = new PDO($dsn, $GLOBALS['dbconfig']['user'], $GLOBALS['dbconfig']['password']);
+		$config = $GLOBALS['config']['db'];
+		$dsn = 'mysql:host='.$config['host'].
+               ';dbname='    .$config['database'];		
+        $this->handle = new PDO($dsn, $config['user'], $config['password']);
     }
 
     public static function getInstance() {
@@ -162,6 +156,25 @@ class dbobject {
 			return $this->getLastInsertId();
 		}
 		return false;
+	}
+
+	protected function buildMultiRowInsertStatement($table,$rows) {
+		$bindparams = array();
+		$sqlRows = NULL;
+		$sqlFields = implode(',',array_keys($rows[0]));
+		$x = 1;
+		foreach ($rows as $data) {
+			$sqlValues = NULL;
+			foreach ($data as $field=>$value) {
+				$sqlValues .= ":{$field}{$x},";
+				$bindparams[":{$field}{$x}"] = $value;
+			}
+			$sqlValues = rtrim($sqlValues,',');
+			$sqlRows .= "({$sqlValues}),";
+			$x++;
+		}
+		$sql = "INSERT INTO `{$table}` ({$sqlFields}) VALUES ".rtrim($sqlRows,',');
+		return $this->executeUpdate($sql,$bindparams);
 	}
 
 	protected function buildUpdateStatement($table,$id,$data) {

@@ -1,6 +1,8 @@
 <?php
+session_start();
 require_once "{$config['path_lib']}functions.php";
-
+//don't recommend using, sanitizing in case someone does
+$_SERVER['PHP_SELF'] = htmlentities($_SERVER['PHP_SELF']);
 $globaluser = new user();
 
 if (!isset($data)) {
@@ -55,7 +57,11 @@ $pages = array(
 			array("name"=>"sales","path"=>"sales"),
 			array("name"=>"libraries","path"=>"libraries"),
 			array("name"=>"genres","path"=>"genres"));
-include "{$config['path_app']}layouts/header.lo.php";
-echo $out;
-include "{$config['path_app']}layouts/footer.lo.php";
+if (!empty($data['json']) == 1) {
+	echo $out;
+} else {
+	include "{$config['path_app']}layouts/header.lo.php";
+	echo $out;
+	include "{$config['path_app']}layouts/footer.lo.php";
+}
 ?>

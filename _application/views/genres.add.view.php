@@ -4,6 +4,7 @@ $out .= '<form class="do-submit" name="addgenre" method="POST" action="'.$app_ht
 			<div class="column column-half">
 				<label for="genre[name]">Genre</label>
 				<input type="text" name="genre[name]" />
+			</div>
 			<input type="submit" name="submitgenre" value="Add Genre" />
 		</form>';
 ?>

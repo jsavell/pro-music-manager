@@ -5,10 +5,23 @@ $page['navigation'] = array(
 						array("name"=>"add","action"=>"add","modal"=>true));
 $page['search'] = true;
 
+if (empty($data['json'])) {
+	$out .= '<script type="text/javascript" src="'.$config['path_js'].'sales.js"></script>';
+}
+
 $csales = new sales();
 
 if (isset($data['action'])) {
 	switch ($data['action']) {
+		case 'tracklibraries':
+			$clibraries = new libraries();
+			$libraries = $clibraries->getLibraryIdsByTrack($data['trackid']);
+			if ($libraries) {
+				$out = json_encode($libraries);
+			} else {
+				$out = '[]';
+			}
+		break;
 		case 'update':
 			if ((!empty($data['id']) && !empty($data['sale']) && ($csales->updateSale($data['id'],$data['sale'])))) {
 				$system[] = 'Sale added';
@@ -23,11 +36,18 @@ if (isset($data['action'])) {
 				$system[] = 'Error adding sale';
 			}
 		break;
+		case 'remove':
+			if (!empty($data['id']) && ($csales->removeSale($data['id']))) {
+				$system[] = 'Sale removed';
+			} else {
+				$system[] = 'Error removing sale';
+			}
+		break;
 		case 'add':
 			$page['subtitle'] = 'Add Sale';
 			$ctracks = new tracks();
 			$clibraries = new libraries();
-			$tracks = $ctracks->getTracks();
+			$tracks = $ctracks->getTracks("`name`");
 			$libraries = $clibraries->getLibraries();
 			$viewfile = "sales.add.view.php";
 		break;
@@ -47,8 +67,7 @@ if (isset($data['action'])) {
 	$salesByLibraries = $csales->getSalesByLibraries();
 	$salesByTracks = $csales->getSalesByTracks();
 	$salesByGenres = $csales->getSalesByGenres();
-	//sales by genre
-	//by library
+	$salesByYears = $csales->getSalesByYears();
 	//by license
 	//by royalty
 	//by stream

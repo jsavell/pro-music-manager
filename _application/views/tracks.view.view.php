@@ -14,10 +14,22 @@ $out .= "<div class=\"column\">
 					<td>{$track['date']}</td>
 				</tr>
 				<tr>
-					<th colspan=\"4\">Description</th>
+					<th colspan=\"2\">Description</th>
+					<th colspan=\"2\">Versions</th>
 				</tr>
 				<tr>
-					<td colspan=\"4\">{$track['description']}</td>
+					<td colspan=\"2\">{$track['description']}</td>
+					<td colspan=\"2\">";
+if(!empty($track['versions'])) {
+	$out .= '			<table>';
+	foreach ($track['versions'] as $trackVersion) {
+		$out .= "			<tr>
+								<td>{$versions[$trackVersion]['name']}</td>
+							</tr>";
+	}
+	$out .= '			</table>';
+}
+$out .= "			</td>
 				</tr>
 				<tr>
 					<th colspan=\"2\">Libraries</th>

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.6
+-- version 4.0.10deb1
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 19, 2014 at 02:59 AM
--- Server version: 5.6.16
--- PHP Version: 5.5.9
+-- Host: localhost
+-- Generation Time: Nov 25, 2014 at 01:23 AM
+-- Server version: 5.5.40-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `musicmanager`
 --
+CREATE DATABASE IF NOT EXISTS `musicmanager` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `musicmanager`;
 
 -- --------------------------------------------------------
 
@@ -230,6 +232,20 @@ CREATE TABLE IF NOT EXISTS `tracks_linktypes` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tracks_versions`
+--
+
+CREATE TABLE IF NOT EXISTS `tracks_versions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `versionid` int(11) NOT NULL,
+  `trackid` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `versionid` (`versionid`,`trackid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -241,6 +257,19 @@ CREATE TABLE IF NOT EXISTS `users` (
   `lastname` varchar(40) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `versions`
+--
+
+CREATE TABLE IF NOT EXISTS `versions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(80) NOT NULL,
+  `description` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

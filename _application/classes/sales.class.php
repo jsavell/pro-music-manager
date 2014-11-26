@@ -52,6 +52,15 @@ class sales extends dbobject {
 		return $this->executeQuery($sql);
 	}
 
+	public function getSalesByYears() {
+		$sql = "SELECT YEAR(s.`date`) AS `year`, SUM(s.`payout`) AS `yearpayout`, SUM(s.`total`) AS `yeartotal`
+			FROM `sales` s
+			GROUP BY `year`
+			HAVING `yearpayout` > 0
+			ORDER BY `year` DESC";
+		return $this->executeQuery($sql);
+	}
+
 	public function getSaleById($id) {
 		$sql = "SELECT * FROM `sales` WHERE id=:id";
 		return $this->executeQuery($sql,array(":id"=>$id))[0];
