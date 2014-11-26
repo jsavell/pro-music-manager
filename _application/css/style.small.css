@@ -1,0 +1,38 @@
+header > h1 {
+	font-size: 2em;
+}
+
+.subNav {
+	width: 100%;
+	display: block;
+}
+
+#modalContent {
+	margin-top: 240px;
+}
+
+.page-header {
+	position: relative;
+}
+
+#doSearch {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	font-size: .8em;
+}
+
+#searchTerm {
+	width: 20%;
+}
+
+td.actions a {
+	display: block;
+}
+
+#theModal {
+	width: 100%;
+	margin-left: 0;
+	left: 0;
+	top: 10%;
+}

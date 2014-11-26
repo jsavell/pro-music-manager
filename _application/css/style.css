@@ -174,7 +174,7 @@ body header > .navigation {
 	padding:12px 20px;
 	text-align: right;
 	float: right;
-	min-width: 5%
+	min-width: 5%;
 	font-size: .8em;
 }
 
@@ -197,6 +197,9 @@ body header > .navigation {
 .subNav {
 	background-color: transparent;
 	font-size: 1.1em;
+	display: inline-block;
+	vertical-align: middle;
+	min-width: 30%;
 }
 
 .subNav a {
@@ -278,13 +281,6 @@ table.list td.actions {
 	min-height: 300px;
 	margin-left: -22%;
 	z-index: 10;	
-}
-
-@media (max-width: 1044px) {
-	#theModal {
-		width: 60%;
-		margin-left: -30%;
-	}
 }
 
 #theModal .header {
