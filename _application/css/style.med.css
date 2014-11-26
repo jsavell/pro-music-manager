@@ -1,0 +1,19 @@
+#doSearch {
+	display: block;
+}
+
+#modalContent {
+	margin-top: 280px;
+}
+
+.page-header h1 {
+	margin-right: 40px;
+}
+
+.subNav {
+	min-width: 50%;
+}
+
+.subNav a {
+	min-width: 25%;
+}

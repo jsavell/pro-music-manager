@@ -36,3 +36,11 @@ td.actions a {
 	left: 0;
 	top: 10%;
 }
+
+.navigation > a {
+	min-width: 12%;
+}
+
+#userStatus {
+	padding: 12px 4px;
+}
