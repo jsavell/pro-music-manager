@@ -6,6 +6,11 @@
 	margin-top: 280px;
 }
 
+#theModal {
+	width: 80%;
+	margin-left: -40%;
+}
+
 .page-header h1 {
 	margin-right: 40px;
 }
