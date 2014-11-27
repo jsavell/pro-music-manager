@@ -44,3 +44,11 @@ td.actions a {
 #userStatus {
 	padding: 12px 4px;
 }
+
+.column {
+	display: block;
+}
+
+.column-third,.column-two-thirds {
+	width: 100%;
+}

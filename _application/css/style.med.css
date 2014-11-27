@@ -22,3 +22,11 @@
 .subNav a {
 	min-width: 25%;
 }
+
+.column {
+	display: block;
+}
+
+.column-third,.column-two-thirds {
+	width: 100%;
+}
