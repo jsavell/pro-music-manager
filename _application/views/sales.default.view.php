@@ -55,8 +55,8 @@ if (!empty($salesByLibraries)) {
 	foreach ($salesByLibraries as $sale) {
 		$out .= "		<tr>
 							<td>{$sale['library']}</td>
-							<td class=\"right\">{$sale['grandtotal']}</td>
-							<td class=\"right\">{$sale['grandpayout']}</td>
+							<td class=\"right\">\${$sale['grandtotal']}</td>
+							<td class=\"right\">\${$sale['grandpayout']}</td>
 						</tr>";
 	}
 	$out .= '	</table>';
@@ -74,8 +74,8 @@ if (!empty($salesByTracks)) {
 	foreach ($salesByTracks as $sale) {
 		$out .= "	<tr>
 						<td>{$sale['track']}</td>
-						<td class=\"right\">{$sale['grandtotal']}</td>
-						<td class=\"right\">{$sale['grandpayout']}</td>
+						<td class=\"right\">\${$sale['grandtotal']}</td>
+						<td class=\"right\">\${$sale['grandpayout']}</td>
 					</tr>";
 	}
 	$out .= '	</table>';
@@ -93,8 +93,8 @@ if (!empty($salesByGenres)) {
 	foreach ($salesByGenres as $sale) {
 		$out .= "<tr>
 					<td>{$sale['genre']}</td>
-					<td class=\"right\">{$sale['grandtotal']}</td>
-					<td class=\"right\">{$sale['grandpayout']}</td>
+					<td class=\"right\">\${$sale['grandtotal']}</td>
+					<td class=\"right\">\${$sale['grandpayout']}</td>
 				</tr>";
 	}
 	$out .= '</table>';
