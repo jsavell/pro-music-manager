@@ -27,7 +27,7 @@ echo '  <script type="text/javascript" src="'.$config['path_js'].$controller.'.j
 ?>
         <link rel="shortcut icon" href="ico/favicon.ico">
     </head>
-    <body>
+    <body class="page-<?php echo $controller;?>">
         <div id="theOverlay"></div>
         <div id="theModal">
             <div class="header">

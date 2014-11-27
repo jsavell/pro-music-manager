@@ -1,5 +1,5 @@
 header > h1 {
-	font-size: 2em;
+	font-size: 1.8em;
 }
 
 .subNav {
@@ -7,7 +7,7 @@ header > h1 {
 	display: block;
 }
 
-#modalContent {
+#modalContent,.page-sales #modalContent {
 	margin-top: 240px;
 }
 

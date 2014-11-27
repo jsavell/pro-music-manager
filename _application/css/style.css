@@ -239,6 +239,10 @@ body > .container {
 	margin-top: 210px;
 }
 
+.page-sales #modalContent {
+	margin-top: 180px;
+}
+
 /* Data presentation */
 
 table.list {
