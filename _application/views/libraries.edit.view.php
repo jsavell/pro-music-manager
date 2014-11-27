@@ -5,6 +5,7 @@ $out .= '<form class="do-submit" name="editlibrary" method="POST" action="'.$app
 			<div class="column column-half">
 				<label for="library[name]">Library</label>
 				<input type="text" name="library[name]" value="'.$library['name'].'" />
+			</div>
 			<input type="submit" name="submitlibrary" value="Update Library" />
 		</form>';
 ?>
