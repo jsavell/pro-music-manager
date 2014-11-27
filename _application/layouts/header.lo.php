@@ -69,7 +69,7 @@ if (isset($page['navigation'])) {
     echo '      </div>';
 }
 
-if (isset($page['search'])) {
+if (!empty($page['search'])) {
     echo '      <form id="doSearch" class="do-submit inline" name="search" method="POST" action="'.$app_http.'">
                     <input type="hidden" name="action" value="search" />
                     <input id="searchTerm" class="date-input-db inline" type="text" name="term" />';
