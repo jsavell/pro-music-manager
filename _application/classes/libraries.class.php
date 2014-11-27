@@ -15,6 +15,13 @@ class libraries extends dbobject {
 		return $this->queryWithIndex($sql,"id");
 	}
 
+	public function getLibrariesDetailed() {
+		$sql = "SELECT l.*, (SELECT COUNT(id) FROM libraries_tracks WHERE libraryid=l.id) AS trackcount 
+				FROM `libraries` l 
+				ORDER BY l.`name`";
+		return $this->queryWithIndex($sql,"id");
+	}
+
 	public function getLibraryById($id) {
 		$sql = "SELECT * FROM `libraries` WHERE id=:id";
 		return $this->executeQuery($sql,array(":id"=>$id))[0];

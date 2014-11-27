@@ -4,11 +4,13 @@ if (!empty($libraries)) {
 	$out .= '<table class="list">
 				<tr>
 					<th>Name</th>
+					<th>Tracks</th>
 					<th>Actions</th>
 				</tr>';
 	foreach ($libraries as $library) {
 		$out .="<tr>
 					<td>{$library['name']}</td>
+					<td class=\"center\">{$library['trackcount']}</td>
 					<td>
 						<a class=\"do-loadmodal\" href=\"{$app_http}?action=view&libraryid={$library['id']}\">View</a> | 
 						<a class=\"do-loadmodal\" href=\"{$app_http}?action=tracks&libraryid={$library['id']}\">Tracks</a> | 

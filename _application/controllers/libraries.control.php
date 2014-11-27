@@ -93,7 +93,7 @@ if (isset($data['action'])) {
 		break;
 	}
 } else {
-	$libraries = $clibraries->getLibraries();
+	$libraries = $clibraries->getLibrariesDetailed();
 	$viewfile = "libraries.default.view.php";
 }
 ?>
