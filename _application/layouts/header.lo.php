@@ -10,11 +10,21 @@
         <link rel="stylesheet" media="(min-width:921px) and (max-width: 1024px)" href="<?php echo $config['path_css'];?>style.large.css" type="text/css" />
         <link rel="stylesheet" media="(min-width:601px) and (max-width: 920px)" href="<?php echo $config['path_css'];?>style.med.css" type="text/css" />
         <link rel="stylesheet" media="(max-width: 600px)" href="<?php echo $config['path_css'];?>style.small.css" type="text/css" />
+<?php
+if (is_file("{$config['path_app']}css/{$controller}.css")) {
+echo '  <link rel="stylesheet" href="'.$config['path_css'].$controller.'.css" />';
+}
+?>
         <script type="text/javascript" src="<?php echo $config['path_js'];?>jquery.min.js"></script>
         <script type="text/javascript">
             var app_http = '<?php echo $app_http;?>';
         </script>
         <script type="text/javascript" src="<?php echo $config['path_js'];?>default.js"></script>
+<?php
+if (is_file("{$config['path_app']}js/{$controller}.js")) {
+echo '  <script type="text/javascript" src="'.$config['path_js'].$controller.'.js"></script>';
+}
+?>
         <link rel="shortcut icon" href="ico/favicon.ico">
     </head>
     <body>

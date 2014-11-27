@@ -5,10 +5,6 @@ $page['navigation'] = array(
 						array("name"=>"add","action"=>"add","modal"=>true));
 $page['search'] = false;
 
-if (empty($data['json'])) {
-	$out .= '<script type="text/javascript" src="'.$config['path_js'].'sales.js"></script>';
-}
-
 $csales = new sales();
 
 if (isset($data['action'])) {

@@ -7,9 +7,6 @@ $page['search'] = true;
 
 $clibraries = new libraries();
 
-$out .= '<link href="'.$config['path_css'].'libraries.css" type="text/css" rel="stylesheet">
-		<script type="text/javascript" src="'.$config['path_js'].'libraries.js"></script>';
-
 if (isset($data['action'])) {
 	switch ($data['action']) {
 		case 'tracks':
