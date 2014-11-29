@@ -56,7 +56,8 @@ $pages = array(
 			array("name"=>"tracks","path"=>"tracks"),
 			array("name"=>"sales","path"=>"sales"),
 			array("name"=>"libraries","path"=>"libraries"),
-			array("name"=>"genres","path"=>"genres"));
+			array("name"=>"genres","path"=>"genres"),
+			array("name"=>"imports","path"=>"imports"));
 if (!empty($data['json']) == 1) {
 	echo $out;
 } else {
