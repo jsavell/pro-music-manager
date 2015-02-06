@@ -4,6 +4,23 @@ $page['navigation'] = array(
 						array("name"=>"sales","action"=>"sales","modal"=>true));
 $page['search'] = false;
 
+function processFile($file) {
+	if (($handle = fopen($file, "r")) !== FALSE) {
+		$csvData = array();
+		$rowCount = 0;
+	    while (($csvRow = fgetcsv($handle, 1000, ",")) !== FALSE) {
+	        $num = count($csvRow);
+	        for ($c=0; $c < $num; $c++) {
+				$csvData[$rowCount][$c] = $csvRow[$c]; 
+	        }
+			$rowCount++;
+	    }
+	    fclose($handle);
+		return $csvData;
+	}
+	return false;
+}
+
 if (isset($data['action'])) {
 	switch ($data['action']) {
 		case 'sales':
@@ -17,30 +34,19 @@ if (isset($data['action'])) {
 						//todo: have the user define the correspondence between db field name and csv column
 						$salesFields = array('date','track','version','library','total','payout');
 						$fieldCount = count($salesFields);
-						if (($handle = fopen($_FILES['fileupload']['tmp_name'], "r")) !== FALSE) {
-							$csvData = array();
-							$rowCount = 0;
-						    while (($csvRow = fgetcsv($handle, 1000, ",")) !== FALSE) {
-						        $num = count($csvRow);
-						        for ($c=0; $c < $num; $c++) {
-						            $out .= "<td>{$data[$c]}</td>";
-									$csvData[$rowCount][$c] = $csvRow[$c]; 
-						        }
-								$rowCount++;
-						    }
-
-
+						if ($csvData = processFile($_FILES['fileupload']['tmp_name'])) {
+							$columnCount = count($csvData[0]);
 							$out .= '<table class="list">
 										<tr>';
-							for ($x=0;$x<$num;$x++) {
-								$out .= "	<td>
+							for ($x=0;$x<$columnCount;$x++) {
+								$out .= "	<th>
 												<select class=\"capitalize\" name=\"field{$x}\">
 													<option value=\"\"></option>";
 								foreach ($salesFields as $field) {
 									$out .= "		<option value=\"{$field}\">{$field}</option>";
 								}
 								$out .= '		</select>
-											</td>';
+											</th>';
 							}
 							$out .= '</tr>';
 						    foreach ($csvData as $row) {
@@ -52,7 +58,6 @@ if (isset($data['action'])) {
 								$out .= '</tr>';
 						    }
 							$out .= '</table>';
-						    fclose($handle);
 						}
 					break;
 				}
