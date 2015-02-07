@@ -54,6 +54,7 @@ if (isset($data['action'])) {
 				$clibraries = new libraries();
 				$tracks = $ctracks->getTracks();
 				$libraries = $clibraries->getLibraries();
+				$versions = $ctracks->getVersions();
 				$viewfile = "sales.edit.view.php";
 			}
 		break;
