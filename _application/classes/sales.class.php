@@ -13,10 +13,11 @@ class sales extends dbobject {
 	}
 
 	public function getSales() {
-		$sql = "SELECT s.*,t.`name` AS `track`,l.`name` AS `library`,'version' AS `version`
+		$sql = "SELECT s.*,t.`name` AS `track`,l.`name` AS `library`,v.`name` AS `version`
 				FROM `sales` s
 				LEFT JOIN `tracks` t ON t.`id`=s.`trackid`
 				LEFT JOIN `libraries` l ON l.`id`=s.`libraryid`
+				LEFT JOIN `versions` v ON v.`id`=s.`versionid`
 				ORDER BY `date` DESC";
 		return $this->queryWithIndex($sql,"id");
 	}
