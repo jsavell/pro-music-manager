@@ -22,6 +22,11 @@ class tracks extends dbobject {
 		return $this->executeQuery($sql,array(":id"=>$id))[0];
 	}
 
+	public function getTrackIdByName($name) {
+		$sql = "SELECT id FROM `tracks` WHERE name LIKE :name";
+		return $this->executeQuery($sql,array(":name"=>"%{$name}%"))[0]['id'];
+	}
+
 	public function getDetailedTrackById($id) {
 		$sql = "SELECT t.*,g.`name` AS `genre` FROM `tracks` t
 				LEFT JOIN `genres` g ON g.`id`=t.`genreid`

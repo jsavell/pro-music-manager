@@ -75,6 +75,10 @@ class sales extends dbobject {
 		return $this->buildInsertStatement("sales",$sale);
 	}
 
+	public function bulkInsertSales($sales) {
+		return $this->buildMultiRowInsertStatement('sales',$sales);
+	}
+
 	public function updateSale($id,$sale) {
 		return $this->buildUpdateStatement("sales",$id,$sale);
 	}
