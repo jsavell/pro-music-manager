@@ -45,6 +45,7 @@ if (isset($data['action'])) {
 			$clibraries = new libraries();
 			$tracks = $ctracks->getTracks("`name`");
 			$libraries = $clibraries->getLibraries();
+			$versions = $ctracks->getVersions();
 			$viewfile = "sales.add.view.php";
 		break;
 		case 'edit':
@@ -52,9 +53,11 @@ if (isset($data['action'])) {
 			if (!empty($data['id']) && ($sale = $csales->getSaleById($data['id']))) {
 				$ctracks = new tracks();
 				$clibraries = new libraries();
-				$tracks = $ctracks->getTracks();
+				$tracks = $ctracks->getTracks("`name`");
 				$libraries = $clibraries->getLibraries();
 				$versions = $ctracks->getVersions();
+				$trackVersions = $ctracks->getTrackVersionsById($sale['trackid']);
+				$trackLibraries = $clibraries->getLibraryIdsByTrack($sale['trackid']);
 				$viewfile = "sales.edit.view.php";
 			}
 		break;

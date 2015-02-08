@@ -17,6 +17,7 @@ echo '  <link rel="stylesheet" href="'.$config['path_css'].$controller.'.css" />
 ?>
         <script type="text/javascript" src="<?php echo $config['path_js'];?>jquery.min.js"></script>
         <script type="text/javascript">
+            var path_http = '<?php echo $config["path_http"];?>';
             var app_http = '<?php echo $app_http;?>';
         </script>
         <script type="text/javascript" src="<?php echo $config['path_js'];?>default.js"></script>

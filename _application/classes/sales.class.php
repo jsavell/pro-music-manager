@@ -63,7 +63,12 @@ class sales extends dbobject {
 	}
 
 	public function getSaleById($id) {
-		$sql = "SELECT * FROM `sales` WHERE id=:id";
+		$sql = "SELECT s.*,t.`id` AS `trackid`,t.`name` AS `track`,l.`id` AS `libraryid`,l.`name` AS `library`,v.`id` AS `versionid`,v.`name` AS `version` 
+				FROM `sales` s
+				LEFT JOIN `tracks` t ON t.`id`=s.`trackid`
+				LEFT JOIN `libraries` l ON l.`id`=s.`libraryid`
+				LEFT JOIN `versions` v ON v.`id`=s.`versionid`
+				WHERE s.id=:id";
 		return $this->executeQuery($sql,array(":id"=>$id))[0];
 	}
 

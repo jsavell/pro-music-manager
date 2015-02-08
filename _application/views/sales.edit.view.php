@@ -6,7 +6,7 @@ $out .= '<form class="do-submit" name="addsale" method="POST" action="'.$app_htt
 				<label for="sale[date]">Date</label>
 				<input type="text" name="sale[date]" value="'.$sale['date'].'" />
 				<label for="sale[trackid]">Track</label>
-				<select name="sale[trackid]">';
+				<select id="doTrackId" name="sale[trackid]">';
 if (!empty($tracks)) {
 	foreach ($tracks as $track) {
 		$out .= "	<option".(($sale['trackid'] == $track['id']) ? ' selected':'')." value=\"{$track['id']}\">{$track['name']}</option>";
@@ -16,20 +16,18 @@ $out .= '		</select>
 			</div>
 			<div class="column column-half">
 				<label for="sale[versionid]">Track Version</label>
-				<select name="sale[versionid]">';
-//todo: filter by versions of track that exist
+				<select id="doVersionId" name="sale[versionid]">';
 if (!empty($versions)) {
 	foreach ($versions as $version) {
-		$out .= "	<option".(($sale['versionid'] == $version['id']) ? ' selected':'')." value=\"{$version['id']}\">{$version['name']}</option>";
+		$out .= "	<option ".(((is_array($trackVersions) && !in_array($version['id'],$trackVersions)) || !is_array($trackVersions)) ? ' disabled':'').(($sale['versionid'] == $version['id']) ? ' selected':'')." value=\"{$version['id']}\">{$version['name']}</option>";
 	}
 }
 $out .= '		</select>
 				<label for="sale[libraryid]">Library</label>
-				<select name="sale[libraryid]">';
-//todo: filter by tracks library is in
+				<select id="doLibraryId" name="sale[libraryid]">';
 if (!empty($libraries)) {
 	foreach ($libraries as $library) {
-		$out .= "	<option".(($sale['libraryid'] == $library['id']) ? ' selected':'')." value=\"{$library['id']}\">{$library['name']}</option>";
+		$out .= "	<option ".(((is_array($trackLibraries) && !in_array($library['id'],$trackLibraries)) || !is_array($libraryVersions)) ? ' disabled':'').(($sale['libraryid'] == $library['id']) ? ' selected':'')." value=\"{$library['id']}\">{$library['name']}</option>";
 	}
 }
 $out .= '		</select>

@@ -14,6 +14,14 @@ if (isset($data['action'])) {
 		case 'versions':
 			if (!empty($data['subaction'])) {
 				switch ($data['subaction']) {
+					case 'trackversions':
+						$temp = $ctracks->getTrackVersionsById($data['trackid']);
+						$versionids = array();
+						foreach ($temp as $versionid) {
+							$versionids[] = $versionid;
+						}
+						$out .= json_encode($versionids);
+					break;
 					case 'update':
 						if ($ctracks->updateVersion($data['id'],$data['version'])) {
 							$system[] = 'Version updated';

@@ -16,17 +16,15 @@ $out .= '		</select>
 			</div>
 			<div class="column column-half">
 				<label for="sale[versionid]">Track Version</label>
-				<select name="sale[versionid]">';
-//todo: filter by versions of track that exist
+				<select id="doVersionId" name="sale[versionid]">';
 if (!empty($versions)) {
 	foreach ($versions as $version) {
-		$out .= "	<option value=\"{$version['id']}\">{$version['name']}</option>";
+		$out .= "	<option disabled value=\"{$version['id']}\">{$version['name']}</option>";
 	}
 }
 $out .= '		</select>
 				<label for="sale[libraryid]">Library</label>
 				<select id="doLibraryId" name="sale[libraryid]">';
-//todo: filter by tracks library is in
 if (!empty($libraries)) {
 	foreach ($libraries as $library) {
 		$out .= "	<option disabled value=\"{$library['id']}\">{$library['name']}</option>";
