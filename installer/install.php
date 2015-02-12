@@ -62,6 +62,24 @@ if (!empty($_POST['user'])) {
 	$dbCreate = $_POST['dbcreate'];
 	$filename = "musicmanager.sql";
 	if (is_file($filename)) {
+/* (if cpanel mode)
+include("./cpanelapi/xmlapi.php");  
+$db_host = cpanel host;  
+$cpuser = cpuser;  
+$databasename = ;//do not prepend with username
+$databaseuser = ;//api will do that for you
+$databasepass = ;
+
+$xmlapi = new xmlapi($db_host);  
+$xmlapi->set_port(2083);
+//$xmlapi->password_auth(cpuser,cppassword);  
+$xmlapi->set_output('array');//set this for browser output
+
+$createdb = $xmlapi->api1_query($cpuser, "Mysql", "adddb", array($databasename)); 
+$usr = $xmlapi->api1_query($cpuser, "Mysql", "adduser", array($databaseuser, $databasepass));  
+$addusr = $xmlapi->api1_query($cpuser, "Mysql", "adduserdb", array($databasename, $databaseuser, 'all'));  
+
+*/
 		$dsn = 'mysql:host='.$dbConfig['host'].';';
 		$opt = array(
 		    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
