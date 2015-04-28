@@ -26,10 +26,18 @@ class db {
 
 class dbobject {
 	protected $db;
+	protected $sortQueries = array();
 	
 	public function __construct() {
 		//get the DB connection
 		$this->db = db::getInstance();
+	}
+
+	protected function checkSort($sortBy) {
+		if ($sortBy && array_key_exists($sortBy,$this->sortQueries)) { 
+			return $sortBy;
+		}
+		return false;
 	}
 
 	//returns an appropriate date format function for the query language

@@ -1,13 +1,6 @@
 <?php
 class tracks extends dbobject {
-	private $sortQueries = array("name"=>"name","date"=>"`date` DESC,`name`","genre"=>"g.`name`");
-
-	protected function checkSort($sortBy) {
-		if ($sortBy && array_key_exists($sortBy,$this->sortQueries)) { 
-			return $sortBy;
-		}
-		return false;
-	}
+	protected $sortQueries = array("name"=>"name","date"=>"`date` DESC,`name`","genre"=>"g.`name`");
 
 	public function searchTracksBasic($term) {
 		$sql = "SELECT * FROM `tracks` WHERE

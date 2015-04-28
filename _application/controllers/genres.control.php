@@ -59,7 +59,8 @@ if (isset($data['action'])) {
 		break;
 	}
 } else {
-	$genres = $cgenres->getGenresDetailed();
+	$sortBy = (!empty($data['sort'])) ? $data['sort']:null;
+	$genres = $cgenres->getGenresDetailed($sortBy);
 	$viewfile = "genres.default.view.php";
 }
 ?>

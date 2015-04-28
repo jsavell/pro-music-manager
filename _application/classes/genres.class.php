@@ -1,5 +1,7 @@
 <?php
 class genres extends dbobject {
+	protected $sortQueries = array("name"=>"name","count"=>"trackcount");
+
 	public function searchGenresBasic($term) {
 		$sql = "SELECT * FROM `genres` WHERE
 		`name` LIKE ?";
@@ -15,8 +17,12 @@ class genres extends dbobject {
 		return $this->queryWithIndex($sql,"id");
 	}
 
-	public function getGenresDetailed() {
-		$sql = "SELECT g.*, (SELECT COUNT(id) FROM tracks WHERE genreid=g.id) AS trackcount FROM `genres` g ORDER BY `name`";
+	public function getGenresDetailed($sortBy=null) {
+		if (!$this->checkSort($sortBy)) {
+			$sortBy = "name";
+		}
+		$sort = $this->sortQueries[$sortBy];
+		$sql = "SELECT g.*, (SELECT COUNT(id) FROM tracks WHERE genreid=g.id) AS trackcount FROM `genres` g ORDER BY `{$sort}`";
 		return $this->queryWithIndex($sql,"id");
 	}
 

@@ -3,8 +3,8 @@ $out .= '<div class="do-results">';
 if (!empty($genres)) {
 	$out .= '<table class="list">
 				<tr>
-					<th>Name</th>
-					<th>Track Count</th>
+					<th><a class="do-sort" href="'.$app_http.'?sort=name">Name</a></th>
+					<th><a class="do-sort" href="'.$app_http.'?sort=count">Track Count</a></th>
 					<th>Actions</th>
 				</tr>';
 	foreach ($genres as $genre) {
