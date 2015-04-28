@@ -3,8 +3,8 @@ $out .= '<div class="do-results">';
 if (!empty($libraries)) {
 	$out .= '<table class="list">
 				<tr>
-					<th>Name</th>
-					<th>Tracks</th>
+					<th><a class="do-sort" href="'.$app_http.'?sort=name">Library</a></th>
+					<th><a class="do-sort" href="'.$app_http.'?sort=count">Tracks</a></th>
 					<th>Actions</th>
 				</tr>';
 	foreach ($libraries as $library) {

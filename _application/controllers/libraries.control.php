@@ -90,7 +90,8 @@ if (isset($data['action'])) {
 		break;
 	}
 } else {
-	$libraries = $clibraries->getLibrariesDetailed();
+	$sortBy = (!empty($data['sort'])) ? $data['sort']:null;
+	$libraries = $clibraries->getLibrariesDetailed($sortBy);
 	$viewfile = "libraries.default.view.php";
 }
 ?>

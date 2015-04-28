@@ -1,5 +1,7 @@
 <?php
 class libraries extends dbobject {
+	protected $sortQueries = array("name"=>"name","count"=>"trackcount");
+
 	public function searchLibrariesBasic($term) {
 		$sql = "SELECT * FROM `libraries` WHERE
 		`name` LIKE ?";
@@ -15,10 +17,14 @@ class libraries extends dbobject {
 		return $this->queryWithIndex($sql,"id");
 	}
 
-	public function getLibrariesDetailed() {
+	public function getLibrariesDetailed($sortBy=null) {
+		if (!$this->checkSort($sortBy)) {
+			$sortBy = "name";
+		}
+		$sort = $this->sortQueries[$sortBy];
 		$sql = "SELECT l.*, (SELECT COUNT(id) FROM libraries_tracks WHERE libraryid=l.id) AS trackcount 
 				FROM `libraries` l 
-				ORDER BY l.`name`";
+				ORDER BY `{$sort}`";
 		return $this->queryWithIndex($sql,"id");
 	}
 
