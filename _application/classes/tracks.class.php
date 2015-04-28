@@ -1,5 +1,14 @@
 <?php
 class tracks extends dbobject {
+	private $sortQueries = array("name"=>"name","date"=>"`date` DESC,`name`","genre"=>"g.`name`");
+
+	protected function checkSort($sortBy) {
+		if ($sortBy && array_key_exists($sortBy,$this->sortQueries)) { 
+			return $sortBy;
+		}
+		return false;
+	}
+
 	public function searchTracksBasic($term) {
 		$sql = "SELECT * FROM `tracks` WHERE
 		`name` LIKE ? OR
@@ -11,9 +20,14 @@ class tracks extends dbobject {
 		return false;
 	}
 
-	public function getTracks($sort=NULL) {
- 		$sort = ($sort) ? $sort:"`date` DESC,`name`";
-		$sql = "SELECT * FROM `tracks` ORDER BY {$sort}";
+	public function getTracks($sortBy=NULL) {
+		if (!$this->checkSort($sortBy)) {
+			$sortBy = "date";
+		}
+		$sort = $this->sortQueries[$sortBy];
+		$sql = "SELECT t.* FROM `tracks` t
+				LEFT JOIN `genres` g ON g.`id`=t.`genreid`
+				ORDER BY {$sort}";
 		return $this->queryWithIndex($sql,"id");
 	}
 

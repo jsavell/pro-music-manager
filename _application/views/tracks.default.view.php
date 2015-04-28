@@ -3,9 +3,9 @@ $out .= '<div class="do-results">';
 if (!empty($tracks)) {
 	$out .= '<table class="list">
 				<tr>
-					<th>Title</th>
-					<th>Date</th>
-					<th>Genre</th>
+					<th><a class="do-sort" href="'.$app_http.'?sort=name">Title</a></th>
+					<th><a class="do-sort" href="'.$app_http.'?sort=date">Date</a></th>
+					<th><a class="do-sort" href="'.$app_http.'?sort=genre">Genre</a></th>
 					<th>Description</th>
 					<th>Actions</th>
 				</tr>';

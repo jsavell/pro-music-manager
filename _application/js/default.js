@@ -45,6 +45,11 @@ $(document).ready(function() {
 		return false;
 	});
 
+	$(".container").on("click",".do-sort",function(e) {
+		e.preventDefault();
+		$("#modalContent .do-results").load($(this).attr("href")+" #modalContent .do-results > *");
+	});
+
 	$(".container,#theModal").on("click",".do-remove",function() {
 		isModal = ($(this).parents("#theModal").length != 0) ? true:false;
 		if (confirmAction()) {

@@ -154,7 +154,12 @@ if (isset($data['action'])) {
 		break;
 	}
 } else {
-	$tracks = $ctracks->getTracks();
+	$sortBy = null;
+	if (!empty($data['sort'])) {
+		$sortBy = $data['sort'];
+	}
+		
+	$tracks = $ctracks->getTracks($sortBy);
 	$genres = $cgenres->getGenres();		
 	$viewfile = "tracks.default.view.php";
 }

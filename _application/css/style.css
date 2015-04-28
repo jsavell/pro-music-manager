@@ -50,6 +50,10 @@ a:hover {
 	text-decoration: underline;
 }
 
+th a {
+	color: #fff;
+}
+
 /* Forms */
 
 form {
