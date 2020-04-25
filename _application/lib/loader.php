@@ -58,6 +58,7 @@ $pages = array(
 			array("name"=>"libraries","path"=>"libraries"),
 			array("name"=>"genres","path"=>"genres"));
 if (!empty($data['json']) == 1) {
+	header('Content-Type: application/json');
 	echo $out;
 } else {
 	include "{$config['path_app']}layouts/header.lo.php";
