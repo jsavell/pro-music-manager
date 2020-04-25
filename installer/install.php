@@ -27,7 +27,7 @@ if (!empty($_POST['user'])) {
     try {
 		$handle = new PDO($dsn, $dbConfig['user'], $dbConfig['password'],$opt);
  		$user['password'] = password_hash($user['password'], PASSWORD_DEFAULT);
-		$sql = "INSERT INTO `users` (`username`,`password`) VALUES (:username,:password)";
+		$sql = "INSERT INTO `users` (`username`,`password`,`lastname`,`firstname`) VALUES (:username,:password,'Last Name','First Name')";
 		$bindparams = array(":username"=>$user['username'],":password"=>$user['password']);
 		if (executeQuery($handle,$sql,$bindparams)) {
 			echo json_encode(array("result"=>1));
@@ -69,7 +69,8 @@ if (!empty($_POST['user'])) {
 		);
 	    try {
 			$handle = new PDO($dsn, $dbConfig['user'], $dbConfig['password'],$opt);
-			$sql = "CREATE USER :newuser@:host IDENTIFIED BY :password";
+			$sql = "CREATE USER :newuser@:host IDENTIFIED WITH mysql_native_password BY :password";
+
 			$bindparams = array(":newuser"=>$dbCreate['newuser'],":host"=>$dbConfig['host'],":password"=>$dbCreate['password']);
 			if (executeQuery($handle,$sql,$bindparams)) {
 				$sql = "FLUSH PRIVILEGES;";
@@ -77,8 +78,8 @@ if (!empty($_POST['user'])) {
 					$command='mysql --protocol=TCP -h ' .$dbConfig['host'].' -u '.$dbConfig['user'].' -p'.$dbConfig['password'].' < '.$filename;
 					exec($command,$output=array(),$result);
 					if ($result == 0) {
-						$sql = "GRANT ALL PRIVILEGES ON musicmanager.* TO  :newuser@:host IDENTIFIED BY :password 
-								WITH GRANT OPTION MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0";
+						unset($bindparams[':password']);
+						$sql = "GRANT ALL PRIVILEGES ON musicmanager.* TO  :newuser@:host";
 						if (executeQuery($handle,$sql,$bindparams)) {
 							echo json_encode(array("result"=>$result));
 						} else {
@@ -236,7 +237,7 @@ if (!empty($_POST['user'])) {
 				</ul>
 			</div>
 <?php
-$filepath = split('/',dirname(__FILE__));
+$filepath = explode('/',dirname(__FILE__));
 $index = count($filepath)-1;
 $paths['web'] = $filepath[$index-1];
 $paths['docroot'] = '/';
