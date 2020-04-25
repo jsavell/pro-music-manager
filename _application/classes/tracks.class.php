@@ -2,10 +2,13 @@
 class tracks extends dbobject {
 	protected $sortQueries = array("name"=>"name","date"=>"`date` DESC,`name`","genre"=>"g.`name`");
 
-	public function searchTracksBasic($term) {
+	public function searchTracksBasic($term, $showHidden=false) {
 		$sql = "SELECT * FROM `tracks` WHERE
 		`name` LIKE ? OR
 		`description` LIKE ?";
+		if (!$showHidden) {
+			$sql .= " WHERE t.statusid=0";
+		}
 		$bindparams = array("%".$term."%","%".$term."%");
 		if ($result = $this->executeQuery($sql,$bindparams)) {
 			return $result;
@@ -13,15 +16,97 @@ class tracks extends dbobject {
 		return false;
 	}
 
-	public function getTracks($sortBy=NULL) {
+	public function searchPublic($search) {
+		$conj = 'WHERE';
+		$bindparams = array();
+		$sql = "SELECT m.*,DATE_FORMAT(m.`date`,'%m/%d/%y') AS `fdate`, TIME_FORMAT(m.`length`,'%i:%s') AS `length`, g.`name` as genre
+				FROM `tracks` AS m
+				LEFT JOIN `genres` g ON m.`genreid`=g.`id` ";
+		if ($search['text']['keywords'] || $search['text']['usage'] || $search['text']['emotion']) {
+			foreach ($search['text'] as $param=>$terms) {
+				if ($terms) {
+					$sql .= "{$conj} ";
+					$conj = 'AND';
+					$keyx = explode(',',$terms);
+					$sql .= '(';
+					foreach($keyx as $comp) {
+//todo: reimplement keyword/emotion/usage search
+//						$keys = " m.`name` LIKE :track OR m.`description` LIKE :desc ".(1==2 &&(array_key_exists($param,$search['text'])) ? "OR {$param} LIKE :{$param}":"")."OR ";
+						$keys = " m.`name` LIKE :track OR m.`description` LIKE :desc OR ";
+						$keys = substr_replace($keys,' ) ',-3);
+						$sql .= $keys;
+						$bindparams[":track"] = "%".$comp."%";
+						$bindparams[":desc"] = "%".$comp."%";
+						/*if (array_key_exists($param,$search['text'])) {
+							$bindparams[":{$param}"] = "%".$comp."%";
+						}*/
+					}
+				}
+			}
+		}
+		if ($search['genreid']) {
+			$sql .= "{$conj} m.`genreid`=:genreid";
+			$conj = 'AND';
+			$bindparams[":genreid"] = $search['genreid'];
+		} elseif ($search['length']) {
+			$hasParam = true;
+			switch ($search['length']) {
+				case '00:00:29':
+					$sql .= "{$conj} m.`length` <= :length";
+				break;
+				case '00:00:30':
+				case '00:00:60':
+					$sql .= "{$conj} m.`length`= :length";
+				break;
+				case '00:02:00':
+					$sql .= "{$conj} m.`length` >= '00:01:00' AND m.`length` <= :length";
+				break;
+				case '00:03:00':
+					$sql .= "{$conj} m.`length` >= '00:02:00' AND m.`length` <= :length ";
+				break;
+				case '00:03:01':
+					$sql .= "{$conj} m.`length` >= '00:03:00' ";
+					$hasParam = false;
+				break;
+			}
+			if ($hasParam) {
+				$bindparams[":length"] = $search['length'];
+			}
+			$conj = 'AND';
+		}
+		$sql .= " {$conj} `statusid`!=1 ORDER BY `date` DESC";
+		return $this->enrichTracks($this->executeQuery($sql,$bindparams));
+	}
+
+
+	public function getTracks($sortBy=NULL, $showHidden=false) {
 		if (!$this->checkSort($sortBy)) {
 			$sortBy = "date";
 		}
 		$sort = $this->sortQueries[$sortBy];
 		$sql = "SELECT t.* FROM `tracks` t
-				LEFT JOIN `genres` g ON g.`id`=t.`genreid`
-				ORDER BY {$sort}";
-		return $this->queryWithIndex($sql,"id");
+				LEFT JOIN `genres` g ON g.`id`=t.`genreid`";
+		if (!$showHidden) {
+			$sql .= " WHERE t.statusid=0";
+		}
+		$sql .= " ORDER BY {$sort}";
+		$tracks = $this->queryWithIndex($sql,"id");
+		if ($tracks) {
+			$tracks = $this->enrichTracks($tracks);
+		}
+		return $tracks;
+	}
+
+	public function getPublicTracksByIds($trackids) {
+		$sql = "SELECT m.*,DATE_FORMAT(m.date,'%m/%d/%y') AS fdate, TIME_FORMAT(m.length,'%i:%s') AS flength, g.name as genre
+				FROM tracks AS m
+				LEFT JOIN genres g ON m.genreid=g.id";
+		$sql .= " WHERE m.id IN ({$trackids}) AND statusid!=1";
+		$sql .= " ORDER BY m.date DESC";
+		if ($tracks = $this->queryWithIndex($sql,'id')) {
+			return $this->enrichTracks($tracks);
+		}
+		return false;
 	}
 
 	public function getTrackById($id) {
@@ -42,6 +127,67 @@ class tracks extends dbobject {
 			return $track[0];
 		}
 		return false;
+	}
+
+	protected function getTrackLink($id,$typeid) {
+		$sql = "SELECT * FROM `tracks_linktypes` WHERE `id`=:typeid";
+		$bindparams = array();
+		$bindparams[":typeid"] = $typeid;
+		$linkType = $this->executeQuery($sql,$bindparams)[0];
+		if ($linkType) {
+			$url = null;
+			$siteid = NULL;
+			$sql = "SELECT * FROM `tracks_links` WHERE `musicid`=:musicid AND `typeid`=:typeid";
+			$linkResult = $this->executeQuery($sql,array(":musicid"=>$id,":typeid"=>$typeid));
+			if (!empty($linkResult[0])) {
+				$link = $linkResult[0];
+				$url = $linkType['url'];
+				if ($typeid == 11) {
+					if ($link['filename']) {
+						$url .= $link['filename'];
+					} else {
+						$url = NULL;
+					}
+				} elseif ($link['siteid'] != 0) {
+					$url .= $link['siteid'];
+					$siteid = $link['siteid'];
+				} elseif ($link['filename'] != "") {
+					$url .= $link['filename'];
+				} else {
+					$url = NULL;
+				}
+			}
+			if ($url) {
+				return array('typeid'=>$linkType['id'],'url'=>$url,'embed'=>$linkType['embed'],'siteid'=>$siteid);
+			}
+		}
+		return null;
+	}
+
+	function getTrackLibraryLink($trackid) {
+		$sql = "SELECT IF(ls.siteid!=0 OR ls.siteid IS NOT NULL, CONCAT( lt.url, ls.siteid ) , lib.url ) AS link
+				FROM `libraries_tracks` l
+				LEFT JOIN `libraries` lib ON lib.id=l.libraryid
+				LEFT JOIN `tracks_linktypes` lt ON lt.id=lib.linktypeid
+				LEFT JOIN `tracks_links` ls ON ls.typeid=lt.id AND ls.musicid=:trackid
+				WHERE l.`trackid`=:trackid2
+				LIMIT 0,1";
+		$temp = $this->executeQuery($sql,array(":trackid"=>$trackid,":trackid2"=>$trackid));
+		if (!empty($temp[0])) {
+			return $temp[0]['link'];
+		}
+		return null;
+	}
+
+	protected function enrichTracks($tracks) {
+		foreach ($tracks as &$row) {
+			$row['stratus'] = $this->getTrackLink($row['id'],11);
+			if (!$row['stratus']) {
+				$row['soundfile'] = $this->getTrackLink($row['id'],2);
+			}
+			$row['license'] = $this->getTrackLibraryLink($row['id']);
+		}
+		return $tracks;
 	}
 
 	public function getTracksByGenre($genreid) {
@@ -138,14 +284,14 @@ class tracks extends dbobject {
 	}
 
 	public function getVersions() {
-		$sql = "SELECT v.*,(SELECT COUNT(id) FROM tracks_versions WHERE versionid=v.id) AS trackcount 
-				FROM `versions` v 
+		$sql = "SELECT v.*,(SELECT COUNT(id) FROM tracks_versions WHERE versionid=v.id) AS trackcount
+				FROM `versions` v
 				ORDER BY v.`name`";
 		return $this->queryWithIndex($sql,'id');
 	}
 
 	public function getVersionById($id) {
-		$sql = "SELECT v.* FROM `versions` v 
+		$sql = "SELECT v.* FROM `versions` v
 				WHERE v.`id`=:id";
 		return $this->executeQuery($sql,array(':id'=>$id))[0];
 	}

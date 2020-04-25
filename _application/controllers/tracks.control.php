@@ -100,9 +100,9 @@ if (isset($data['action'])) {
 			if (!empty($data['term'])) {
 				$tracks = $ctracks->searchTracksBasic($data['term']);
 			} else {
-				$tracks = $ctracks->getTracks();
+				$tracks = $ctracks->getTracks(null, true);
 			}
-			$genres = $cgenres->getGenres();		
+			$genres = $cgenres->getGenres();
 			$viewfile = "tracks.default.view.php";
 		break;
 		case 'remove':
@@ -127,7 +127,7 @@ if (isset($data['action'])) {
 		case 'edit':
 			$page['subtitle'] = 'Edit Track';
 			if (!empty($data['trackid']) && ($track = $ctracks->getTrackById($data['trackid']))) {
-				$genres = $cgenres->getGenres();		
+				$genres = $cgenres->getGenres();
 				$versions = $ctracks->getVersions();
 				$track['versions'] = $ctracks->getTrackVersionsById($data['trackid']);
 				$viewfile = "tracks.edit.view.php";
@@ -142,7 +142,7 @@ if (isset($data['action'])) {
 		break;
 		case 'add':
 			$page['subtitle'] = 'Add Track';
-			$genres = $cgenres->getGenres();		
+			$genres = $cgenres->getGenres();
 			$viewfile = "tracks.add.view.php";
 		break;
 		case 'view':
@@ -158,9 +158,9 @@ if (isset($data['action'])) {
 	if (!empty($data['sort'])) {
 		$sortBy = $data['sort'];
 	}
-		
-	$tracks = $ctracks->getTracks($sortBy);
-	$genres = $cgenres->getGenres();		
+
+	$tracks = $ctracks->getTracks($sortBy, true);
+	$genres = $cgenres->getGenres();
 	$viewfile = "tracks.default.view.php";
 }
 ?>
