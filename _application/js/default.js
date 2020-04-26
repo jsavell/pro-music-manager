@@ -34,7 +34,11 @@ $(document).ready(function() {
 			url: app_http,
 			data: $(this).serialize(),
 		}).done(function() {
-			$("#theModal .do-results").load($form.children("#refreshUrl").val()+" #modalContent .do-results > *",$(this).serialize(),function() {
+			var refreshUrl = $form.children("#refreshUrl").val();
+			if (!refreshUrl) {
+				refreshUrl = $form.children('input[name="refresh_url"]').val();
+			}
+			$("#theModal .do-results").load(refreshUrl+" #modalContent .do-results > *",$(this).serialize(),function() {
 			});
 		});
 		return false;
@@ -69,11 +73,15 @@ $(document).ready(function() {
 
 	$("#theModal").on("click",".do-remove-inline",function(e) {
 		e.preventDefault();
+		var refreshUrl = $("#refreshUrl").val();
+		if (!refreshUrl) {
+			refreshUrl = $(this).attr("data-refresh-url");
+		}
 		$.ajax({
 			type: "GET",
 			url: $(this).attr("href")
 		}).done(function() {
-			$("#theModal .do-results").load($("#refreshUrl").val()+" #modalContent .do-results > *");
+			$("#theModal .do-results").load(refreshUrl+" #modalContent .do-results > *");
 		});
 	});
 

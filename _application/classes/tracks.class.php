@@ -251,13 +251,7 @@ class tracks extends dbobject {
 	}
 
 	public function addEmotion($trackid,$emotion) {
-		if (!($emotionid = $this->findEmotion($emotion))) {
-			$emotionid = $this->buildInsertStatement("emotions",array('name'=>$emotion));
-		}
-		if ($emotionid) {
-			return $this->addEmotionToTrack($trackid,$emotionid);
-		}
-		return false;
+		return $this->buildInsertStatement("emotions",array('name'=>$emotion));
 	}
 
 	public function addEmotionToTrack($trackid,$emotionid) {
@@ -272,7 +266,12 @@ class tracks extends dbobject {
 		$sql = "SELECT k.id,k.name FROM `tracks_emotions` tk
 				LEFT JOIN `emotions` k ON k.id=tk.emotionid
 				WHERE `trackid`=:trackid ORDER BY `name`";
-		return $this->executeQuery($sql,array(":trackid"=>$trackid));
+		return $this->queryWithIndex($sql,'id',null,array(":trackid"=>$trackid));
+	}
+
+	public function getEmotions() {
+		$sql = "SELECT * FROM `emotions` k ORDER BY `name`";
+		return $this->executeQuery($sql);
 	}
 
 	public function insertVersion($version) {

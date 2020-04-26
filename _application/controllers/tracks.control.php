@@ -64,7 +64,7 @@ if (isset($data['action'])) {
 						}
 					break;
 					case 'insert':
-						if (!empty($data['trackid']) && !empty($data['emotion']) && ($ctracks->addEmotion($data['trackid'],$data['emotion']))) {
+						if (!empty($data['trackid']) && !empty($data['emotionid']) && ($ctracks->addEmotionToTrack($data['trackid'],$data['emotionid']))) {
 							$system[] = 'Emotion added';
 						}
 					break;
@@ -72,6 +72,7 @@ if (isset($data['action'])) {
 			} else {
 				$track['id'] = $data['trackid'];
 				$trackEmotions = $ctracks->getEmotionsByTrack($track['id']);
+				$emotions = $ctracks->getEmotions();
 				$viewfile = "tracks.emotions.view.php";
 			}
 		break;
