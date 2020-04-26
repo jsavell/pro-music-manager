@@ -78,24 +78,8 @@ if (isset($data['action'])) {
 		break;
 		case 'keywords':
 			$page['subtitle'] = 'Track Keywords';
-			if (!empty($data['subaction'])) {
-				switch ($data['subaction']) {
-					case 'remove':
-						if (!empty($data['trackid']) && !empty($data['keywordid']) && ($ctracks->removeTrackKeyWord($data['trackid'],$data['keywordid']))) {
-							$system[] = 'Keyword removed';
-						}
-					break;
-					case 'insert':
-						if (!empty($data['trackid']) && !empty($data['keyword']) && ($ctracks->addKeyWord($data['trackid'],$data['keyword']))) {
-							$system[] = 'Keyword added';
-						}
-					break;
-				}
-			} else {
-				$track['id'] = $data['trackid'];
-				$trackKeywords = $ctracks->getKeyWordsByTrack($track['id']);
-				$viewfile = "tracks.keywords.view.php";
-			}
+			$track = $ctracks->getTrackById($data['trackid']);
+			$viewfile = "tracks.keywords.view.php";
 		break;
 		case 'search':
 			if (!empty($data['term'])) {

@@ -77,18 +77,6 @@ CREATE TABLE IF NOT EXISTS `genres` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `keywords`
---
-
-CREATE TABLE IF NOT EXISTS `keywords` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(40) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `libraries`
 --
 
@@ -164,6 +152,7 @@ CREATE TABLE IF NOT EXISTS `tracks` (
   `length` time NOT NULL,
   `date` date NOT NULL,
   `statusid` int(11) NOT NULL,
+  `keywords` TEXT NULL,
   PRIMARY KEY (`id`),
   KEY `genreid` (`genreid`),
   KEY `statusid` (`statusid`)
@@ -181,20 +170,6 @@ CREATE TABLE IF NOT EXISTS `tracks_emotions` (
   `emotionid` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `trackid` (`trackid`,`emotionid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tracks_keywords`
---
-
-CREATE TABLE IF NOT EXISTS `tracks_keywords` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `trackid` int(11) NOT NULL,
-  `keywordid` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `trackid` (`trackid`,`keywordid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------

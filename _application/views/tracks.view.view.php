@@ -1,4 +1,5 @@
 <?php
+$out .= '<div class="do-results">';
 $out .= "<div class=\"column\">
 			<table class=\"list\">
 				<tr>
@@ -36,7 +37,7 @@ $out .= "			</td>
 					<th colspan=\"2\">Keywords</th>
 				</tr>
 				<tr>
-					<td rowspan=\"3\" colspan=\"2\">";
+					<td rowspan=\"3\" colspan=\"2\" valign=\"top\">";
 if (!empty($track['libraries'])) {
 	$out .= '			<table>
 							<tr>
@@ -54,10 +55,7 @@ if (!empty($track['libraries'])) {
 $out .= "			</td>
 					<td colspan=\"2\">";
 if (!empty($track['keywords'])) {
-	foreach ($track['keywords'] as $keyword) {
-		$out .= "{$keyword['name']},";
-	}
-	$out = rtrim($out,',');
+	$out .= $track['keywords'];
 }
 $out .= "</td>
 				</tr>
@@ -76,4 +74,5 @@ $out .= "			</td>
 				</tr>
 			</table>
 		</div>";
+$out .= '</div>';
 ?>
