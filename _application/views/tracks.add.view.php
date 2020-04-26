@@ -13,6 +13,11 @@ if (!empty($genres)) {
 	}
 }
 $out .= '		</select>
+				<label for="track[statusid]">Status</label>
+				<select name="track[statusid]">
+					<option value="0">Public</option>
+					<option value="1">Hidden</option>
+				</select>
 			</div>
 			<div class="column column-half">
 				<label for="track[length]">Length</label>

@@ -14,13 +14,18 @@ if (!empty($genres)) {
 	}
 }
 $out .= '		</select>
+				<label for="track[statusid]">Status</label>
+				<select name="track[statusid]">
+					<option'.(($track['statusid'] == 0) ? ' selected':'').' value="0">Public</option>
+					<option'.(($track['statusid'] == 1) ? ' selected':'').' value="1">Hidden</option>
+				</select>
 			</div>
 			<div class="column column-third">
 				<label for="track[length]">Length</label>
 				<input type="text" name="track[length]" value="'.$track['length'].'" />
 				<label for="track[date]">Date</label>
 				<input type="text" name="track[date]" value="'.$track['date'].'" />
-				
+
 			</div>
 			<div class="column column-third">
 				<label for="versionids[]">Track Versions</label>
