@@ -24,5 +24,6 @@ $sitePages = array(
 			"Tracks" => new CoreClasses\CoreSitePage("tracks","tracks",SECURITY_USER),
 			"Sales" => new CoreClasses\CoreSitePage("sales","sales",SECURITY_USER),
 			"Libraries" => new CoreClasses\CoreSitePage("libraries","libraries",SECURITY_USER),
-			"Genres" => new CoreClasses\CoreSitePage("genres","genres",SECURITY_USER));
+			"Genres" => new CoreClasses\CoreSitePage("genres","genres",SECURITY_USER),
+			"Api" => new CoreClasses\CoreSitePage("api","api",SECURITY_PUBLIC));
 ?>

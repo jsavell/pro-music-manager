@@ -1,6 +1,5 @@
 <?php
-$accesslevel = -1;
-$controller = 'api';
-include "./_application/config/config.php";
-include "{$config['path_lib']}loader.php";
+include "./App/Config/config.php";
+$controllerConfig = array('name'=>'Api');
+include PATH_LIB."loader.php";
 ?>
