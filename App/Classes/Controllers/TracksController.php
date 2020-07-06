@@ -89,6 +89,13 @@ class TracksController extends AppController {
 		$this->setViewName("tracks.default");
 	}
 
+	public function keywords() {
+		$this->getPage()->setSubTitle('Track Keywords');
+		$data = $this->getInputData();
+		$this->getViewRenderer()->registerViewVariable("track", $this->tracksRepo->getTrackById($data['trackid']));
+		$this->setViewName("tracks.keywords");
+	}
+
 	public function view() {
 		$this->getPage()->setSubTitle('View Track');
 		$data = $this->getInputData();
@@ -167,12 +174,6 @@ if (isset($data['action'])) {
 				$viewfile = "tracks.emotions.view.php";
 			}
 		break;
-		case 'keywords':
-			$page['subtitle'] = 'Track Keywords';
-			$track = $ctracks->getTrackById($data['trackid']);
-			$viewfile = "tracks.keywords.view.php";
-		break;
-
 	}
 */
 ?>
