@@ -274,7 +274,7 @@ class Tracks extends AppDatabaseRepository {
 	}
 
 	public function deleteAllTrackVersions($trackid) {
-		return $this->delete("tracks_versions",array("trackid"=>$trackid));
+		return $this->executeQuery("DELETE FROM tracks_versions where trackid=:trackid", array(":trackid"=>$trackid));
 	}
 
 	public function deleteTrackVersions($ids) {
@@ -305,7 +305,7 @@ class Tracks extends AppDatabaseRepository {
 			}
 		}
 		if ($newVersions) {
-			return $this->buildMultiRowInsertStatement("tracks_versions",$newVersions);
+			return $this->buildMultiRowInsertStatement($newVersions, "tracks_versions");
 		}
 		return false;
 	}

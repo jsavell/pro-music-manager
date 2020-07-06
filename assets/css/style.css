@@ -347,9 +347,9 @@ table.list td.actions {
 	border: 1px solid #555;
 	background-color: #fff;
 	position: fixed;
-	top: 22%;
-	left: 50%;
-	width: 44%;
+	top: 10%;
+	left: 36%;
+	width: 74%;
 	min-height: 300px;
 	margin-left: -22%;
 	z-index: 10;

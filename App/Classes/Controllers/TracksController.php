@@ -42,6 +42,32 @@ class TracksController extends AppController {
 		$this->setViewName("tracks.add");
 	}
 
+	public function update() {
+		$data = $this->getInputData();
+		if ((!empty($data['trackid']) && !empty($data['track'])) && $this->tracksRepo->update($data['trackid'],$data['track'])) {
+			if (is_array($data['versionids'])) {
+				$this->tracksRepo->updateTrackVersions($data['trackid'],$data['versionids']);
+			} else {
+				$this->tracksRepo->deleteAllTrackVersions($data['trackid']);
+			}
+			$this->getSite()->addSystemMessage('Track updated');
+		} else {
+			$this->getSite()->addSystemError('Error updating track');
+		}
+	}
+
+	public function edit() {
+		$this->getPage()->setSubTitle('Edit Track');
+		$data = $this->getInputData();
+		if (!empty($data['trackid']) && ($track = $this->tracksRepo->getTrackById($data['trackid']))) {
+			$this->getViewRenderer()->registerViewVariable("genres", $this->genresRepo->getGenres());
+			$this->getViewRenderer()->registerViewVariable("versions", $this->tracksRepo->getVersions());
+			$track['versions'] = $this->tracksRepo->getTrackVersionsById($data['trackid']);
+			$this->getViewRenderer()->registerViewVariable("track", $track);
+			$this->setViewName("tracks.edit");
+		}
+	}
+
 	public function remove() {
 		$data = $this->getInputData();
 		if (!empty($data['trackid']) && $this->tracksRepo->removeById($data['trackid'])) {
@@ -49,6 +75,18 @@ class TracksController extends AppController {
 		} else {
 			$this->getSite()->addSystemError('Error removing track');
 		}
+	}
+
+	public function search() {
+		$data = $this->getInputData();
+		if (!empty($data['term'])) {
+			$tracks = $this->tracksRepo->searchTracksBasic($data['term'], true);
+		} else {
+			$tracks = $this->tracksRepo->getTracks(null, true);
+		}
+		$this->getViewRenderer()->registerViewVariable("tracks", $tracks);
+		$this->getViewRenderer()->registerViewVariable("genres", $this->genresRepo->getGenres());
+		$this->setViewName("tracks.default");
 	}
 
 	public function view() {
@@ -133,36 +171,6 @@ if (isset($data['action'])) {
 			$page['subtitle'] = 'Track Keywords';
 			$track = $ctracks->getTrackById($data['trackid']);
 			$viewfile = "tracks.keywords.view.php";
-		break;
-		case 'search':
-			if (!empty($data['term'])) {
-				$tracks = $ctracks->searchTracksBasic($data['term']);
-			} else {
-				$tracks = $ctracks->getTracks(null, true);
-			}
-			$genres = $cgenres->getGenres();
-			$viewfile = "tracks.default.view.php";
-		break;
-		case 'update':
-			if ((!empty($data['trackid']) && !empty($data['track'])) && $ctracks->updateTrack($data['trackid'],$data['track'])) {
-				if (is_array($data['versionids'])) {
-					$ctracks->updateTrackVersions($data['trackid'],$data['versionids']);
-				} else {
-					$ctracks->deleteAllTrackVersions($data['trackid']);
-				}
-				$system[] = 'Track updated';
-			} else {
-				$system[] = 'Error updating track';
-			}
-		break;
-		case 'edit':
-			$page['subtitle'] = 'Edit Track';
-			if (!empty($data['trackid']) && ($track = $ctracks->getTrackById($data['trackid']))) {
-				$genres = $cgenres->getGenres();
-				$versions = $ctracks->getVersions();
-				$track['versions'] = $ctracks->getTrackVersionsById($data['trackid']);
-				$viewfile = "tracks.edit.view.php";
-			}
 		break;
 
 	}

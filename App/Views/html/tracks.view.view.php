@@ -1,6 +1,7 @@
 <div class="do-results">
 <?php
 $track = $parameters['track'];
+$versions = $parameters['versions'];
 echo "<div class=\"column\">
 			<table class=\"list\">
 				<tr>
@@ -65,13 +66,14 @@ echo "</td>
 				</tr>
 				<tr>
 					<td colspan=\"2\">";
+$emotions = "";
 if (!empty($track['emotions'])) {
 	foreach ($track['emotions'] as $emotion) {
-		echo "{$emotion['name']},";
+		$emotions .= "{$emotion['name']},";
 	}
-	$out = rtrim($out,',');
+	echo rtrim($emotions,',');
 }
-echo "			</td>
+echo "				</td>
 				</tr>
 			</table>
 		</div>";

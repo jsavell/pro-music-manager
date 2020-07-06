@@ -38,6 +38,8 @@ if (!empty($sitePages)) {
 if (!empty($GLOBALS[DYNAMIC_REPOSITORY_KEY])) {
 	$config[DYNAMIC_REPOSITORY_KEY] = $GLOBALS[DYNAMIC_REPOSITORY_KEY];
 	unset($GLOBALS[DYNAMIC_REPOSITORY_KEY]);
+} else {
+	$config[DYNAMIC_REPOSITORY_KEY] = null;
 }
 
 if (!empty($forceRedirectUrl)) {
