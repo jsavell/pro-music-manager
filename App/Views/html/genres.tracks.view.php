@@ -1,18 +1,19 @@
 <?php
-$out .= '<div class="do-results">';
+$tracks = $parameters['tracks'];
+echo '<div class="do-results">';
 if (!empty($tracks)) {
-	$out .= '<table class="list">
+	echo '<table class="list">
 				<tr>
 					<th>Track</th>
 				</tr>';
 	foreach ($tracks as $track) {
-		$out .="<tr>
+		echo"<tr>
 					<td>{$track['name']}</td>
 				</tr>";
 	}
-	$out .= '</table>';
+	echo '</table>';
 } else {
-	$out .= 'No tracks in this genre';
+	echo 'No tracks in this genre';
 }
-$out .= '</div>';
+echo '</div>';
 ?>

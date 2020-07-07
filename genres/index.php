@@ -1,5 +1,5 @@
 <?php
-$controller = 'genres';
-include "../_application/config/config.php";
-include "{$config['path_lib']}loader.php";
+include "./../App/Config/config.php";
+$controllerConfig = array('name'=>'Genres');
+include PATH_LIB."loader.php";
 ?>

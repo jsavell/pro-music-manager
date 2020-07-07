@@ -71,7 +71,8 @@ $(document).ready(function() {
 		return false;
 	});
 
-	$("#theModal").on("submit",".do-remove-inline",function() {
+	$(".container,#theModal").on("submit",".do-remove-inline",function() {
+		isModal = ($(this).parents("#theModal").length != 0) ? true:false;
 		if (confirmAction()) {
 			$form = $(this);
 			$.ajax({
@@ -79,12 +80,16 @@ $(document).ready(function() {
 				url: app_http,
 				data: $(this).serialize(),
 			}).done(function() {
-				var refreshUrl = $form.children("#refreshUrl").val();
-				if (!refreshUrl) {
-					refreshUrl = $form.children('input[name="refresh_url"]').val();
+				if (isModal) {
+					var refreshUrl = $form.children("#refreshUrl").val();
+					if (!refreshUrl) {
+						refreshUrl = $form.children('input[name="refresh_url"]').val();
+					}
+					$("#theModal .do-results").load(refreshUrl+" #modalContent .do-results > *",$(this).serialize(),function() {
+					});
+				} else {
+					$("#modalContent .do-results").load(app_http+"/ #modalContent .do-results > *");
 				}
-				$("#theModal .do-results").load(refreshUrl+" #modalContent .do-results > *",$(this).serialize(),function() {
-				});
 			});
 		}
 		return false;
