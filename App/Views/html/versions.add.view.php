@@ -1,5 +1,5 @@
 <?php
-$out .= '<form class="do-submit" name="addversion" method="POST" action="'.$app_http.'">
+echo '<form class="do-submit" name="addversion" method="POST" action="'.$app_http.'">
 			<input type="hidden" name="action" value="versions" />
 			<input type="hidden" name="subaction" value="insert" />
 			<div class="column column-half">

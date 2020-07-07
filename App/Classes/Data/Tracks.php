@@ -200,16 +200,6 @@ class Tracks extends AppDatabaseRepository {
 		return $this->executeQuery($sql,array(":genreid"=>$genreid));
 	}
 
-	public function removeTrack($id) {
-//TODO: delete ancillary track records
-		$sql = "DELETE FROM `tracks` WHERE id=:id";
-		return $this->executeUpdate($sql,array(":id"=>$id));
-	}
-
-	public function updateTrack($id,$track) {
-		return $this->buildUpdateStatement("tracks",$id,$track);
-	}
-
 	public function findEmotion($emotion) {
 		$sql = "SELECT * FROM `emotions` WHERE `name` = :emotion";
 		if ($temp = $this->executeQuery($sql,array(":emotion"=>$emotion))) {
@@ -243,11 +233,11 @@ class Tracks extends AppDatabaseRepository {
 	}
 
 	public function insertVersion($version) {
-		return $this->buildInsertStatement('versions',$version);
+		return $this->buildInsertStatement($version,'versions');
 	}
 
 	public function updateVersion($id,$version) {
-		return $this->buildUpdateStatement('versions',$id,$version);
+		return $this->buildUpdateStatement($id,$version,'versions');
 	}
 
 	public function getVersions() {

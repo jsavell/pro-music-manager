@@ -120,6 +120,44 @@ class TracksController extends AppController {
 		}
 	}
 
+	public function versions() {
+		$this->getPage()->setSubTitle('Track Versions');
+		$this->getViewRenderer()->registerViewVariable("versions", $this->tracksRepo->getVersions());
+		$this->setViewName('versions.default');
+	}
+
+	public function versionsInsert() {
+		$data = $this->getInputData();
+		if ($this->tracksRepo->insertVersion($data['version'])) {
+			$this->getSite()->addSystemMessage('Version added');
+		} else {
+			$this->getSite()->addSystemError('Error adding version');
+		}
+	}
+
+	public function versionsAdd() {
+		$this->getPage()->setSubTitle('Add Version');
+		$this->setViewName('versions.add');
+	}
+
+	public function versionsUpdate() {
+		$data = $this->getInputData();
+		if ($this->tracksRepo->updateVersion($data['id'],$data['version'])) {
+			$this->getSite()->addSystemMessage('Version updated');
+		} else {
+			$this->getSite()->addSystemError('Error updating version');
+		}
+	}
+
+	public function versionsEdit() {
+		$this->getPage()->setSubTitle('Edit Version');
+		$data = $this->getInputData();
+		if (!empty($data['id'])) {
+			$this->getViewRenderer()->registerViewVariable("version", $this->tracksRepo->getVersionById($data['id']));
+			$this->setViewName('versions.edit');
+		}
+	}
+
 	public function view() {
 		$this->getPage()->setSubTitle('View Track');
 		$data = $this->getInputData();
@@ -130,52 +168,4 @@ class TracksController extends AppController {
 		}
 	}
 }
-/*
-if (isset($data['action'])) {
-	switch ($data['action']) {
-		case 'versions':
-			if (!empty($data['subaction'])) {
-				switch ($data['subaction']) {
-					case 'trackversions':
-						$temp = $ctracks->getTrackVersionsById($data['trackid']);
-						$versionids = array();
-						foreach ($temp as $versionid) {
-							$versionids[] = $versionid;
-						}
-						$out .= json_encode($versionids);
-					break;
-					case 'update':
-						if ($ctracks->updateVersion($data['id'],$data['version'])) {
-							$system[] = 'Version updated';
-						} else {
-							$system[] = 'Error updating version';
-						}
-					break;
-					case 'insert':
-						if ($ctracks->insertVersion($data['version'])) {
-							$system[] = 'Version added';
-						} else {
-							$system[] = 'Error adding version';
-						}
-					break;
-					case 'edit':
-						if (!empty($data['id'])) {
-							$page['subtitle'] = 'Edit Version';
-							$version = $ctracks->getVersionById($data['id']);
-							$viewfile = 'versions.edit.view.php';
-						}
-					break;
-					case 'add':
-						$page['subtitle'] = 'Add Version';
-						$viewfile = 'versions.add.view.php';
-					break;
-				}
-			} else {
-				$page['subtitle'] = 'Track Versions';
-				$versions = $ctracks->getVersions();
-				$viewfile = 'versions.default.view.php';
-			}
-		break;
-	}
-*/
 ?>
