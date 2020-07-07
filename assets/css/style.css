@@ -81,8 +81,8 @@ input[type=submit].small, a.button.small {
 	font-size: 1em;
 }
 
-.bubble.selected {
-	background-color: #1AA1E1;
+.bubble.selected, input[type=submit].bubble.selected {
+	background: #1AA1E1;
 	color: #fff;
 }
 
@@ -96,7 +96,7 @@ input[type=submit].small, a.button.small {
 	cursor: pointer;
 }
 
-.bubble.selected:hover {
+.bubble.selected:hover, input[type=submit].bubble.selected:hover {
 	background-color: #FFCECE;
 	color: #555;
 	-webkit-box-shadow: -1px 3px 5px 0px rgba(0,0,0,0.2);
@@ -112,7 +112,7 @@ form {
 	padding: 0px;
 }
 
-form.do-submit-inline {
+form.do-submit-inline, form.do-remove-inline {
 	display: inline;
 }
 

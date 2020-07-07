@@ -223,11 +223,11 @@ class Tracks extends AppDatabaseRepository {
 	}
 
 	public function addEmotionToTrack($trackid,$emotionid) {
-		return $this->buildInsertStatement("tracks_emotions",array('trackid'=>$trackid,'emotionid'=>$emotionid));
+		return $this->buildInsertStatement(array('trackid'=>$trackid,'emotionid'=>$emotionid),"tracks_emotions");
 	}
 
 	public function removeTrackEmotion($trackid,$emotionid) {
-		return $this->delete("tracks_emotions",array('trackid'=>$trackid,'emotionid'=>$emotionid));
+		return $this->executeQuery("DELETE FROM tracks_emotions WHERE trackid=:trackid AND emotionid=:emotionid", array(":trackid"=>$trackid,":emotionid"=>$emotionid));
 	}
 
 	public function getEmotionsByTrack($trackid) {

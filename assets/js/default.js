@@ -71,21 +71,23 @@ $(document).ready(function() {
 		return false;
 	});
 
-	$("#theModal").on("click",".do-remove-inline",function(e) {
-		e.preventDefault();
+	$("#theModal").on("submit",".do-remove-inline",function() {
 		if (confirmAction()) {
-			var refreshUrl = $("#refreshUrl").val();
-			if (!refreshUrl) {
-				refreshUrl = $(this).attr("data-refresh-url");
-			}
+			$form = $(this);
 			$.ajax({
 				type: "POST",
 				url: app_http,
-				data: $(this).serialize()
+				data: $(this).serialize(),
 			}).done(function() {
-				$("#theModal .do-results").load(refreshUrl+" #modalContent .do-results > *");
+				var refreshUrl = $form.children("#refreshUrl").val();
+				if (!refreshUrl) {
+					refreshUrl = $form.children('input[name="refresh_url"]').val();
+				}
+				$("#theModal .do-results").load(refreshUrl+" #modalContent .do-results > *",$(this).serialize(),function() {
+				});
 			});
 		}
+		return false;
 	});
 
 	$("#theModal").on("submit",".do-submit",function() {

@@ -96,6 +96,30 @@ class TracksController extends AppController {
 		$this->setViewName("tracks.keywords");
 	}
 
+	public function emotions() {
+		$this->getPage()->setSubTitle('Track Emotions');
+		$data = $this->getInputData();
+		$track['id'] = $data['trackid'];
+		$this->getViewRenderer()->registerViewVariable("track",$track);
+		$this->getViewRenderer()->registerViewVariable("trackEmotions",$this->tracksRepo->getEmotionsByTrack($track['id']));
+		$this->getViewRenderer()->registerViewVariable("emotions", $this->tracksRepo->getEmotions());
+		$this->setViewName("tracks.emotions");
+	}
+
+	public function emotionsInsert() {
+		$data = $this->getInputData();
+		if (!empty($data['trackid']) && !empty($data['emotionid']) && ($this->tracksRepo->addEmotionToTrack($data['trackid'],$data['emotionid']))) {
+			$this->getSite()->addSystemMessage('Emotion added');
+		}
+	}
+
+	public function emotionsRemove() {
+		$data = $this->getInputData();
+		if (!empty($data['trackid']) && !empty($data['emotionid']) && ($this->tracksRepo->removeTrackEmotion($data['trackid'],$data['emotionid']))) {
+			$this->getSite()->addSystemMessage('Emotion removed');
+		}
+	}
+
 	public function view() {
 		$this->getPage()->setSubTitle('View Track');
 		$data = $this->getInputData();
@@ -150,28 +174,6 @@ if (isset($data['action'])) {
 				$page['subtitle'] = 'Track Versions';
 				$versions = $ctracks->getVersions();
 				$viewfile = 'versions.default.view.php';
-			}
-		break;
-		case 'emotions':
-			$page['subtitle'] = 'Track Emotions';
-			if (!empty($data['subaction'])) {
-				switch ($data['subaction']) {
-					case 'remove':
-						if (!empty($data['trackid']) && !empty($data['emotionid']) && ($ctracks->removeTrackEmotion($data['trackid'],$data['emotionid']))) {
-							$system[] = 'Emotion removed';
-						}
-					break;
-					case 'insert':
-						if (!empty($data['trackid']) && !empty($data['emotionid']) && ($ctracks->addEmotionToTrack($data['trackid'],$data['emotionid']))) {
-							$system[] = 'Emotion added';
-						}
-					break;
-				}
-			} else {
-				$track['id'] = $data['trackid'];
-				$trackEmotions = $ctracks->getEmotionsByTrack($track['id']);
-				$emotions = $ctracks->getEmotions();
-				$viewfile = "tracks.emotions.view.php";
 			}
 		break;
 	}
