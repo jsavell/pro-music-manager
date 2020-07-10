@@ -44,16 +44,6 @@ class Libraries extends AppDatabaseRepository {
 		return $this->executeQuery($sql,array(":id"=>$id))[0];
 	}
 
-	public function removeLibrary($id) {
-//TODO: handle tracks tied to the library being removed
-		$sql = "DELETE FROM `libraries` WHERE id=:id";
-		return $this->executeUpdate($sql,array(":id"=>$id));
-	}
-
-	public function insertLibrary($library) {
-		return $this->buildInsertStatement("libraries",$library);
-	}
-
 	public function updateLibrary($id,$library) {
 		return $this->buildUpdateStatement("libraries",$id,$library);
 	}
@@ -81,12 +71,12 @@ class Libraries extends AppDatabaseRepository {
 		return false;
 	}
 
-	public function updateLibraryTrack($libraryid,$trackid,$data) {
-		return $this->buildKeyedUpdateStatement("libraries_tracks",array("trackid"=>$trackid,"libraryid"=>$libraryid),$data);
+	public function updateLibraryTrack($libraryTrackId,$data) {
+		return $this->buildUpdateStatement($libraryTrackId, $data, "libraries_tracks");
 	}
 
 	public function getLibraryTracks($libraryid) {
-		$sql = "SELECT t.*,lt.`statusid`,lt.`date_added`
+		$sql = "SELECT t.*,t.id as `trackid`, lt.`id`, lt.`statusid`,lt.`date_added`
 				FROM `tracks` t
 				LEFT JOIN `libraries_tracks` lt ON t.`id`=lt.`trackid`
 				WHERE lt.`libraryid`=:libraryid";

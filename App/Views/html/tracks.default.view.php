@@ -23,8 +23,7 @@ if (!empty($tracks)) {
 						<a class=\"button small do-loadmodal\" href=\"{$app_http}?action=edit&trackid={$track['id']}\">Edit</a>
 						<a class=\"button small do-loadmodal\" href=\"{$app_http}?action=keywords&trackid={$track['id']}\">Keywords</a>
 						<a class=\"button small do-loadmodal\" href=\"{$app_http}?action=emotions&trackid={$track['id']}\">Emotions</a>";
-						/*<a class=\"do-remove\" href=\"{$app_http}?action=remove&trackid={$track['id']}\">Remove</a>*/
-		echo			'<form class="do-submit-inline" name="removetrack" method="POST" action="'.$app_http.'">
+		echo			'<form class="do-remove-inline" name="removetrack" method="POST" action="'.$app_http.'">
 							<input type="hidden" name="action" value="remove" />
 							<input type="hidden" name="trackid" value="'.$track['id'].'" />
 							<input type="submit" class="small" name="submitremove" value="Remove" />

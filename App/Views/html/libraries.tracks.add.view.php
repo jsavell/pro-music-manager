@@ -1,13 +1,16 @@
 <?php
-$out .= '<div class="column column-third">
+$tracks = $parameters['tracks'];
+$library = $parameters['library'];
+
+echo '<div class="column column-third">
 			<h4>Available Tracks</h4>
  			<div id="doAddable">';
 if (!empty($tracks)) {
 	foreach ($tracks as $track) {
-		$out .= "<a class=\"do-add-track\" href=\"#\" data-trackid=\"{$track['id']}\" data-name=\"{$track['name']}\">{$track['name']}</a><br />";
+		echo "<a class=\"do-add-track\" href=\"#\" data-trackid=\"{$track['id']}\" data-name=\"{$track['name']}\">{$track['name']}</a><br />";
 	}
 }
-$out .= '	</div>
+echo '	</div>
 		</div>
 		<div class="column column-third">
 			<h4>Pending Tracks</h4>

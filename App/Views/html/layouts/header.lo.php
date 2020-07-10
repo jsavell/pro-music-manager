@@ -11,8 +11,9 @@
         <link rel="stylesheet" media="(min-width:601px) and (max-width: 920px)" href="<?php echo $config['PATH_CSS'];?>style.med.css" type="text/css" />
         <link rel="stylesheet" media="(max-width: 600px)" href="<?php echo $config['PATH_CSS'];?>style.small.css" type="text/css" />
 <?php
-if (is_file("{$config['PATH_APP']}assets/css/{$controllerName}.css")) {
-    echo '<link rel="stylesheet" type="text/css" href="'.$config['PATH_CSS'].$controllerName.'.css" media="screen"/>';
+$controllerAssetName = strtolower($controllerName);
+if (is_file("{$config['PATH_APP']}assets/css/{$controllerAssetName}.css")) {
+    echo '<link rel="stylesheet" type="text/css" href="'.$config['PATH_CSS'].$controllerAssetName.'.css" media="screen"/>';
 }
 ?>
         <script type="text/javascript" src="<?php echo $config['PATH_JS'];?>jquery.min.js"></script>
@@ -22,13 +23,13 @@ if (is_file("{$config['PATH_APP']}assets/css/{$controllerName}.css")) {
         </script>
         <script type="text/javascript" src="<?php echo $config['PATH_JS'];?>default.js"></script>
 <?php
-if (is_file("{$config['PATH_APP']}js/{$controllerName}.js")) {
-echo '  <script type="text/javascript" src="'.$config['PATH_JS'].$controllerName.'.js"></script>';
+if (is_file("{$config['PATH_APP']}assets/js/{$controllerAssetName}.js")) {
+    echo '  <script type="text/javascript" src="'.$config['PATH_JS'].$controllerAssetName.'.js"></script>';
 }
 ?>
         <link rel="shortcut icon" href="ico/favicon.ico">
     </head>
-    <body class="page-<?php echo $controllerName;?>">
+    <body class="page-<?php echo $controllerAssetName;?>">
         <div id="theOverlay"></div>
         <div id="theModal">
             <div class="header">

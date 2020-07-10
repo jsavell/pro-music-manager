@@ -1,28 +1,37 @@
 <?php
-$out .= '<div class="do-results">';
+$libraries = $parameters['libraries'];
+
+echo '<div class="do-results">';
 if (!empty($libraries)) {
-	$out .= '<table class="list">
+	echo '<table class="list">
 				<tr>
+					<th></th>
 					<th><a class="do-sort" href="'.$app_http.'?sort=name">Library</a></th>
 					<th><a class="do-sort" href="'.$app_http.'?sort=count">Tracks</a></th>
 					<th>Actions</th>
 				</tr>';
 	foreach ($libraries as $library) {
-		$out .="<tr>
+		echo "<tr>
+					<td style=\"background-color:#{$library['color']};\"></td>
 					<td>{$library['name']}</td>
 					<td class=\"center\">{$library['trackcount']}</td>
 					<td>
-						<a class=\"do-loadmodal\" href=\"{$app_http}?action=view&libraryid={$library['id']}\">View</a> | 
-						<a class=\"do-loadmodal\" href=\"{$app_http}?action=tracks&libraryid={$library['id']}\">Tracks</a> | 
-						<a class=\"do-loadmodal\" href=\"{$app_http}?action=edit&libraryid={$library['id']}\">Edit</a> | 
-						<a class=\"do-remove\" href=\"{$app_http}?action=remove&libraryid={$library['id']}\">Remove</a>
-				</tr>";
+						<a class=\"button small do-loadmodal\" href=\"{$app_http}?action=view&libraryid={$library['id']}\">View</a>
+						<a class=\"button small do-loadmodal\" href=\"{$app_http}?action=tracks&libraryid={$library['id']}\">Tracks</a>
+						<a class=\"button small do-loadmodal\" href=\"{$app_http}?action=edit&libraryid={$library['id']}\">Edit</a>";
+		echo			'<form class="do-remove-inline" name="removelibrary" method="POST" action="'.$app_http.'">
+							<input type="hidden" name="action" value="remove" />
+							<input type="hidden" name="libraryid" value="'.$library['id'].'" />
+							<input type="submit" class="small" name="submitremove" value="Remove" />
+						</form>
+					</td>
+				</tr>';
 	}
-	$out .= '</table>';
+	echo '</table>';
 } elseif ($data['term']) {
-	$out .= '<div>No results for that search!</div>';
+	echo '<div>No results for that search!</div>';
 } else {
-	$out .= '<div>No libraries, yet!</div>';
+	echo '<div>No libraries, yet!</div>';
 }
-$out .= '</div>';
+echo '</div>';
 ?>

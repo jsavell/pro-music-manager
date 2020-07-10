@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `genres` (
 
 CREATE TABLE IF NOT EXISTS `libraries` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `linktypeid` int(11) NOT NULL,
+  `linktypeid` int(11) NULL DEFAULT NULL,
   `name` varchar(60) NOT NULL,
   `url` varchar(60) NOT NULL,
   `color` varchar(6) NOT NULL,
@@ -99,8 +99,8 @@ CREATE TABLE IF NOT EXISTS `libraries_tracks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `trackid` int(11) NOT NULL,
   `libraryid` int(11) NOT NULL,
-  `statusid` int(11) NOT NULL,
-  `date_added` date DEFAULT NULL,
+  `statusid` int(11) NOT NULL DEFAULT '1',
+  `date_added` date DEFAULT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `trackid` (`trackid`,`libraryid`),
   KEY `statusid` (`statusid`),

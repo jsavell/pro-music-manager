@@ -26,7 +26,7 @@ body {
 	vertical-align: middle;
 }
 
-.hidden {
+.hidden, a.button.hidden, a.button.small.hidden {
 	display: none;
 }
 
