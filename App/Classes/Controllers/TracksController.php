@@ -158,6 +158,16 @@ class TracksController extends AppController {
 		}
 	}
 
+	public function versionsTrackversions() {
+		$data = $this->getInputData();
+		$temp = $this->tracksRepo->getTrackVersionsById($data['trackid']);
+		$versionids = array();
+		foreach ($temp as $versionid) {
+			$versionids[] = $versionid;
+		}
+		$this->getViewRenderer()->registerViewVariable("versionids", $versionids);
+	}
+
 	public function view() {
 		$this->getPage()->setSubTitle('View Track');
 		$data = $this->getInputData();

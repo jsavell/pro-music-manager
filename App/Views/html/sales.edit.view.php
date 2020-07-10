@@ -1,5 +1,10 @@
 <?php
-$out .= '<form class="do-submit" name="addsale" method="POST" action="'.$app_http.'">
+$sale = $parameters['sale'];
+$tracks = $parameters['tracks'];
+$libraries = $parameters['libraries'];
+$versions = $parameters['versions'];
+$trackVersions = $parameters['trackVersions'];
+echo '<form class="do-submit" name="addsale" method="POST" action="'.$app_http.'">
 			<input type="hidden" name="action" value="update" />
 			<input type="hidden" name="id" value="'.$sale['id'].'" />
 			<div class="column column-half">
@@ -9,28 +14,28 @@ $out .= '<form class="do-submit" name="addsale" method="POST" action="'.$app_htt
 				<select id="doTrackId" name="sale[trackid]">';
 if (!empty($tracks)) {
 	foreach ($tracks as $track) {
-		$out .= "	<option".(($sale['trackid'] == $track['id']) ? ' selected':'')." value=\"{$track['id']}\">{$track['name']}</option>";
+		echo "	<option".(($sale['trackid'] == $track['id']) ? ' selected':'')." value=\"{$track['id']}\">{$track['name']}</option>";
 	}
 }
-$out .= '		</select>
+echo '		</select>
 			</div>
 			<div class="column column-half">
 				<label for="sale[versionid]">Track Version</label>
 				<select id="doVersionId" name="sale[versionid]">';
 if (!empty($versions)) {
 	foreach ($versions as $version) {
-		$out .= "	<option ".(((is_array($trackVersions) && !in_array($version['id'],$trackVersions)) || !is_array($trackVersions)) ? ' disabled':'').(($sale['versionid'] == $version['id']) ? ' selected':'')." value=\"{$version['id']}\">{$version['name']}</option>";
+		echo "	<option ".(((is_array($trackVersions) && !in_array($version['id'],$trackVersions)) || !is_array($trackVersions)) ? ' disabled':'').(($sale['versionid'] == $version['id']) ? ' selected':'')." value=\"{$version['id']}\">{$version['name']}</option>";
 	}
 }
-$out .= '		</select>
+echo '		</select>
 				<label for="sale[libraryid]">Library</label>
 				<select id="doLibraryId" name="sale[libraryid]">';
 if (!empty($libraries)) {
 	foreach ($libraries as $library) {
-		$out .= "	<option ".(((is_array($trackLibraries) && !in_array($library['id'],$trackLibraries)) || !is_array($libraryVersions)) ? ' disabled':'').(($sale['libraryid'] == $library['id']) ? ' selected':'')." value=\"{$library['id']}\">{$library['name']}</option>";
+		echo "	<option ".(((is_array($trackLibraries) && !in_array($library['id'],$trackLibraries)) || !is_array($libraryVersions)) ? ' disabled':'').(($sale['libraryid'] == $library['id']) ? ' selected':'')." value=\"{$library['id']}\">{$library['name']}</option>";
 	}
 }
-$out .= '		</select>
+echo '		</select>
 			</div>
 			<div class="column column-half">
 				<label for="sale[total]">Total Amount</label>

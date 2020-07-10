@@ -1,5 +1,12 @@
 <?php
-class sales extends dbobject {
+namespace App\Classes\Data;
+
+class Sales extends AppDatabaseRepository {
+
+	public function __construct() {
+		parent::__construct('sales','id','name');
+	}
+
 	public function searchSalesBasic($term) {
 /*
 		$sql = "SELECT * FROM `sales` WHERE
@@ -24,7 +31,7 @@ class sales extends dbobject {
 
 	public function getSalesByLibraries() {
 		$sql = "SELECT l.`id`,l.`name` as `library`, SUM(s.`total`) AS `grandtotal`,SUM(s.`payout`) AS `grandpayout`
-			FROM `libraries` l 
+			FROM `libraries` l
 			LEFT JOIN `sales` s on s.`libraryid`=l.`id`
 			GROUP BY l.`id`
 			HAVING `grandpayout` > 0
@@ -34,7 +41,7 @@ class sales extends dbobject {
 
 	public function getSalesByTracks() {
 		$sql = "SELECT t.`id`,t.`name` as `track`, SUM(s.`total`) AS `grandtotal`,SUM(s.`payout`) AS `grandpayout`
-			FROM `tracks` t 
+			FROM `tracks` t
 			LEFT JOIN `sales` s on s.`trackid`=t.`id`
 			GROUP BY t.`id`
 			HAVING `grandpayout` > 0
@@ -62,8 +69,8 @@ class sales extends dbobject {
 		return $this->executeQuery($sql);
 	}
 
-	public function getSaleById($id) {
-		$sql = "SELECT s.*,t.`id` AS `trackid`,t.`name` AS `track`,l.`id` AS `libraryid`,l.`name` AS `library`,v.`id` AS `versionid`,v.`name` AS `version` 
+	public function getById($id) {
+		$sql = "SELECT s.*,t.`id` AS `trackid`,t.`name` AS `track`,l.`id` AS `libraryid`,l.`name` AS `library`,v.`id` AS `versionid`,v.`name` AS `version`
 				FROM `sales` s
 				LEFT JOIN `tracks` t ON t.`id`=s.`trackid`
 				LEFT JOIN `libraries` l ON l.`id`=s.`libraryid`
@@ -72,17 +79,8 @@ class sales extends dbobject {
 		return $this->executeQuery($sql,array(":id"=>$id))[0];
 	}
 
-	public function removeSale($id) {
-		$sql = "DELETE FROM `sales` WHERE id=:id";
-		return $this->executeUpdate($sql,array(":id"=>$id));
-	}
-
 	public function insertSale($sale) {
 		return $this->buildInsertStatement("sales",$sale);
-	}
-
-	public function updateSale($id,$sale) {
-		return $this->buildUpdateStatement("sales",$id,$sale);
 	}
 
 }
